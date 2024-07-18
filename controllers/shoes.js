@@ -46,10 +46,13 @@ async function deleteShoeById(req, res) {
 
 async function filterShoesByCategory(req, res) {
     const category = req.query.category;
+    console.log(`Filtering for category: ${category}`); // Log the category being searched
     try {
         const filteredShoes = await Shoes.find({category: category});
+        console.log(`Found ${filteredShoes.length} shoes for category ${category}`); // Log the number of shoes found
         res.status(200).json({message:`shoes with category ${category} received successfully`, filteredShoes: filteredShoes});
     } catch (error) {
+        console.error(`Error fetching shoes for category ${category}:`, error.message); // Log any errors
         res.status(400).json({message: error.message});
     }
 }
