@@ -28,6 +28,7 @@ server.get('/dashboard', requireAuth, (req, res) => {
     }
 });
 
+
 // Middlewares
 server.use(cors());
 server.use(bodyParser.json());

@@ -17,6 +17,7 @@ async function getShoeById(req, res) {
         }
         res.render("shoe-details", { shoe: shoe, layout: false });
     } catch (error) {
+        console.error('Error in getShoeById:', error);
         res.status(500).send(error.message);
     }
 }

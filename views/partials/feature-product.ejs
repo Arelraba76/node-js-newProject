@@ -2,7 +2,7 @@
     <h2>Featured Products</h2>
     <div class="products">
         <% for (let i = 0; i < 4; i++) { %>
-        <div class="product">
+        <div class="product" data-id="<%= shoes[i]._id %>">
             <img src="<%= shoes[i].image %>" alt="<%= shoes[i].title %>">
             <h3 class="title"><%= shoes[i].title %></h3>
             <p class="category"><%= shoes[i].category %></p>
