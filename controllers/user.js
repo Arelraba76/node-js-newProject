@@ -40,11 +40,22 @@ async function createNewUser( req,res) {
     }
 }
 
+async function getDashboard(req, res) {
+    if (req.user && req.user.isAdmin) {
+        res.render("dashboard", { layout: false });
+    } else {
+        res.status(403).json({ message: "Access denied. Admin only." });
+    }
+}
+
+async function logoutUser(req, res) {
+    res.clearCookie('token');
+    res.status(200).json({ success: true, message: "User logged out successfully" });
+}
+
 async function loginUser(req, res) {
-    console.log("Received request body:", req.body);
+    console.log("Login attempt received with data:", req.body);
     const { email, password } = req.body;
-    
-    console.log("Login attempt for:", email);
 
     if (!email || !password) {
         return res.status(400).json({ success: false, message: "Please provide email and password" });
@@ -53,26 +64,22 @@ async function loginUser(req, res) {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            console.log("User not found:", email);
-            return res.status(404).json({ success: false, message: "User not found" });
+            return res.status(404).json({ success: false, message: "Invalid credentials" });
         }
 
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-            console.log("Invalid password for:", email);
             return res.status(400).json({ success: false, message: "Invalid credentials" });
         }
 
         const token = jwt.sign({ _id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
-        console.log("Login successful for:", email);
-        res.status(200).json({ success: true, message: "User logged in successfully", token });
+        res.status(200).json({ success: true, message: "User logged in successfully", token, isAdmin: user.isAdmin });
     } catch (error) {
         console.error("Login error:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        res.status(500).json({ success: false, message: "Internal server error", error: error.message });
     }
 }
-
 async function deleteUserById(req, res) {
     const {id} = req.params;
     try {
@@ -112,5 +119,7 @@ module.exports = {
     getUserById,
     updateUserById,
     getRegister,
-    getLogin
+    getLogin,
+    logoutUser,
+    getDashboard
 }
