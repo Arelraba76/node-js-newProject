@@ -41,6 +41,14 @@ server.get('/home', async (req, res) => {
     }
 });
 
+server.get('/sign-in-form', (req, res) => {
+    res.render('sign-in-form'); // מחזיר את טופס ההרשמה
+});
+
+server.get('/register-form', (req, res) => {
+    res.render('register-form'); // מחזיר את טופס ההרשמה
+});
+
 server.get('/men', (req, res) => {
     res.render('men-shoes'); // This will render views/men-shoes.ejs
 });

@@ -50,7 +50,8 @@ nav ul li {
 
 /* Links and button styling */
 nav ul li a,
-.sign-in {
+.sign-in,
+#sign-in-btn {
     color: var(--main-color);
     text-decoration: none;
     font-weight: bold;
@@ -58,7 +59,8 @@ nav ul li a,
 }
 
 nav ul li a:hover,
-.sign-in:hover {
+.sign-in:hover,
+#sign-in-btn:hover {
     color: var(--gray-color);
     background-color: var(--bg-color);
     padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
@@ -80,14 +82,16 @@ nav ul li a:hover,
 
 /* Cart icon and sign-in button styling */
 .cart-icon,
-.sign-in {
+.sign-in,
+#sign-in-btn {
     font-size: 1.2em;
     margin-right: calc(var(--padding) / 2);
     transition: color var(--transition), transform var(--transition);
 }
 
 .cart-icon:hover,
-.sign-in:hover ~ .cart-icon {
+.sign-in:hover ~ .cart-icon,
+#sign-in-btn:hover ~ .cart-icon {
     transform: translateX(5px);
 }
 
