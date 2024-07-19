@@ -29,7 +29,21 @@ server.get('/', (req, res) => {
 server.get('/home', (req, res) => {
     res.render('home'); // This will render views/home.ejs
 });
-
+server.get('/men', (req, res) => {
+    res.render('men-shoes'); // This will render views/home.ejs
+});
+server.get('/women', (req, res) => {
+    res.render('women-shoes'); // This will render views/home.ejs
+});
+server.get('/kids', (req, res) => {
+    res.render('kids-shoes'); // This will render views/home.ejs
+});
+server.get('/sale', (req, res) => {
+    res.render('sale-shoes'); // This will render views/home.ejs
+});
+server.get('/cart', (req, res) => {
+    res.render('cart'); // This will render views/home.ejs
+});
 server.use("/shoes", shoes);
 
 // Database connection
