@@ -4,13 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoe Store</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/home.js"></script>
+    <link rel="stylesheet" href="base.css">
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="auth.css">
 </head>
 <body>
-    <%- include('partials/header') %>
-    <main>
-       <!-- Main content goes here -->
-    </main>
-    <%- include('partials/footer') %>
+    <div id="page-container">
+        <header>
+            <%- include('partials/header') %>
+        </header>
+
+        <main id="content-wrap">
+            <%- include('partials/hero') %>
+            <%- include('partials/feature-product') %>
+        </main>
+
+        <footer id="mainFooter">
+            <%- include('partials/footer') %>
+        </footer>
+    </div>
 </body>
 </html>

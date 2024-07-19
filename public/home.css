@@ -1,213 +1,130 @@
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-    color: #111;
-}
-/* Variables for common values */
-:root {
-    --main-color: #111;
-    --light-color: #fff;
-    --gray-color: #555;
-    --bg-color: #f0f0f0;
-    --padding: 20px;
-    --transition: 0.3s;
-}
-
-/* Header styling */
-header {
-    background-color: var(--light-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Navigation bar styling */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--padding) calc(var(--padding) * 2);
-}
-
-/* Logo styling */
-nav .logo img {
-    height: 30px;
-}
-
-/* Navigation menu styling */
-nav ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* Navigation items styling */
-nav ul li {
-    margin: 0 calc(var(--padding) / 2);
-}
-
-/* Links and button styling */
-nav ul li a,
-.sign-in {
-    color: var(--main-color);
-    text-decoration: none;
-    font-weight: bold;
-    transition: color var(--transition), background-color var(--transition), padding var(--transition);
-}
-
-nav ul li a:hover,
-.sign-in:hover {
-    color: var(--gray-color);
-    background-color: var(--bg-color);
-    padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
-    border-radius: 5px;
-}
-
-/* Search and cart container styling */
-.search-cart {
-    display: flex;
-    align-items: center;
-}
-
-.search-cart input {
-    padding: calc(var(--padding) / 2);
-    border: 1px solid #e5e5e5;
-    border-radius: 20px;
-    margin-right: calc(var(--padding) / 2);
-}
-
-/* Cart icon and sign-in button styling */
-.cart-icon,
-.sign-in {
-    font-size: 1.2em;
-    margin-right: calc(var(--padding) / 2);
-    transition: color var(--transition), transform var(--transition);
-}
-
-.cart-icon:hover,
-.sign-in:hover ~ .cart-icon {
-    transform: translateX(5px);
-}
-
-/* Footer styling */
-footer {
-    background-color: var(--main-color);
-    color: var(--light-color);
-    padding: calc(var(--padding) * 2);
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-around;
-}
-
-.footer-section h4 {
-    margin-bottom: calc(var(--padding) / 2);
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.footer-section ul li {
-    margin-bottom: calc(var(--padding) / 2);
-}
-
-.footer-section ul li a {
-    color: var(--light-color);
-    text-decoration: none;
-}
-
-/* Footer copyright styling */
-footer .copyright {
-    text-align: center;
-    margin-top: calc(var(--padding) / 2);
-    font-size: 0.9em;
-}
-
-/* Ensure the footer stays at the bottom */
-#page-container {
+.hero {
     position: relative;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Main footer styling */
-#mainFooter {
+#myVideo {
     position: absolute;
+    right: 0;
     bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+.hero-content {
+    position: absolute;
+    top: 60%; /* Adjust this value to move the content down */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cta-button:hover {
+    background-color: #333;
+}
+
+/* video */
+.hero {
+    position: relative;
     width: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Add some padding to the bottom of the main content to prevent overlap with footer */
-main {
-    padding-bottom: 300px; /* Adjust this value based on your footer height */
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-/* Media queries for responsiveness */
+#myVideo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+}
 
-/* Small screens (up to 600px) */
-@media (max-width: 600px) {
-    nav {
-        flex-direction: column;
-        padding: calc(var(--padding) / 2) var(--padding);
-    }
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
 
-    nav ul {
-        flex-direction: column;
-        width: 100%; /* Ensure full width */
-    }
-
-    nav ul li {
-        margin: var(--padding) 0;
-        text-align: center; /* Center text for better alignment */
-        width: 100%;
-    }
-
-    .search-cart {
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-    }
-
-    .search-cart input {
-        margin-bottom: var(--padding);
-        width: 100%;
-    }
-
-    footer .footer-content {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    main {
-        padding-bottom: 200px; /* Adjust based on footer height */
+/* מדיה query למסכים קטנים יותר */
+@media (max-width: 768px) {
+    .hero {
+        height: 60vh; /* הקטן את גובה הגיבור במסכים קטנים */
     }
 }
 
-/* Medium screens (601px to 1024px) */
-@media (min-width: 601px) and (max-width: 1024px) {
-    nav {
-        padding: calc(var(--padding) * 0.75) calc(var(--padding) * 1.5);
-    }
+/* feature product */
+.featured-products {
+    padding: 40px;
+}
 
-    nav ul li {
-        margin: 0 calc(var(--padding) / 4);
-    }
+.featured-products h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-    .search-cart input {
-        margin-right: calc(var(--padding) / 4);
-        width: 75%; /* Adjust width for better fit */
-    }
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
 
-    footer .footer-content {
-        flex-direction: row;
-        justify-content: space-between;
-    }
+.product {
+    text-align: center;
+}
 
-    main {
-        padding-bottom: 250px; /* Adjust based on footer height */
-    }
+.product img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s;
+}
+
+.product img:hover {
+    transform: scale(1.05);
+}
+
+.product h3 {
+    margin: 10px 0;
+    font-size: 1em;
+}
+
+.view-details {
+    display: inline-block;
+    background-color: #111;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 20px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.view-details:hover {
+    background-color: #333;
 }
