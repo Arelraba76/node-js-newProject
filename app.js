@@ -19,10 +19,10 @@ const shoesRoutes = require("./routes/shoes");
 const userRoutes = require("./routes/user");
 server.use("/api/users", userRoutes);
 
-server.get('/dashboard', requireAuth, (req, res) => {
+server.get('/login/dashboard', requireAuth, (req, res) => {
     console.log('Dashboard request, user:', req.user);
     if (req.user && req.user.isAdmin) {
-        res.render('dashboard');
+        res.render('login/dashboard');
     } else {
         res.status(403).send('Access Denied');
     }
@@ -57,12 +57,12 @@ server.get('/home', async (req, res) => {
     }
 });
 
-server.get('/sign-in-form', (req, res) => {
-    res.render('sign-in-form'); // מחזיר את טופס ההרשמה
+server.get('/login/sign-in-form', (req, res) => {
+    res.render('login/sign-in-form'); // מחזיר את טופס ההרשמה
 });
 
-server.get('/register-form', (req, res) => {
-    res.render('register-form'); // מחזיר את טופס ההרשמה
+server.get('/login/register-form', (req, res) => {
+    res.render('login/register-form'); // מחזיר את טופס ההרשמה
 });
 
 server.get('/men', async (req, res) => {

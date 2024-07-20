@@ -1,121 +1,108 @@
-// Function to set the authorization header with the token from local storage
+// Function to set authorization header using token from localStorage
 function setAuthHeader() {
     const token = localStorage.getItem('token');
-    console.log('Setting auth header with token:', token);  // Added for debugging
+    console.log('Setting auth header with token:', token);  // Debugging: log token
     if (token) {
         $.ajaxSetup({
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-                console.log('Authorization header set:', 'Bearer ' + token); // Additional debugging
+                console.log('Authorization header set:', 'Bearer ' + token); // Debugging: log header
             }
         });
     }
 }
 
 $(document).ready(function() {
-    setAuthHeader(); // Call this function at the start of the code
-    checkLoginStatus(); // Check login status on document ready
+    setAuthHeader(); // Call this function at the beginning
+    checkLoginStatus(); // Check the login status on page load
 
-    let lastPage = window.location.pathname; // Default last page is the current page
-
-    // Function to load the last visited page or default to home
-    function loadLastVisitedPage() {
-        const lastVisitedPage = history.state ? history.state.page : lastPage;
-        window.location.href = lastVisitedPage;
-    }
-
-    // Handle click event for sign-in button
     $('#sign-in-btn').click(function(event) {
-        event.preventDefault();
-        loadSignInForm();
+        event.preventDefault(); // Prevent default form submission
+        loadSignInForm(); // Load the sign-in form
     });
 
-    // Handle click event for logout link
     $('#logoutLink').click(function(event) {
-        event.preventDefault();
-        logout();
+        event.preventDefault(); // Prevent default link behavior
+        logout(); // Call the logout function
     });
 
-    bindFormLinks(); // Ensure this function is called after setting the header
+    bindFormLinks(); // Bind the form links after setting the auth header
 
-    // Function to load the sign-in form via AJAX
+    // Function to load sign-in form via AJAX
     function loadSignInForm() {
         $.ajax({
-            url: '/sign-in-form',
+            url: 'login/sign-in-form', // URL to load the sign-in form
             method: 'GET',
             success: function(data) {
-                $('main').html(data);
-                bindFormLinks();
-                history.pushState({ page: '/sign-in' }, '', '/sign-in');
+                $('main').html(data); // Load the form into the main element
+                bindFormLinks(); // Re-bind form links
             },
             error: function(err) {
-                console.error('Error loading the sign-in form:', err);
+                console.error('Error loading the sign-in form:', err); // Log error if form load fails
             }
         });
     }
 
-    // Function to load the register form via AJAX
+    // Function to load register form via AJAX
     function loadRegisterForm() {
         $.ajax({
-            url: '/register-form',
+            url: 'login/register-form', // URL to load the register form
             method: 'GET',
             success: function(data) {
-                $('main').html(data);
-                bindFormLinks();
-                history.pushState({ page: '/register' }, '', '/register');
+                $('main').html(data); // Load the form into the main element
+                bindFormLinks(); // Re-bind form links
             },
             error: function(err) {
-                console.error('Error loading the register form:', err);
+                console.error('Error loading the register form:', err); // Log error if form load fails
             }
         });
     }
 
-    // Bind form links for login and register actions
+    // Function to bind form links for register and login forms
     function bindFormLinks() {
         $('#registerLink').click(function(event) {
-            event.preventDefault();
-            loadRegisterForm();
+            event.preventDefault(); // Prevent default link behavior
+            loadRegisterForm(); // Load the register form
         });
 
         $('#loginLink').click(function(event) {
-            event.preventDefault();
-            loadSignInForm();
+            event.preventDefault(); // Prevent default link behavior
+            loadSignInForm(); // Load the sign-in form
         });
 
-        // Handle login form submission
         $('#loginForm').submit(function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent default form submission
             $.ajax({
-                url: '/api/users/login',
+                url: '/api/users/login', // URL for login API
                 method: 'POST',
-                data: $(this).serialize(),
+                data: $(this).serialize(), // Serialize form data
                 success: function(response) {
-                    console.log('Login response:', response);
+                    console.log('Login response:', response); // Log the response
                     if (response.success) {
                         localStorage.setItem('isLoggedIn', 'true');
                         localStorage.setItem('isAdmin', response.isAdmin);
                         localStorage.setItem('token', response.token);
-                        setAuthHeader();
-                        updateUIAfterLogin(response.isAdmin);
+                        setAuthHeader(); // Set the auth header after login
+                        updateUIAfterLogin(response.isAdmin); // Update UI based on admin status
                         console.log('Login successful, redirecting to home');
-                        window.location.href = '/home';
+                        window.location.href = '/home'; // Redirect to home page
                     } else {
-                        alert('Login failed: ' + response.message);
+                        alert('Login failed: ' + response.message); // Show alert if login fails
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('Login error:', xhr.responseText);
-                    alert('An error occurred during login: ' + xhr.responseText);
+                    console.error('Login error:', xhr.responseText); // Log error if login fails
+                    alert('An error occurred during login: ' + xhr.responseText); // Show alert on error
                 }
             });
         });
     }
 
-    // Update UI based on login status and admin role
+    // Function to update UI after login based on admin status
     function updateUIAfterLogin(isAdmin) {
-        console.log('Updating UI, isAdmin:', isAdmin);
-        $('#sign-in-btn').hide();
-        $('#logoutLink').show();
+        console.log('Updating UI, isAdmin:', isAdmin); // Log admin status
+        $('#sign-in-btn').hide(); // Hide sign-in button
+        $('#logoutLink').show(); // Show logout link
         if (isAdmin === true || isAdmin === 'true') {
             console.log('User is admin, adding dashboard link');
             if ($('#dashboardLink').length === 0) {
@@ -126,76 +113,62 @@ $(document).ready(function() {
         }
     }
 
-    // Check login status from local storage and update UI accordingly
+    // Function to check login status from localStorage
     function checkLoginStatus() {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
-        console.log('Checking login status. isLoggedIn:', isLoggedIn, 'isAdmin:', isAdmin);
+        console.log('Checking login status. isLoggedIn:', isLoggedIn, 'isAdmin:', isAdmin); // Log login status
         if (isLoggedIn) {
-            updateUIAfterLogin(isAdmin);
+            updateUIAfterLogin(isAdmin); // Update UI if logged in
         }
     }
 
-    // Logout function to clear local storage and update UI
+    // Function to log out the user
     function logout() {
         $.ajax({
-            url: '/api/users/logout',
+            url: '/api/users/logout', // URL for logout API
             method: 'POST',
             success: function(response) {
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('isAdmin');
-                localStorage.removeItem('token'); // Remove the token
-                $('#sign-in-btn').show();
-                $('#logoutLink').hide();
-                $('#dashboardLink').remove();
-                window.location.href = '/home';
+                localStorage.removeItem('isLoggedIn'); // Remove login status
+                localStorage.removeItem('isAdmin'); // Remove admin status
+                localStorage.removeItem('token'); // Remove token
+                $('#sign-in-btn').show(); // Show sign-in button
+                $('#logoutLink').hide(); // Hide logout link
+                $('#dashboardLink').remove(); // Remove dashboard link
+                window.location.href = '/home'; // Redirect to home page
             },
             error: function(xhr, status, error) {
-                console.error('Logout error:', xhr.responseText);
+                console.error('Logout error:', xhr.responseText); // Log error if logout fails
             }
         });
     }
 });
 
-window.addEventListener('popstate', function(event) {
-    if (event.state && event.state.page) {
-        if (event.state.page === '/sign-in') {
-            loadSignInForm(); // Load the sign-in form from history state
-        } else if (event.state.page === '/register') {
-            loadRegisterForm(); // Load the register form from history state
-        } else {
-                loadLastVisitedPage(); // Load the last visited page or default to home
-            }
-        } else {
-            loadLastVisitedPage(); // Load the last visited page or default to home
-        }
-});
-
-// Debugging: log request headers
+// Log request headers on AJAX send event
 $(document).ajaxSend(function(event, jqxhr, settings) {
-    console.log('Request Headers:', jqxhr.getAllResponseHeaders());
+    console.log('Request Headers:', jqxhr.getAllResponseHeaders()); // Log all request headers
 });
 
-// Handle dashboard link click and load the dashboard
+// Load dashboard on clicking dashboard link
 $(document).on('click', '#dashboardLink', function(event) {
-    event.preventDefault();
-    console.log('Dashboard link clicked');
-    loadDashboard();
+    event.preventDefault(); // Prevent default link behavior
+    console.log('Dashboard link clicked'); // Log dashboard link click
+    loadDashboard(); // Load the dashboard
 });
 
-// Function to load the dashboard via AJAX
+// Function to load dashboard via AJAX
 function loadDashboard() {
-    console.log('Loading dashboard');
+    console.log('Loading dashboard'); // Log dashboard loading
     $.ajax({
-        url: '/dashboard',
+        url: 'login/dashboard', // URL for dashboard
         method: 'GET',
         success: function(data) {
-            console.log('Dashboard loaded successfully');
-            $('main').html(data);
+            console.log('Dashboard loaded successfully'); // Log success
+            $('main').html(data); // Load the dashboard data into the main element
         },
         error: function(xhr, status, error) {
-            console.error('Dashboard error:', xhr.responseText);
-            alert('Error loading dashboard: ' + xhr.responseText);
+            console.error('Dashboard error:', xhr.responseText); // Log error if dashboard load fails
+            alert('Error loading dashboard: ' + xhr.responseText); // Show alert on error
         }
     });
 }
