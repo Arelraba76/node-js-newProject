@@ -28,7 +28,6 @@ server.get('/dashboard', requireAuth, (req, res) => {
     }
 });
 
-
 // Middlewares
 server.use(cors());
 server.use(bodyParser.json());
@@ -58,7 +57,6 @@ server.get('/home', async (req, res) => {
     }
 });
 
-
 server.get('/sign-in-form', (req, res) => {
     res.render('sign-in-form'); // מחזיר את טופס ההרשמה
 });
@@ -67,20 +65,40 @@ server.get('/register-form', (req, res) => {
     res.render('register-form'); // מחזיר את טופס ההרשמה
 });
 
-server.get('/men', (req, res) => {
-    res.render('men-shoes'); // This will render views/men-shoes.ejs
+server.get('/men', async (req, res) => {
+    try {
+        const shoes = await Shoe.find({ category: 'Men' }); // קבלת כל הנעליים לגברים ממסד הנתונים
+        res.render('men-shoes', { shoes }); // שליחת הנתונים לתבנית men-shoes.ejs
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
-server.get('/women', (req, res) => {
-    res.render('women-shoes'); // This will render views/women-shoes.ejs
+server.get('/women', async (req, res) => {
+    try {
+        const shoes = await Shoe.find({ category: 'Women' }); // קבלת כל הנעליים לנשים ממסד הנתונים
+        res.render('women-shoes', { shoes }); // שליחת הנתונים לתבנית women-shoes.ejs
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
-server.get('/kids', (req, res) => {
-    res.render('kids-shoes'); // This will render views/kids-shoes.ejs
+server.get('/kids', async (req, res) => {
+    try {
+        const shoes = await Shoe.find({ category: 'Kids' }); // קבלת כל הנעליים לילדים ממסד הנתונים
+        res.render('kids-shoes', { shoes }); // שליחת הנתונים לתבנית kids-shoes.ejs
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
-server.get('/sale', (req, res) => {
-    res.render('sale-shoes'); // This will render views/sale-shoes.ejs
+server.get('/sale', async (req, res) => {
+    try {
+        const shoes = await Shoe.find({ category: 'Sale' }); // קבלת כל הנעליים במבצע ממסד הנתונים
+        res.render('sale-shoes', { shoes }); // שליחת הנתונים לתבנית sale-shoes.ejs
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
 server.get('/cart', (req, res) => {
@@ -89,16 +107,14 @@ server.get('/cart', (req, res) => {
 
 server.use("/shoes", shoesRoutes);
 
-
 server.use(cookieParser());
 
 const csurf = require('csurf');
 const csrfProtection = csurf({ cookie: true });
 server.use(csrfProtection);
-// Database connection
 
 // Add this route to provide the CSRF token
-server.get('/csrf-token', (req, res) => {
+server.get('/csrf-token', csrfProtection, (req, res) => {
     res.json({ csrfToken: req.csrfToken() });
 });
 
@@ -108,11 +124,10 @@ connectDB();
 server.use((req, res, next) => {
     console.log(`${req.method} request for ${req.url}`);
     next();
-  });
+});
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
 
 module.exports = server;

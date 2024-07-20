@@ -1,33 +1,44 @@
-// הוסף פונקציה זו בתחילת הקובץ
+// Function to set the authorization header with the token from local storage
 function setAuthHeader() {
     const token = localStorage.getItem('token');
-    console.log('Setting auth header with token:', token);  // הוסף את זה לדיבוג
+    console.log('Setting auth header with token:', token);  // Added for debugging
     if (token) {
         $.ajaxSetup({
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-                console.log('Authorization header set:', 'Bearer ' + token); // דיבוג נוסף
+                console.log('Authorization header set:', 'Bearer ' + token); // Additional debugging
             }
         });
     }
 }
 
 $(document).ready(function() {
-    setAuthHeader(); // קרא לפונקציה זו בתחילת הקוד
-    checkLoginStatus();
+    setAuthHeader(); // Call this function at the start of the code
+    checkLoginStatus(); // Check login status on document ready
 
+    let lastPage = window.location.pathname; // Default last page is the current page
+
+    // Function to load the last visited page or default to home
+    function loadLastVisitedPage() {
+        const lastVisitedPage = history.state ? history.state.page : lastPage;
+        window.location.href = lastVisitedPage;
+    }
+
+    // Handle click event for sign-in button
     $('#sign-in-btn').click(function(event) {
         event.preventDefault();
         loadSignInForm();
     });
 
+    // Handle click event for logout link
     $('#logoutLink').click(function(event) {
         event.preventDefault();
         logout();
     });
 
-    bindFormLinks(); // ודא שהפונקציה הזו נקראת לאחר הגדרת הכותרת
+    bindFormLinks(); // Ensure this function is called after setting the header
 
+    // Function to load the sign-in form via AJAX
     function loadSignInForm() {
         $.ajax({
             url: '/sign-in-form',
@@ -35,6 +46,7 @@ $(document).ready(function() {
             success: function(data) {
                 $('main').html(data);
                 bindFormLinks();
+                history.pushState({ page: '/sign-in' }, '', '/sign-in');
             },
             error: function(err) {
                 console.error('Error loading the sign-in form:', err);
@@ -42,6 +54,7 @@ $(document).ready(function() {
         });
     }
 
+    // Function to load the register form via AJAX
     function loadRegisterForm() {
         $.ajax({
             url: '/register-form',
@@ -49,6 +62,7 @@ $(document).ready(function() {
             success: function(data) {
                 $('main').html(data);
                 bindFormLinks();
+                history.pushState({ page: '/register' }, '', '/register');
             },
             error: function(err) {
                 console.error('Error loading the register form:', err);
@@ -56,6 +70,7 @@ $(document).ready(function() {
         });
     }
 
+    // Bind form links for login and register actions
     function bindFormLinks() {
         $('#registerLink').click(function(event) {
             event.preventDefault();
@@ -67,6 +82,7 @@ $(document).ready(function() {
             loadSignInForm();
         });
 
+        // Handle login form submission
         $('#loginForm').submit(function(event) {
             event.preventDefault();
             $.ajax({
@@ -95,6 +111,7 @@ $(document).ready(function() {
         });
     }
 
+    // Update UI based on login status and admin role
     function updateUIAfterLogin(isAdmin) {
         console.log('Updating UI, isAdmin:', isAdmin);
         $('#sign-in-btn').hide();
@@ -109,6 +126,7 @@ $(document).ready(function() {
         }
     }
 
+    // Check login status from local storage and update UI accordingly
     function checkLoginStatus() {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -118,6 +136,7 @@ $(document).ready(function() {
         }
     }
 
+    // Logout function to clear local storage and update UI
     function logout() {
         $.ajax({
             url: '/api/users/logout',
@@ -125,7 +144,7 @@ $(document).ready(function() {
             success: function(response) {
                 localStorage.removeItem('isLoggedIn');
                 localStorage.removeItem('isAdmin');
-                localStorage.removeItem('token'); // הסרת הטוקן
+                localStorage.removeItem('token'); // Remove the token
                 $('#sign-in-btn').show();
                 $('#logoutLink').hide();
                 $('#dashboardLink').remove();
@@ -138,17 +157,33 @@ $(document).ready(function() {
     }
 });
 
+window.addEventListener('popstate', function(event) {
+    if (event.state && event.state.page) {
+        if (event.state.page === '/sign-in') {
+            loadSignInForm(); // Load the sign-in form from history state
+        } else if (event.state.page === '/register') {
+            loadRegisterForm(); // Load the register form from history state
+        } else {
+                loadLastVisitedPage(); // Load the last visited page or default to home
+            }
+        } else {
+            loadLastVisitedPage(); // Load the last visited page or default to home
+        }
+});
+
+// Debugging: log request headers
 $(document).ajaxSend(function(event, jqxhr, settings) {
     console.log('Request Headers:', jqxhr.getAllResponseHeaders());
 });
 
-
+// Handle dashboard link click and load the dashboard
 $(document).on('click', '#dashboardLink', function(event) {
     event.preventDefault();
     console.log('Dashboard link clicked');
     loadDashboard();
 });
 
+// Function to load the dashboard via AJAX
 function loadDashboard() {
     console.log('Loading dashboard');
     $.ajax({

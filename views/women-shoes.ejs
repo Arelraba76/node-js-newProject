@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/scripts/home.js"></script>
-    <title>Womens' Shoes</title>
-    <link rel="stylesheet" href="base.css">
-    <link rel="stylesheet" href="shoes-page.css">
+    <script src="/scripts/login.js"></script>
     <script src="/scripts/product.js"></script>
+    <title>Women's Shoes</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/shoes-page.css">
+    <link rel="stylesheet" href="/css/shoes-details.css">
 </head>
 <body>
     <div id="page-container">
@@ -16,7 +17,17 @@
             <%- include('partials/header') %>
         </header>
 
-        <main > 
+        <main id="content-wrap">
+            <div class="products">
+                <% shoes.forEach(shoe => { %>
+                    <div class="product" data-id="<%= shoe._id %>">
+                        <img src="<%= shoe.image %>" alt="<%= shoe.title %>">
+                        <h3 class="title"><%= shoe.title %></h3>
+                        <p class="price">$<%= shoe.price %></p>
+                        <button class="view-details">View Details</button>
+                    </div>
+                <% }) %>
+            </div>
         </main>
 
         <footer id="mainFooter">
