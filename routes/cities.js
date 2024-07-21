@@ -2,15 +2,16 @@ const express = require('express');
 const router = express.Router();
 const cityController = require('../controllers/cityController');
 
-// הוספת עיר חדשה
+// Add a new city
 router.post('/add', cityController.addCity);
 
-// שליפת כל הערים
+// Retrieve all cities
 router.get('/', cityController.getAllCities);
 
-// מחיקת עיר לפי ID
+// Delete a city by ID
 router.delete('/:id', cityController.deleteCity);
 
+// Duplicate route to retrieve all cities (consider removing one)
 router.get('/', cityController.getAllCities);
 
 module.exports = router;

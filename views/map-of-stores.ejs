@@ -84,6 +84,7 @@
         function initMap() {
             map = L.map('map').setView([32.0853, 34.7818], 10); // Centered at Tel Aviv for example
 
+            // Set up the tile layer for the map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
@@ -123,7 +124,7 @@
             });
         }
 
-        // Function to populate store list
+        // Function to populate the store list
         function populateStoreList(cities) {
             const storeList = document.getElementById('store-list');
             storeList.innerHTML = ''; // Clear any existing content
@@ -145,6 +146,7 @@
             });
         }
 
+        // Function to focus the map on a specific store
         function focusOnStore(city) {
             map.setView([city.lat, city.lng], 15); // Zoom level 15
             
