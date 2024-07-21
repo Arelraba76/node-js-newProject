@@ -10,7 +10,8 @@ const Shoe = require("./models/shoes"); // ייבוא מודל הנעליים
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 const requireAuth = require('./middlewares/requireAuth');
-
+const csurf = require('csurf');
+server.use(cookieParser());
 // Load environment variables from .env file
 dotenv.config();
 
@@ -27,6 +28,8 @@ server.get('/login/dashboard', requireAuth, (req, res) => {
         res.status(403).send('Access Denied');
     }
 });
+const csrfProtection = csurf({ cookie: true });
+server.use(csrfProtection);
 
 // Middlewares
 server.use(cors());
@@ -56,6 +59,10 @@ server.get('/home', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+const cityRoutes = require('./routes/cities'); // ייבוא הראוטר של הערים
+server.use("/api/users", userRoutes);
+server.use("/shoes", shoesRoutes);
+server.use('/api/cities', cityRoutes); // 
 
 server.get('/login/sign-in-form', (req, res) => {
     res.render('login/sign-in-form'); // מחזיר את טופס ההרשמה
@@ -105,16 +112,14 @@ server.get('/cart', (req, res) => {
     res.render('cart'); // This will render views/cart.ejs
 });
 
+server.get('/map-of-stores', (req, res) => {
+    res.render('map-of-stores', { csrfToken: req.csrfToken() });
+});
+
 server.use("/shoes", shoesRoutes);
 
-server.use(cookieParser());
-
-const csurf = require('csurf');
-const csrfProtection = csurf({ cookie: true });
-server.use(csrfProtection);
-
 // Add this route to provide the CSRF token
-server.get('/csrf-token', csrfProtection, (req, res) => {
+server.get('/csrf-token', (req, res) => {
     res.json({ csrfToken: req.csrfToken() });
 });
 
@@ -124,10 +129,11 @@ connectDB();
 server.use((req, res, next) => {
     console.log(`${req.method} request for ${req.url}`);
     next();
-});
+  });
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
 
 module.exports = server;
