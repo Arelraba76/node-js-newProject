@@ -1,51 +1,61 @@
-/* one shoe page */
+/* One shoe page styling */
 
+/* Container for shoe details */
 #shoeDetails {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px;
 }
 
+/* Shoe container styling */
 .shoe-container {
     display: flex;
     gap: 40px;
 }
 
+/* Shoe images container */
 .shoe-images {
     flex: 1;
 }
 
+/* Shoe image styling */
 .shoe-images img {
     width: 100%;
     height: auto;
     border-radius: 8px;
 }
 
+/* Shoe information container */
 .shoe-info {
     flex: 1;
 }
 
+/* Shoe title styling */
 .shoe-info h1 {
     font-size: 28px;
     margin-bottom: 10px;
 }
 
+/* Shoe category styling */
 .shoe-info .category {
     color: #666;
     margin-bottom: 15px;
 }
 
+/* Shoe price styling */
 .shoe-info .price {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
+/* Shoe description styling */
 .shoe-info .description {
     margin-bottom: 30px;
     line-height: 1.6;
 }
 
+/* Add to cart button styling */
 .add-to-cart {
     background-color: #000;
     color: #fff;
@@ -57,14 +67,17 @@
     transition: background-color 0.3s;
 }
 
+/* Add to cart button hover effect */
 .add-to-cart:hover {
     background-color: #333;
 }
 
+/* Size selector styling */
 .size-selector {
     margin-bottom: 20px;
 }
 
+/* Size selector dropdown styling */
 .size-selector select {
     padding: 10px;
     font-size: 16px;

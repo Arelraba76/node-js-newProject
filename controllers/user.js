@@ -17,30 +17,30 @@ async function getRegister(req, res) {
 async function getAllUsers(req, res) {
     try {
         const users = await User.find();
-        res.status(200).json({message:"users fetched successfully", users});
+        res.status(200).json({ message: "users fetched successfully", users });
     } catch (error) {
-        res.status(400).json({message: error.message});
+        res.status(400).json({ message: error.message });
     }
 }
 
 // Create a new user
 async function createNewUser(req, res) {
     const { firstName, lastName, email, password, isAdmin } = req.body;
-    if (!firstName || !lastName || !email || !password) return res.status(400).json({message: "please provide all fields"});
-    if (!validator.isEmail(email)) return res.status(400).json({message: "invalid email"});
-    if (!validator.isStrongPassword(password)) return res.status(400).json({message: "password not strong enough"});
+    if (!firstName || !lastName || !email || !password) return res.status(400).json({ message: "please provide all fields" });
+    if (!validator.isEmail(email)) return res.status(400).json({ message: "invalid email" });
+    if (!validator.isStrongPassword(password)) return res.status(400).json({ message: "password not strong enough" });
 
     const duplicateEmail = await User.findOne({ email });
-    if (duplicateEmail) return res.status(400).json({message: "email already exists"});
+    if (duplicateEmail) return res.status(400).json({ message: "email already exists" });
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await new User({ firstName, lastName, email, password: hashedPassword, isAdmin });
         await newUser.save();
 
-        res.status(201).json({message: "new user created successfully", newUser});
+        res.status(201).json({ message: "new user created successfully", newUser });
     } catch (error) {
-        res.status(400).json({message: error.message});
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -93,10 +93,10 @@ async function deleteUserById(req, res) {
     const { id } = req.params;
     try {
         const deleted = await User.findByIdAndDelete(id);
-        if (!deleted) return res.status(404).json({message:"user not found"});
-        res.status(200).json({message:`user with id ${id} has been deleted`, deletedUser:deleted});
+        if (!deleted) return res.status(404).json({ message: "user not found" });
+        res.status(200).json({ message: `user with id ${id} has been deleted`, deletedUser: deleted });
     } catch (error) {
-        res.status(400).json({message: error.message});
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -105,10 +105,10 @@ async function getUserById(req, res) {
     const { id } = req.params;
     try {
         const user = await User.findById(id);
-        if (!user) return res.status(404).json({message:"user not found"});
-        res.status(200).json({message:"user fetched successfully", user});
+        if (!user) return res.status(404).json({ message: "user not found" });
+        res.status(200).json({ message: "user fetched successfully", user });
     } catch (error) {
-        res.status(400).json({message: error.message});
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -117,10 +117,10 @@ async function updateUserById(req, res) {
     const { id } = req.params;
     try {
         const user = await User.findByIdAndUpdate(id, req.body, { new: true });
-        if (!user) return res.status(404).json({message:"user not found"});
-        res.status(200).json({message:"user updated successfully", user});
+        if (!user) return res.status(404).json({ message: "user not found" });
+        res.status(200).json({ message: "user updated successfully", user });
     } catch (error) {
-        res.status(400).json({message: error.message});
+        res.status(400).json({ message: error.message });
     }
 }
 
