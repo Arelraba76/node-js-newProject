@@ -58,10 +58,12 @@ async function filterShoesByCategory(req, res) {
     }
 }
 
+
 module.exports = {
     getAllshoes, 
     createNewShoe,
     deleteShoeById,
     filterShoesByCategory,
-    getShoeById
+    getShoeById,
+    
 }

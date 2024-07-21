@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-    <meta name="csrf-token" content="<%= csrfToken %>" id="csrf-token">
     <link rel="stylesheet" href="map.css" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -92,12 +91,8 @@
         // Function to fetch city data from the backend
         async function fetchCities() {
             try {
-                const csrfToken = document.getElementById('csrf-token').content;
                 const response = await fetch('/api/cities', {
-                    method: 'GET',
-                    headers: {
-                        'CSRF-Token': csrfToken
-                    }
+                    method: 'GET'
                 });
                 if (!response.ok) {
                     throw new Error('Failed to fetch cities');

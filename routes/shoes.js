@@ -5,7 +5,8 @@ const {
     createNewShoe,
     deleteShoeById,
     filterShoesByCategory,
-    getShoeById
+    getShoeById,
+    
 } = require('../controllers/shoes');
 
 router.get('/', getAllshoes);
