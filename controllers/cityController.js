@@ -43,10 +43,10 @@ exports.getAllCities = async (req, res) => {
 
             const openingTime = new Date(currentTime);
             const closingTime = new Date(currentTime);
-            
+
             openingTime.setHours(parseInt(openingHour) + (openingPeriod.toLowerCase() === 'pm' && openingHour !== '12' ? 12 : 0));
             closingTime.setHours(parseInt(closingHour) + (closingPeriod.toLowerCase() === 'pm' && closingHour !== '12' ? 12 : 0));
-            
+
             const isOpen = currentTime >= openingTime && currentTime <= closingTime;
 
             return {

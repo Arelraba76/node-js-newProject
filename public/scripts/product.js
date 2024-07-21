@@ -1,19 +1,20 @@
 $(document).ready(function() {
-    console.log('Document ready');
+    console.log('Document ready'); // Log when the document is ready
+
+    // Click event handler for elements with class 'product'
     $('.product').click(function(e) {
         e.preventDefault(); // Prevent default link behavior
-        const productId = $(this).data('id');
+        const productId = $(this).data('id'); // Get product ID from data attribute
 
+        // AJAX request to get product details
         $.ajax({
-            url: `/shoes/${productId}`,
+            url: `/shoes/${productId}`, // URL for product details
             method: 'GET',
             success: function(response) {
-                $('#content-wrap').html(response);
-                // Update URL without reloading the page
-                history.pushState(null, '', `/product/${productId}`);
+                $('main').html(response); // Load response into the main element
             },
             error: function(err) {
-                console.error('Error loading the product details:', err);
+                console.error('Error loading the product details:', err); // Log error if request fails
             }
         });
     });

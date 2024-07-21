@@ -1,0 +1,279 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #111;
+}
+
+/* Variables for common values */
+:root {
+    --main-color: #111;
+    --light-color: #fff;
+    --gray-color: #555;
+    --bg-color: #f0f0f0;
+    --padding: 20px;
+    --transition: 0.3s;
+}
+
+/* Header styling */
+header {
+    background-color: var(--light-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation bar styling */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding) calc(var(--padding) * 2);
+}
+
+/* Logo styling */
+nav .logo img {
+    height: 30px;
+}
+
+/* Navigation menu styling */
+nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navigation items styling */
+nav ul li {
+    margin: 0 calc(var(--padding) / 2);
+}
+
+/* Links and button styling */
+nav ul li a,
+.sign-in,
+#sign-in-btn {
+    color: var(--main-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color var(--transition), background-color var(--transition), padding var(--transition);
+}
+
+nav ul li a:hover,
+.sign-in:hover,
+#sign-in-btn:hover {
+    color: var(--gray-color);
+    background-color: var(--bg-color);
+    padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
+    border-radius: 5px;
+}
+
+/* Search and cart container styling */
+.search-cart {
+    display: flex;
+    align-items: center;
+}
+
+.search-cart input {
+    padding: calc(var(--padding) / 2);
+    border: 1px solid #e5e5e5;
+    border-radius: 20px;
+    margin-right: calc(var(--padding) / 2);
+}
+
+/* Cart icon and sign-in button styling */
+.cart-icon,
+.sign-in,
+#sign-in-btn {
+    font-size: 1.2em;
+    margin-right: calc(var(--padding) / 2);
+    transition: color var(--transition), transform var(--transition);
+}
+
+.cart-icon:hover,
+.sign-in:hover ~ .cart-icon,
+#sign-in-btn:hover ~ .cart-icon {
+    transform: translateX(5px);
+}
+
+/* Footer styling */
+footer {
+    background-color: var(--main-color);
+    color: var(--light-color);
+    padding: calc(var(--padding) * 2);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer-section h4 {
+    margin-bottom: calc(var(--padding) / 2);
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: calc(var(--padding) / 2);
+}
+
+.footer-section ul li a {
+    color: var(--light-color);
+    text-decoration: none;
+}
+
+/* Footer copyright styling */
+footer .copyright {
+    text-align: center;
+    margin-top: calc(var(--padding) / 2);
+    font-size: 0.9em;
+}
+
+/* Ensure the footer stays at the bottom */
+#page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#content-wrap {
+    flex: 1 0 auto;
+}
+
+#mainFooter {
+    flex-shrink: 0;
+}
+
+
+/* Shop Now Button Styling */
+.cta-button {
+    display: inline-block;
+    background-color: var(--main-color);
+    color: var(--light-color);
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.cta-button:hover {
+    background-color: var(--gray-color);
+    transform: translateY(-2px);
+}
+
+#loginContainer, #registerContainer {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 30px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+#loginContainer:hover, #registerContainer:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+#loginContainer h2, #registerContainer h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+}
+
+#loginForm, #registerForm {
+    padding: 0 15px;
+}
+
+#loginForm input, #registerForm input {
+    width: calc(100% - 30px);
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#loginForm input:focus, #loginForm input:hover, #registerForm input:focus, #registerForm input:hover {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+#loginForm button, #registerForm button {
+    width: calc(100% - 30px);
+    padding: 15px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#loginForm button:hover, #registerForm button:hover {
+    background-color: #3a7bc8;
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+    transform: translateY(-2px);
+}
+
+#loginForm button:active, #registerForm button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+#loginContainer p, #registerContainer p {
+    margin-top: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#loginContainer p:hover, #registerContainer p:hover {
+    transform: translateY(-2px);
+}
+
+#loginContainer a, #registerContainer a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+#loginContainer a:hover, #registerContainer a:hover {
+    color: #3a7bc8;
+}
+
+#loginContainer a::after, #registerContainer a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #3a7bc8;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out;
+}
+
+#loginContainer a:hover::after, #registerContainer a:hover::after {
+    visibility: visible;
+    transform: scaleX(1);
+}
+
+

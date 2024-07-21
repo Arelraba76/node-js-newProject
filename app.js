@@ -5,7 +5,6 @@ const cors = require('cors');
 const bodyParser = require("body-parser");
 const path = require("path");
 const connectDB = require("./config/db");
-const cookieParser = require('cookie-parser');
 const Shoe = require("./models/shoes"); // ייבוא מודל הנעליים
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
@@ -16,20 +15,12 @@ server.use(cookieParser());
 dotenv.config();
 
 const shoesRoutes = require("./routes/shoes");
-
 const userRoutes = require("./routes/user");
 server.use("/api/users", userRoutes);
 
-server.get('/dashboard', requireAuth, (req, res) => {
-    console.log('Dashboard request, user:', req.user);
-    if (req.user && req.user.isAdmin) {
-        res.render('dashboard');
-    } else {
-        res.status(403).send('Access Denied');
-    }
+server.get('/login/dashboard', (req, res) => {
+    res.render('login/dashboard');
 });
-const csrfProtection = csurf({ cookie: true });
-server.use(csrfProtection);
 
 // Middlewares
 server.use(cors());
@@ -40,6 +31,8 @@ server.use(express.static(path.join(__dirname, 'public')));
 // Set the view engine to EJS
 server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views'));
+
+
 
 // Routes
 server.get('/', async (req, res) => {
@@ -65,12 +58,12 @@ server.use("/api/users", userRoutes);
 server.use("/shoes", shoesRoutes);
 server.use('/api/cities', cityRoutes); // 
 
-server.get('/sign-in-form', (req, res) => {
-    res.render('sign-in-form'); // מחזיר את טופס ההרשמה
+server.get('/login/sign-in-form', (req, res) => {
+    res.render('login/sign-in-form'); // מחזיר את טופס ההרשמה
 });
 
-server.get('/register-form', (req, res) => {
-    res.render('register-form'); // מחזיר את טופס ההרשמה
+server.get('/login/register-form', (req, res) => {
+    res.render('login/register-form'); // מחזיר את טופס ההרשמה
 });
 
 server.get('/men', (req, res) => {
@@ -98,31 +91,21 @@ server.get('/map-of-stores', (req, res) => {
     res.render('map-of-stores', { csrfToken: req.csrfToken() });
 });
 
-server.use("/shoes", shoesRoutes);
-
-
-
-
-
-
-// Database connection
-
-// Add this route to provide the CSRF token
-server.get('/csrf-token', (req, res) => {
-    res.json({ csrfToken: req.csrfToken() });
+server.get('/map-of-stores', (req, res) => {
+    res.render('map-of-stores');
 });
 
+// Database connection
 const PORT = process.env.PORT || 8080;
 connectDB();
 
 server.use((req, res, next) => {
     console.log(`${req.method} request for ${req.url}`);
     next();
-  });
+});
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
 
 module.exports = server;
