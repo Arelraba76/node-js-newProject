@@ -1,17 +1,20 @@
+/* Base styling for the body */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: #f7f9fc;
     margin: 0;
     padding: 0;
     color: #4a4a4a;
 }
 
+/* Page container to ensure footer stays at the bottom */
 #page-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+/* Main content wrapper */
 #content-wrap {
     flex: 1;
     padding: 60px 40px 40px 40px; /* Increased top padding */
@@ -22,16 +25,19 @@ body {
     border-radius: 8px;
 }
 
+/* Heading styles */
 h1, h2 {
     color: #333;
 }
 
+/* Main title styling */
 h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
     padding-top: 20px; /* Added padding to top */
 }
 
+/* Subheading styling */
 h2 {
     font-size: 2em;
     margin-bottom: 15px;
@@ -39,6 +45,7 @@ h2 {
     padding-bottom: 5px;
 }
 
+/* Form styling */
 form {
     background: #fff;
     padding: 20px;
@@ -47,6 +54,7 @@ form {
     margin-bottom: 30px;
 }
 
+/* Label styling */
 label {
     display: block;
     margin-top: 10px;
@@ -54,6 +62,7 @@ label {
     color: #555;
 }
 
+/* Input and textarea styling */
 input, textarea {
     width: 100%;
     padding: 10px;
@@ -67,10 +76,12 @@ input, textarea {
     transition: border-color 0.3s;
 }
 
+/* Input and textarea focus effect */
 input:focus, textarea:focus {
     border-color: #007bff;
 }
 
+/* Button styling */
 button {
     background-color: #007bff;
     color: white;
@@ -83,10 +94,12 @@ button {
     transition: background-color 0.3s;
 }
 
+/* Button hover effect */
 button:hover {
     background-color: #0056b3;
 }
 
+/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -96,6 +109,7 @@ table {
     border-radius: 8px;
 }
 
+/* Table header and cell styling */
 th, td {
     padding: 15px;
     border: 1px solid #eee;
@@ -103,12 +117,14 @@ th, td {
     font-size: 1em;
 }
 
+/* Table header styling */
 th {
     background-color: #f2f2f2;
     font-weight: bold;
     color: #555;
 }
 
+/* Table cell button styling */
 td button {
     margin-right: 10px;
     background-color: #007bff;
@@ -121,10 +137,12 @@ td button {
     transition: background-color 0.3s;
 }
 
+/* Table cell button hover effect */
 td button:hover {
     background-color: #0056b3;
 }
 
+/* Edit shoe form styling */
 #edit-shoe-form {
     background: #fff;
     padding: 20px;

@@ -1,6 +1,6 @@
 const City = require('../models/city');
 
-// הוספת עיר חדשה
+// Adding a new city
 exports.addCity = async (req, res) => {
     try {
         const { name, lat, lng, openingHours, closingHours } = req.body; // Include openingHours in the destructured assignment
@@ -17,27 +17,27 @@ exports.addCity = async (req, res) => {
     }
 };
 
-// שליפת כל הערים
+// Fetching all cities
 exports.getAllCities = async (req, res) => {
     try {
         const cities = await City.find({});
         const currentTime = new Date();
         const cityData = cities.map(city => {
-            // בדיקה שה-city קיים ושיש לו את כל השדות הנדרשים
+            // Ensure the city exists and has all required fields
             if (!city || !city.openingHours || !city.closingHours) {
                 console.error('Invalid city data:', city);
-                return null; // או אובייקט ברירת מחדל
+                return null; // Or a default object
             }
 
             const [openingHour, openingPeriod] = (city.openingHours || '').split(' ');
             const [closingHour, closingPeriod] = (city.closingHours || '').split(' ');
 
-            // בדיקה שכל החלקים קיימים
+            // Ensure all parts are present
             if (!openingHour || !openingPeriod || !closingHour || !closingPeriod) {
                 console.error('Invalid opening/closing hours for city:', city.name);
                 return {
                     ...city._doc,
-                    isOpen: false // או ערך ברירת מחדל אחר
+                    isOpen: false // Or another default value
                 };
             }
 
@@ -53,7 +53,7 @@ exports.getAllCities = async (req, res) => {
                 ...city._doc,
                 isOpen
             };
-        }).filter(city => city !== null); // סינון של ערכי null
+        }).filter(city => city !== null); // Filter out null values
 
         res.status(200).json(cityData);
     } catch (error) {
@@ -62,7 +62,7 @@ exports.getAllCities = async (req, res) => {
     }
 };
 
-// מחיקת עיר לפי ID
+// Deleting a city by ID
 exports.deleteCity = async (req, res) => {
     try {
         const { id } = req.params;

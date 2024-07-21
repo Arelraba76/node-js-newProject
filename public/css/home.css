@@ -1,18 +1,21 @@
+/* Hero section styling */
 .hero {
     position: relative;
     height: 100vh;
     overflow: hidden;
 }
 
+/* Video styling */
 #myVideo {
     position: absolute;
     right: 0;
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
-    z-index: -1;
+    z-index: -1; /* Ensure the video is behind other content */
 }
 
+/* Hero content styling */
 .hero-content {
     position: absolute;
     top: 60%; /* Adjust this value to move the content down */
@@ -21,25 +24,28 @@
     text-align: center;
     color: #fff;
     z-index: 1;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
 }
 
+/* Hero content heading styling */
 .hero-content h1 {
     font-size: 3em;
     margin-bottom: 20px;
 }
 
+/* Hero content paragraph styling */
 .hero-content p {
     font-size: 1.5em;
     margin-bottom: 30px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
 }
 
+/* Call-to-action button hover effect */
 .cta-button:hover {
     background-color: #333;
 }
 
-/* video */
+/* Video container styling */
 .hero {
     position: relative;
     width: 100%;
@@ -47,6 +53,7 @@
     overflow: hidden;
 }
 
+/* Video container styling */
 .video-container {
     position: absolute;
     top: 0;
@@ -55,6 +62,7 @@
     height: 100%;
 }
 
+/* Video element styling */
 #myVideo {
     position: absolute;
     top: 50%;
@@ -64,37 +72,41 @@
     width: auto;
     height: auto;
     transform: translateX(-50%) translateY(-50%);
-    object-fit: cover;
+    object-fit: cover; /* Ensures the video covers the container */
 }
 
+/* Ensure hero content is on top of video */
 .hero-content {
     position: relative;
     z-index: 1;
 }
 
-/* מדיה query למסכים קטנים יותר */
+/* Media query for smaller screens */
 @media (max-width: 768px) {
     .hero {
-        height: 60vh; /* הקטן את גובה הגיבור במסכים קטנים */
+        height: 60vh; /* Reduce hero height on smaller screens */
     }
 }
 
-/* feature product */
+/* Featured products section styling */
 .featured-products {
     padding: 40px;
 }
 
+/* Featured products heading styling */
 .featured-products h2 {
     text-align: center;
     margin-bottom: 30px;
 }
 
+/* Products grid styling */
 .products {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
 }
 
+/* Product item styling */
 .product {
     text-align: center;
     display: flex;
@@ -102,26 +114,31 @@
     justify-content: space-between; /* Ensures the product content is evenly distributed */
 }
 
+/* Product image styling */
 .product img {
     width: 100%;
-    height: 200px; /* Set a fixed height for product images */
+    height: 300px; /* Set a fixed height for product images */
     object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
     transition: transform 0.3s; /* Smooth transition for hover effect */
 }
 
+/* Product image hover effect */
 .product img:hover {
     transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
+/* Product title styling */
 .product h3 {
     margin: 10px 0;
     font-size: 1em;
 }
 
+/* Product category and price styling */
 .product .category, .product .price {
     margin: 5px 0; /* Ensure uniform spacing for category and price */
 }
 
+/* View details button styling */
 .view-details {
     display: inline-block;
     background-color: #111;
@@ -133,6 +150,7 @@
     transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
+/* View details button hover effect */
 .view-details:hover {
     background-color: #333; /* Darker background color on hover */
 }
