@@ -1,3 +1,4 @@
+/* General Page Styling */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f7f9fc;
@@ -14,7 +15,7 @@ body {
 
 #content-wrap {
     flex: 1;
-    padding: 60px 40px 40px 40px; /* Increased top padding */
+    padding: 60px 40px 40px 40px;
     max-width: 1200px;
     margin: 0 auto;
     background-color: #ffffff;
@@ -29,7 +30,7 @@ h1, h2 {
 h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
-    padding-top: 20px; /* Added padding to top */
+    padding-top: 20px;
 }
 
 h2 {
@@ -109,26 +110,24 @@ th {
     color: #555;
 }
 
-td button {
-    margin-right: 10px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
+#search-container {
+    margin-bottom: 20px;
+}
+
+#search-results {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+#search-results div {
+    padding: 10px;
     cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
 }
 
-td button:hover {
-    background-color: #0056b3;
-}
-
-#edit-shoe-form {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+#search-results div:hover {
+    background-color: #f0f0f0;
 }

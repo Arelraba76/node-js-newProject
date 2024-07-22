@@ -14,5 +14,6 @@ router.put("/:id",usercontroller.updateUserById);
 router.get("/:id",usercontroller.getUserById);
 router.post("/logout", usercontroller.logoutUser);
 router.get("login/dashboard", requireAuth, usercontroller.getDashboard);
+router.get("/dashboard", requireAuth, usercontroller.getDashboard);
 
 module.exports = router

@@ -15,31 +15,42 @@ async function getRegister(req, res) {
 
 // Get all users from the database
 async function getAllUsers(req, res) {
+    console.log('getAllUsers called');
+    console.log('User from token:', req.user);
     try {
-        const users = await User.find();
-        res.status(200).json({message:"users fetched successfully", users});
+        const users = await User.find({}, '-password');
+        console.log('Users fetched:', users);
+        res.status(200).json({message: "Users fetched successfully", users});
     } catch (error) {
-        res.status(400).json({message: error.message});
+        console.error('Error fetching users:', error);
+        res.status(500).json({message: "Failed to fetch users", error: error.message});
     }
 }
 
 // Create a new user
 async function createNewUser(req, res) {
     const { firstName, lastName, email, password, isAdmin } = req.body;
-    if (!firstName || !lastName || !email || !password) return res.status(400).json({message: "please provide all fields"});
-    if (!validator.isEmail(email)) return res.status(400).json({message: "invalid email"});
-    if (!validator.isStrongPassword(password)) return res.status(400).json({message: "password not strong enough"});
+    if (!firstName || !lastName || !email || !password) return res.status(400).json({message: "Please provide all fields"});
+    if (!validator.isEmail(email)) return res.status(400).json({message: "Invalid email"});
+    if (!validator.isStrongPassword(password)) return res.status(400).json({message: "Password not strong enough"});
 
     const duplicateEmail = await User.findOne({ email });
-    if (duplicateEmail) return res.status(400).json({message: "email already exists"});
+    if (duplicateEmail) return res.status(400).json({message: "Email already exists"});
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await new User({ firstName, lastName, email, password: hashedPassword, isAdmin });
+        const newUser = await new User({ firstName, lastName, email, password: hashedPassword, isAdmin: isAdmin || false });
         await newUser.save();
 
-        res.status(201).json({message: "new user created successfully", newUser});
+        res.status(201).json({message: "New user created successfully", newUser: {
+            _id: newUser._id,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            isAdmin: newUser.isAdmin
+        }});
     } catch (error) {
+        console.error('Error creating new user:', error);  // הוסף לוג זה
         res.status(400).json({message: error.message});
     }
 }
@@ -47,11 +58,12 @@ async function createNewUser(req, res) {
 // Render admin dashboard if user is admin
 async function getDashboard(req, res) {
     if (req.user && req.user.isAdmin) {
-        res.render("dashboard", { layout: false });
+      const users = await User.find({}, '-password');
+      res.render("dashboard", { layout: false, users: users });
     } else {
-        res.status(403).json({ message: "Access denied. Admin only." });
+      res.status(403).json({ message: "Access denied. Admin only." });
     }
-}
+  }
 
 // Logout the user by clearing the cookie
 async function logoutUser(req, res) {

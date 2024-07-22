@@ -1,3 +1,4 @@
+/* Base styling for the body */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
@@ -47,20 +48,22 @@ nav ul {
 nav ul li {
     margin: 0 calc(var(--padding) / 2);
 }
-
 /* Links and button styling */
 nav ul li a,
 .sign-in,
-#sign-in-btn {
+#sign-in-btn,
+#logoutLink {
     color: var(--main-color);
     text-decoration: none;
     font-weight: bold;
     transition: color var(--transition), background-color var(--transition), padding var(--transition);
 }
 
+/* Links and buttons hover effect */
 nav ul li a:hover,
 .sign-in:hover,
-#sign-in-btn:hover {
+#sign-in-btn:hover,
+#logoutLink:hover {
     color: var(--gray-color);
     background-color: var(--bg-color);
     padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
@@ -73,6 +76,7 @@ nav ul li a:hover,
     align-items: center;
 }
 
+/* Search input styling */
 .search-cart input {
     padding: calc(var(--padding) / 2);
     border: 1px solid #e5e5e5;
@@ -83,15 +87,18 @@ nav ul li a:hover,
 /* Cart icon and sign-in button styling */
 .cart-icon,
 .sign-in,
-#sign-in-btn {
+#sign-in-btn,
+#logoutLink {
     font-size: 1.2em;
     margin-right: calc(var(--padding) / 2);
     transition: color var(--transition), transform var(--transition);
 }
 
+/* Cart icon hover effect */
 .cart-icon:hover,
 .sign-in:hover ~ .cart-icon,
-#sign-in-btn:hover ~ .cart-icon {
+#sign-in-btn:hover ~ .cart-icon,
+#logoutLink:hover ~ .cart-icon {
     transform: translateX(5px);
 }
 
@@ -102,25 +109,30 @@ footer {
     padding: calc(var(--padding) * 2);
 }
 
+/* Footer content styling */
 .footer-content {
     display: flex;
     justify-content: space-around;
 }
 
+/* Footer section heading styling */
 .footer-section h4 {
     margin-bottom: calc(var(--padding) / 2);
 }
 
+/* Footer section list styling */
 .footer-section ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* Footer section list item styling */
 .footer-section ul li {
     margin-bottom: calc(var(--padding) / 2);
 }
 
+/* Footer section list item link styling */
 .footer-section ul li a {
     color: var(--light-color);
     text-decoration: none;
@@ -148,7 +160,6 @@ footer .copyright {
     flex-shrink: 0;
 }
 
-
 /* Shop Now Button Styling */
 .cta-button {
     display: inline-block;
@@ -161,11 +172,13 @@ footer .copyright {
     transition: background-color var(--transition), transform var(--transition);
 }
 
+/* Shop Now Button hover effect */
 .cta-button:hover {
     background-color: var(--gray-color);
     transform: translateY(-2px);
 }
 
+/* Login and Register container styling */
 #loginContainer, #registerContainer {
     max-width: 400px;
     margin: 80px auto;
@@ -177,11 +190,13 @@ footer .copyright {
     transition: all 0.3s ease;
 }
 
+/* Login and Register container hover effect */
 #loginContainer:hover, #registerContainer:hover {
     transform: scale(1.02);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
+/* Login and Register heading styling */
 #loginContainer h2, #registerContainer h2 {
     text-align: center;
     margin-bottom: 25px;
@@ -189,10 +204,12 @@ footer .copyright {
     font-size: 24px;
 }
 
+/* Login and Register form styling */
 #loginForm, #registerForm {
     padding: 0 15px;
 }
 
+/* Input fields styling */
 #loginForm input, #registerForm input {
     width: calc(100% - 30px);
     padding: 15px;
@@ -203,6 +220,7 @@ footer .copyright {
     transition: all 0.3s ease;
 }
 
+/* Input fields focus and hover effect */
 #loginForm input:focus, #loginForm input:hover, #registerForm input:focus, #registerForm input:hover {
     border-color: #4a90e2;
     box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
@@ -210,6 +228,7 @@ footer .copyright {
     transform: translateY(-2px);
 }
 
+/* Button styling */
 #loginForm button, #registerForm button {
     width: calc(100% - 30px);
     padding: 15px;
@@ -223,17 +242,20 @@ footer .copyright {
     transition: all 0.3s ease;
 }
 
+/* Button hover effect */
 #loginForm button:hover, #registerForm button:hover {
     background-color: #3a7bc8;
     box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
     transform: translateY(-2px);
 }
 
+/* Button active effect */
 #loginForm button:active, #registerForm button:active {
     transform: scale(0.98);
     box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
 }
 
+/* Paragraph styling */
 #loginContainer p, #registerContainer p {
     margin-top: 20px;
     text-align: center;
@@ -242,10 +264,12 @@ footer .copyright {
     transition: all 0.3s ease;
 }
 
+/* Paragraph hover effect */
 #loginContainer p:hover, #registerContainer p:hover {
     transform: translateY(-2px);
 }
 
+/* Link styling */
 #loginContainer a, #registerContainer a {
     color: #4a90e2;
     text-decoration: none;
@@ -254,10 +278,12 @@ footer .copyright {
     position: relative;
 }
 
+/* Link hover effect */
 #loginContainer a:hover, #registerContainer a:hover {
     color: #3a7bc8;
 }
 
+/* Link underline effect */
 #loginContainer a::after, #registerContainer a::after {
     content: '';
     position: absolute;
@@ -271,9 +297,8 @@ footer .copyright {
     transition: all 0.3s ease-in-out;
 }
 
+/* Link underline hover effect */
 #loginContainer a:hover::after, #registerContainer a:hover::after {
     visibility: visible;
     transform: scaleX(1);
 }
-
-

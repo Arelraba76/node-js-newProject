@@ -2,15 +2,11 @@ const express = require('express');
 const router = express.Router();
 const cityController = require('../controllers/cityController');
 
-// הוספת עיר חדשה
-router.post('/add', cityController.addCity);
-
-// שליפת כל הערים
+router.post('/', cityController.addCity);
 router.get('/', cityController.getAllCities);
-
-// מחיקת עיר לפי ID
+router.get('/:id', cityController.getCityById);
+router.put('/:id', cityController.updateCity);
 router.delete('/:id', cityController.deleteCity);
-
-router.get('/', cityController.getAllCities);
+router.get('/search', cityController.searchCities);
 
 module.exports = router;
