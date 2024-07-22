@@ -13,6 +13,20 @@ async function getAllshoes(req, res) {
 // Fetch a shoe by its ID
 async function getShoeById(req, res) {
     try {
+        
+        const shoe = await Shoes.findById(req.params.id);
+        if (!shoe) {
+            return res.status(404).json({message: "Shoe not found"});
+        }
+        res.status(200).json(shoe);
+    } catch (error) {
+        console.error('Error in getShoeById:', error);
+        res.status(500).json({message: error.message});
+    }
+}
+
+async function getShoeByIdAjax(req, res) {
+    try {
         const shoe = await Shoes.findById(req.params.id);
         if (!shoe) {
             return res.status(404).send("Shoe not found");
@@ -24,7 +38,6 @@ async function getShoeById(req, res) {
     }
 }
 
-// Create a new shoe entry
 async function createNewShoe(req, res) {
     const newShoe = {...req.body};
     const shoeEntity = new Shoes(newShoe);
@@ -62,10 +75,30 @@ async function filterShoesByCategory(req, res) {
     }
 }
 
+async function updateShoe(req, res) {
+    const { id } = req.params;
+    const updates = req.body;
+
+    try {
+        const updatedShoe = await Shoes.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
+        
+        if (!updatedShoe) {
+            return res.status(404).json({ message: "נעל לא נמצאה" });
+        }
+        
+        res.status(200).json({ message: "הנעל עודכנה בהצלחה", updatedShoe: updatedShoe });
+    } catch (error) {
+        console.error('שגיאה בעדכון הנעל:', error);
+        res.status(400).json({ message: error.message });
+    }
+}
+
 module.exports = {
     getAllshoes,
     createNewShoe,
     deleteShoeById,
     filterShoesByCategory,
-    getShoeById
+    getShoeById,
+    updateShoe,
+    getShoeByIdAjax
 }

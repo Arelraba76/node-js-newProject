@@ -1,4 +1,14 @@
 
+/* General Page Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 0;
+    color: #4a4a4a;
+}
+
+
 /* Page container to ensure footer stays at the bottom */
 #page-container {
     display: flex;
@@ -9,7 +19,23 @@
 /* Main content wrapper */
 #content-wrap {
     flex: 1;
-    padding: 20px;
+    padding: 60px 40px 40px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    padding-top: 20px;
+
 }
 
 #adminTitle, #staticTitle{
@@ -131,6 +157,28 @@
     color: #555;
 }
 
+#search-container {
+    margin-bottom: 20px;
+}
+
+#search-results {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+#search-results div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#search-results div:hover {
+    background-color: #f0f0f0;
+}
+=======
 /* Action button styling within table */
 #shoe-table td button {
     margin-right: 10px;
@@ -153,3 +201,4 @@
 #store-stats, #add-shoe, #shoe-actions {
     margin-bottom: 40px;
 }
+

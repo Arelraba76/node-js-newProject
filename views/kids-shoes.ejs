@@ -8,6 +8,7 @@
     <script src="/scripts/product.js"></script>
     <title>Kids' Shoes</title>
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/shoes-page.css">
 </head>
 <body>
@@ -16,13 +17,55 @@
             <%- include('partials/header') %>
         </header>
 
-        <main >
-            
+        <main>
+            <h1>Kids' Shoes</h1>
+            <section class="featured-products">
+                <h2>All Kids' Shoes</h2>
+                <div class="products">
+                    <% 
+                    // Filter shoes for kids' category and stock > 0
+                    let kidsShoes = shoes.filter(shoe => shoe.category === 'Kids' && shoe.stock > 0);
+
+                    // Loop to display all kids' shoes with stock greater than 0
+                    for (let i = 0; i < kidsShoes.length; i++) {
+                    %>
+                        <div class="product" data-id="<%= kidsShoes[i]._id %>">
+                            <img src="<%= kidsShoes[i].image %>" alt="<%= kidsShoes[i].title %>">
+                            <h3 class="title"><%= kidsShoes[i].title %></h3>
+                            <p class="price">$<%= kidsShoes[i].price %></p>
+                        </div>
+                    <% 
+                    }
+                    %>
+                </div>
+            </section>
         </main>
 
         <footer id="mainFooter">
             <%- include('partials/footer') %>
         </footer>
     </div>
+
+    <script>
+    $(document).ready(function() {
+        console.log('Document ready');
+
+        $('.product').click(function(e) {
+            e.preventDefault();
+            const productId = $(this).data('id');
+
+            $.ajax({
+                url: `/shoes/${productId}/ajax`,
+                method: 'GET',
+                success: function(response) {
+                    $('main').html(response);
+                },
+                error: function(err) {
+                    console.error('Error loading the product details:', err);
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>

@@ -44,6 +44,7 @@ server.get('/', async (req, res) => {
     }
 });
 
+
 server.get('/home', async (req, res) => {
     try {
         const shoes = await Shoe.find(); // Fetch all shoes from the database
@@ -118,4 +119,6 @@ server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`); // Start the server and listen on the specified port
 });
 
+
 module.exports = server; // Export the server
+

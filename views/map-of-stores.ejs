@@ -7,185 +7,143 @@
     <link rel="stylesheet" href="/css/map.css" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/product.js"></script>
     <script src="/scripts/login.js"></script>
     <title>Our Stores</title>
 </head>
 <body>
     <div id="page-container">
-        <header id="mainHeader">
-            <nav>
-                <div class="logo">
-                    <img src="../video/swoosh-logo-black.png" alt="Logo">
-                </div>  
-                <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/men">Men</a></li>
-                    <li><a href="/women">Women</a></li>
-                    <li><a href="/kids">Kids</a></li>
-                    <li><a href="/sale">Sale</a></li>
-                </ul>
-                <div class="search-cart">
-                    <input type="text" placeholder="Search...">
-                    <a href="#" id="sign-in-btn">Sign In</a>
-                    <a href="#" id="logoutLink" style="display: none;">Logout</a>
-                    <a href="/cart" class="cart-icon">🛒</a>
-                </div>
-            </nav>
+        <header>
+            <%- include('partials/header') %>
         </header>
-
         <div id="content-wrap">
             <div id="container">
                 <div id="search-container">
                     <h1>Find a Nike Store</h1>
                     <input type="text" id="search" placeholder="Search Location..." />
-                    <ul id="suggestions" class="suggestions"></ul>
-                    <div id="store-list">
-                        <!-- Store list will be dynamically populated -->
-                    </div>
+                <ul id="suggestions" class="suggestions"></ul>
+                <div id="store-list">
+                    <!-- Store list will be dynamically populated -->
                 </div>
-                <div id="map"></div>
             </div>
+            <div id="map"></div>
         </div>
-
-        <footer id="mainFooter">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Help</h4>
-                    <ul>
-                        <li><a href="#">Order Status</a></li>
-                        <li><a href="#">Shipping and Delivery</a></li>
-                        <li><a href="#">Returns</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="map-of-stores">Find a Store</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>About</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Investors</a></li>
-                        <li><a href="#">Sustainability</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2024 Shoe Store. All rights reserved.</p>
-            </div>
-        </footer>
     </div>
+    <footer id="mainFooter">
+        <%- include('partials/footer') %>
+    </footer>
+</div>
+<script>
+    let map;
+    let markersLayer;
 
-    <script>
-        let map;
-        let markersLayer;
+    // Initialize the map
+    function initMap() {
+        map = L.map('map').setView([32.0853, 34.7818], 10); // Centered at Tel Aviv for example
 
-        // Initialize the map
-        function initMap() {
-            map = L.map('map').setView([32.0853, 34.7818], 10); // Centered at Tel Aviv for example
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    }
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-        }
-
-        // Function to fetch city data from the backend
-        async function fetchCities() {
-            try {
-                const response = await fetch('/api/cities', {
-                    method: 'GET'
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to fetch cities');
-                }
-                const cities = await response.json();
-                return cities;
-            } catch (error) {
-                console.error('Error fetching cities:', error);
-                return [];
+    // Function to fetch city data from the backend
+    async function fetchCities() {
+        try {
+            const response = await fetch('/api/cities', {
+                method: 'GET'
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch cities');
             }
+            const cities = await response.json();
+            return cities;
+        } catch (error) {
+            console.error('Error fetching cities:', error);
+            return [];
         }
+    }
 
-        // Function to add markers to the map
-        function addMarkers(cities) {
-            markersLayer = L.layerGroup().addTo(map);
-            cities.forEach(city => {
-                const marker = L.marker([city.lat, city.lng])
-                    .bindPopup(`
-                        <b>${city.name}</b><br>
-                        ${city.openingHours} - ${city.closingHours}
-                    `);
-                markersLayer.addLayer(marker);
-            });
-        }
-
-        // Function to populate store list
-        function populateStoreList(cities) {
-            const storeList = document.getElementById('store-list');
-            storeList.innerHTML = ''; // Clear any existing content
-
-            cities.forEach(city => {
-                const storeDiv = document.createElement('div');
-                storeDiv.className = 'store';
-                storeDiv.innerHTML = `
-                    <h2>${city.name}</h2>
-                    <p>${city.lat}, ${city.lng}</p>
-                    <p class="status ${city.isOpen ? 'open' : 'closed'}">
-                        ${city.isOpen ? 'Open' : 'Closed'}
-                    </p>
-                `;
-                storeDiv.addEventListener('click', () => {
-                    focusOnStore(city);
-                });
-                storeList.appendChild(storeDiv);
-            });
-        }
-
-        function focusOnStore(city) {
-            map.setView([city.lat, city.lng], 15); // Zoom level 15
-            
-            // Find the marker for this city and open its popup
-            markersLayer.eachLayer(marker => {
-                if (marker.getLatLng().lat === city.lat && marker.getLatLng().lng === city.lng) {
-                    marker.openPopup();
-                }
-            });
-        }
-
-        // Function to handle search input and suggestions
-        function setupSearch() {
-            var searchInput = document.getElementById('search');
-            var suggestions = document.getElementById('suggestions');
-
-            searchInput.addEventListener('input', function() {
-                var query = searchInput.value.toLowerCase();
-                suggestions.innerHTML = '';
-                if (query) {
-                    fetchCities().then(cities => {
-                        var filteredCities = cities.filter(city => city.name.toLowerCase().includes(query));
-                        filteredCities.forEach(city => {
-                            var li = document.createElement('li');
-                            li.textContent = city.name;
-                            li.addEventListener('click', function() {
-                                focusOnStore(city);
-                                searchInput.value = city.name;
-                                suggestions.innerHTML = '';
-                            });
-                            suggestions.appendChild(li);
-                        });
-                    });
-                }
-            });
-        }
-
-        // Initialize everything when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            initMap();
-            fetchCities().then(cities => {
-                addMarkers(cities);
-                populateStoreList(cities);
-            });
-            setupSearch();
+    // Function to add markers to the map
+    function addMarkers(cities) {
+        markersLayer = L.layerGroup().addTo(map);
+        cities.forEach(city => {
+            const marker = L.marker([city.lat, city.lng])
+                .bindPopup(`
+                    <b>${city.name}</b><br>
+                    ${city.openingHours} - ${city.closingHours}
+                `);
+            markersLayer.addLayer(marker);
         });
-    </script>
+    }
+
+    // Function to populate store list
+    function populateStoreList(cities) {
+        const storeList = document.getElementById('store-list');
+        storeList.innerHTML = ''; // Clear any existing content
+
+        cities.forEach(city => {
+            const storeDiv = document.createElement('div');
+            storeDiv.className = 'store';
+            storeDiv.innerHTML = `
+                <h2>${city.name}</h2>
+                <p>${city.lat}, ${city.lng}</p>
+                <p class="status ${city.isOpen ? 'open' : 'closed'}">
+                    ${city.isOpen ? 'Open' : 'Closed'}
+                </p>
+            `;
+            storeDiv.addEventListener('click', () => {
+                focusOnStore(city);
+            });
+            storeList.appendChild(storeDiv);
+        });
+    }
+
+    function focusOnStore(city) {
+        map.setView([city.lat, city.lng], 15); // Zoom level 15
+        
+        // Find the marker for this city and open its popup
+        markersLayer.eachLayer(marker => {
+            if (marker.getLatLng().lat === city.lat && marker.getLatLng().lng === city.lng) {
+                marker.openPopup();
+            }
+        });
+    }
+
+    // Function to handle search input and suggestions
+    function setupSearch() {
+        var searchInput = document.getElementById('search');
+        var suggestions = document.getElementById('suggestions');
+
+        searchInput.addEventListener('input', function() {
+            var query = searchInput.value.toLowerCase();
+            suggestions.innerHTML = '';
+            if (query) {
+                fetchCities().then(cities => {
+                    var filteredCities = cities.filter(city => city.name.toLowerCase().includes(query));
+                    filteredCities.forEach(city => {
+                        var li = document.createElement('li');
+                        li.textContent = city.name;
+                        li.addEventListener('click', function() {
+                            focusOnStore(city);
+                            searchInput.value = city.name;
+                            suggestions.innerHTML = '';
+                        });
+                        suggestions.appendChild(li);
+                    });
+                });
+            }
+        });
+    }
+
+    // Initialize everything when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        initMap();
+        fetchCities().then(cities => {
+            addMarkers(cities);
+            populateStoreList(cities);
+        });
+        setupSearch();
+    });
+</script>
 </body>
 </html>
