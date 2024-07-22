@@ -6,7 +6,6 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const connectDB = require("./config/db");
 const Shoe = require("./models/shoes"); // Import the Shoe model
-const requireAuth = require('./middlewares/requireAuth'); // Import authentication middleware
 
 // Load environment variables from .env file
 dotenv.config();

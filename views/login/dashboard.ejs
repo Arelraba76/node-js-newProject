@@ -4,21 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="/scripts/dashboard.js"></script>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
     <div id="page-container">
         <main id="content-wrap">
-            <h1>Admin Dashboard</h1>
+            <h1 id="adminTitle">Admin Dashboard</h1>
             <section id="store-stats">
-                <h2>Store Statistics</h2>
+                <h2 id="staticTitle">Store Statistics</h2>
                 <!-- Store statistics will go here -->
             </section>
-
             <section id="add-shoe">
-                <h2>Add New Shoe</h2>
                 <form id="add-shoe-form">
+                    <h3>Add New Shoe</h3>
+                    <br>
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" required>
                     <br>
@@ -59,89 +63,5 @@
             </section>
         </main>
     </div>
-    
-    <script>
-        async function loadShoes() {
-            try {
-                const response = await fetch('/shoes');
-                const result = await response.json();
-                if (response.ok) {
-                    const shoeTableBody = document.getElementById('shoe-table-body');
-                    shoeTableBody.innerHTML = '';
-                    result.shoes.forEach(shoe => {
-                        shoeTableBody.innerHTML += `
-                            <tr>
-                                <td>${shoe.title}</td>
-                                <td>${shoe.price}</td>
-                                <td>${shoe.category}</td>
-                                <td>
-                                    <button onclick="editShoe('${shoe._id}')">Edit</button>
-                                    <button onclick="deleteShoe('${shoe._id}')">Delete</button>
-                                    <button onclick="viewShoe('${shoe._id}')">View</button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
-            }
-        }
-    
-        async function editShoe(id) {
-            // Add code to open the edit form
-        }
-    
-        async function deleteShoe(id) {
-            if (confirm('Are you sure you want to delete this shoe?')) {
-                try {
-                    const response = await fetch(`/shoes/${id}`, { method: 'DELETE' });
-                    const result = await response.json();
-                    if (response.ok) {
-                        alert(result.message);
-                        loadShoes(); // Reload shoes after deletion
-                    } else {
-                        alert(result.message);
-                    }
-                } catch (error) {
-                    alert('Error: ' + error.message);
-                }
-            }
-        }
-    
-        async function viewShoe(id) {
-            // Add code to view the shoe details in a modal or a section on the same page
-        }
-    
-        document.getElementById('add-shoe-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            try {
-                const response = await fetch('/shoes', {
-                    method: 'POST',
-                    body: JSON.stringify(Object.fromEntries(formData)),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const result = await response.json();
-                if (response.ok) {
-                    alert(result.message);
-                    loadShoes(); // Reload shoes after adding a new one
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
-            }
-        });
-    
-        // Load shoes when the page loads
-        document.addEventListener('DOMContentLoaded', loadShoes);
-        loadShoes();
-    </script>
-    
 </body>
 </html>
