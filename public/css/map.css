@@ -1,0 +1,273 @@
+/* Base styling for the body */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #111;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Variables for common values */
+:root {
+    --main-color: #111;
+    --light-color: #fff;
+    --gray-color: #555;
+    --bg-color: #f0f0f0;
+    --padding: 20px;
+    --transition: 0.3s;
+}
+
+/* Header styling */
+header {
+    background-color: var(--light-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation bar styling */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding) calc(var(--padding) * 2);
+}
+
+/* Logo styling */
+nav .logo img {
+    height: 30px;
+}
+
+/* Navigation menu styling */
+nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navigation items styling */
+nav ul li {
+    margin: 0 calc(var(--padding) / 2);
+}
+
+/* Links and button styling */
+nav ul li a,
+.sign-in,
+#sign-in-btn {
+    color: var(--main-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color var(--transition), background-color var(--transition), padding var(--transition);
+}
+
+/* Links and buttons hover effect */
+nav ul li a:hover,
+.sign-in:hover,
+#sign-in-btn:hover {
+    color: var(--gray-color);
+    background-color: var(--bg-color);
+    padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
+    border-radius: 5px;
+}
+
+/* Search and cart container styling */
+.search-cart {
+    display: flex;
+    align-items: center;
+}
+
+/* Search input styling */
+.search-cart input {
+    padding: calc(var(--padding) / 2);
+    border: 1px solid #e5e5e5;
+    border-radius: 20px;
+    margin-right: calc(var(--padding) / 2);
+}
+
+/* Cart icon and sign-in button styling */
+.cart-icon,
+.sign-in,
+#sign-in-btn {
+    font-size: 1.2em;
+    margin-right: calc(var(--padding) / 2);
+    transition: color var(--transition), transform var(--transition);
+}
+
+/* Cart icon hover effect */
+.cart-icon:hover,
+.sign-in:hover ~ .cart-icon,
+#sign-in-btn:hover ~ .cart-icon {
+    transform: translateX(5px);
+}
+
+/* Footer styling */
+footer {
+    background-color: var(--main-color);
+    color: var(--light-color);
+    padding: calc(var(--padding) * 2);
+}
+
+/* Footer content styling */
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Footer section heading styling */
+.footer-section h4 {
+    margin-bottom: calc(var(--padding) / 2);
+}
+
+/* Footer section list styling */
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Footer section list item styling */
+.footer-section ul li {
+    margin-bottom: calc(var(--padding) / 2);
+}
+
+/* Footer section list item link styling */
+.footer-section ul li a {
+    color: var(--light-color);
+    text-decoration: none;
+}
+
+/* Footer copyright styling */
+footer .copyright {
+    text-align: center;
+    margin-top: calc(var(--padding) / 2);
+    font-size: 0.9em;
+}
+
+/* Ensure the footer stays at the bottom */
+#page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Content wrap to push footer to bottom */
+#content-wrap {
+    flex: 1;
+}
+
+/* Main footer styling */
+#mainFooter {
+    flex-shrink: 0;
+}
+
+/* Body styling for the container layout */
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main container styling */
+#container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 160px); /* Adjusted to accommodate header and footer */
+}
+
+/* Search container styling */
+#search-container {
+    width: 30%;
+    padding: 20px;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+}
+
+/* Search container heading styling */
+#search-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Search input styling */
+#search {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Suggestions list styling */
+.suggestions {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Suggestions list item styling */
+.suggestions li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Suggestions list item hover effect */
+.suggestions li:hover {
+    background-color: #ddd;
+}
+
+/* Map container styling */
+#map {
+    height: 100%;
+    width: 70%;
+}
+
+/* Store information styling */
+.store {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+/* Store heading styling */
+.store h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* Store paragraph styling */
+.store p {
+    margin: 5px 0;
+}
+
+/* Store status styling */
+.status {
+    font-weight: bold;
+}
+
+/* Store status open styling */
+.status.open {
+    color: green;
+}
+
+/* Store status closed styling */
+.status.closed {
+    color: red;
+}
+
+/* Store hover effect */
+.store {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+    cursor: pointer; /* Add this line */
+}
+
+/* Store hover effect */
+.store:hover {
+    background-color: #f0f0f0; /* Add this block */
+}

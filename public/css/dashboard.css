@@ -1,0 +1,204 @@
+
+/* General Page Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 0;
+    color: #4a4a4a;
+}
+
+
+/* Page container to ensure footer stays at the bottom */
+#page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main content wrapper */
+#content-wrap {
+    flex: 1;
+    padding: 60px 40px 40px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    padding-top: 20px;
+
+}
+
+#adminTitle, #staticTitle{
+    text-align: center;
+}
+/* Admin dashboard container */
+#admin-dashboard {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 30px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+/* Container hover effect */
+#admin-dashboard:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Header styling */
+#admin-dashboard h1, #admin-dashboard h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+}
+
+/* Form styling */
+#add-shoe-form {
+    max-width: 400px; /* Smaller form size */
+    margin: 0 auto;
+    padding: 30px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+/* Input fields styling */
+#add-shoe-form input[type="text"], 
+#add-shoe-form input[type="number"], 
+#add-shoe-form textarea {
+    width: calc(100% - 30px);
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Input fields focus and hover effect */
+#add-shoe-form input[type="text"]:focus, 
+#add-shoe-form input[type="number"]:focus, 
+#add-shoe-form textarea:focus,
+#add-shoe-form input[type="text"]:hover, 
+#add-shoe-form input[type="number"]:hover, 
+#add-shoe-form textarea:hover {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+/* Button styling */
+#add-shoe-form button {
+    width: calc(100% - 30px);
+    padding: 15px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Button hover effect */
+#add-shoe-form button:hover {
+    background-color: #3a7bc8;
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Button active effect */
+#add-shoe-form button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+/* Table styling */
+#shoe-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Table header and cell styling */
+#shoe-table th, #shoe-table td {
+    padding: 15px;
+    border: 1px solid #eee;
+    text-align: left;
+    font-size: 1em;
+}
+
+/* Table header styling */
+#shoe-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #555;
+}
+
+#search-container {
+    margin-bottom: 20px;
+}
+
+#search-results {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+#search-results div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#search-results div:hover {
+    background-color: #f0f0f0;
+}
+=======
+/* Action button styling within table */
+#shoe-table td button {
+    margin-right: 10px;
+    background-color: #4a90e2;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+/* Action button hover effect within table */
+#shoe-table td button:hover {
+    background-color: #3a7bc8;
+}
+
+/* Styling for sections within the dashboard */
+#store-stats, #add-shoe, #shoe-actions {
+    margin-bottom: 40px;
+}
+
