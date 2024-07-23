@@ -1,3 +1,4 @@
+// controllers\shoes.js
 const Shoes = require("../models/shoes.js");
 
 async function getAllshoes(req, res) {
@@ -81,12 +82,12 @@ async function updateShoe(req, res) {
         const updatedShoe = await Shoes.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
         
         if (!updatedShoe) {
-            return res.status(404).json({ message: "נעל לא נמצאה" });
+            return res.status(404).json({ message: "Shoe not found" });
         }
         
-        res.status(200).json({ message: "הנעל עודכנה בהצלחה", updatedShoe: updatedShoe });
+        res.status(200).json({ message: "Shoe updated successfully", updatedShoe: updatedShoe });
     } catch (error) {
-        console.error('שגיאה בעדכון הנעל:', error);
+        console.error('Error updating shoe:', error);
         res.status(400).json({ message: error.message });
     }
 }
@@ -98,5 +99,6 @@ module.exports = {
     filterShoesByCategory,
     getShoeById,
     updateShoe,
-    getShoeByIdAjax
+    getShoeByIdAjax,
+
 }

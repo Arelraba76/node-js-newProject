@@ -1,3 +1,4 @@
+//models\shoes.js
 const mongoose = require('mongoose');
 
 const shoesSchema = new mongoose.Schema({

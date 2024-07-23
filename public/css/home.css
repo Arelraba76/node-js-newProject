@@ -180,3 +180,259 @@
         flex: 1 1 100%; /* Only one image per row */
     }
 }
+
+
+/* עיצוב חדש לתמונת הגיבור */
+.hero-women img {
+    width: 100%;
+    height: 500px; /* גובה גדול יותר */
+    max-width: 100%; /* הסרת הגבלת הרוחב */
+    object-fit: cover; /* שמירה על יחס הגודל */
+    position: relative; /* הופך את התמונה ליחסית */
+}
+
+/* עיצוב חדש לכותרת שתופיע מעל התמונה */
+.hero-women .title-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3em;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    font-style: unset;
+}
+
+.hero-kids {
+    position: relative;
+    width: 100%;
+    height: 700px; /* גובה גדול יותר */
+    overflow: hidden;
+}
+
+.hero-kids img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* שמירה על יחס הגודל */
+}
+
+.hero-kids .title-overlay {
+    position: absolute;
+    bottom: 10%; /* למקם את הכותרת בתחתית התמונה */
+    left: 5%; /* למקם את הכותרת קצת שמאלה */
+    color: white;
+    font-size: 4em; /* גודל פונט דומה לתמונה */
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    text-align: left;
+    line-height: 1.2;
+    font-family: 'Bangers', cursive; /* שימוש בפונט החדש */
+}
+
+/* רספונסיביות */
+@media (max-width: 1200px) {
+    .hero-kids {
+        height: 600px; /* גובה מותאם למסכים בינוניים */
+    }
+
+    .hero-kids .title-overlay {
+        font-size: 3.5em; /* גודל פונט קטן יותר למסכים בינוניים */
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-kids {
+        height: 500px; /* גובה מותאם למסכים קטנים */
+    }
+
+    .hero-kids .title-overlay {
+        font-size: 3em; /* גודל פונט קטן יותר למסכים קטנים */
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-kids {
+        height: 400px; /* גובה מותאם למסכים קטנים יותר */
+    }
+
+    .hero-kids .title-overlay {
+        font-size: 2.5em; /* גודל פונט קטן יותר למסכים קטנים יותר */
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-kids {
+        height: 300px; /* גובה מותאם למסכי מובייל */
+    }
+
+    .hero-kids .title-overlay {
+        font-size: 2em; /* גודל פונט קטן יותר למסכי מובייל */
+    }
+}
+
+.video-product {
+    position: relative;
+}
+
+.video-product video {
+    width: 100%;
+    height: 390px; /* Same height as the product images */
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+@media (max-width: 768px) {
+    .video-product video {
+        height: 290px; /* Same height as the product images on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .video-product video {
+        height: 150px; /* Same height as the product images on small screens */
+    }
+}
+
+.video-product video:hover {
+    transform: scale(1.05); /* Same hover effect as product images */
+}
+
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .hero {
+        height: 80vh; /* Reduce hero height on medium screens */
+    }
+
+    .hero-content h1 {
+        font-size: 2.5em; /* Adjust font size on medium screens */
+    }
+}
+
+@media (max-width: 992px) {
+    .hero {
+        height: 70vh; /* Reduce hero height on smaller screens */
+    }
+
+    .hero-content h1 {
+        font-size: 2em; /* Adjust font size on smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: 60vh; /* Reduce hero height on smaller screens */
+    }
+
+    .hero-content h1 {
+        font-size: 1.5em; /* Adjust font size on smaller screens */
+    }
+
+    .hero-content p {
+        font-size: 1.2em; /* Adjust font size on smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .hero {
+        height: 50vh; /* Reduce hero height on mobile screens */
+    }
+
+    .hero-content h1 {
+        font-size: 1.2em; /* Adjust font size on mobile screens */
+    }
+
+    .hero-content p {
+        font-size: 1em; /* Adjust font size on mobile screens */
+    }
+}
+
+
+/* Men's hero section styling */
+.hero-men {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#myVideoMen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+#heroImageMen {
+    display: none; /* Hide the image by default */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.hero-men-content {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-men-content h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.hero-men-content p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cta-button:hover {
+    background-color: #333;
+}
+
+@media (max-width: 992px) {
+    #myVideoMen {
+        display: none;
+    }
+
+    #heroImageMen {
+        display: block;
+    }
+
+    .hero-men {
+        height: 60vh;
+    }
+
+    .hero-men-content h1 {
+        font-size: 2em;
+    }
+
+    .hero-men-content p {
+        font-size: 1.2em;
+    }
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .hero-men-content h1 {
+        font-size: 1.5em;
+    }
+
+    .hero-men-content p {
+        font-size: 1em;
+    }
+}

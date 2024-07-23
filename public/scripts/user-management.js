@@ -50,10 +50,62 @@ function updateUserTable(users) {
                 <td>
                     <button onclick="editUser('${user._id}')">Edit</button>
                     <button onclick="deleteUser('${user._id}')">Delete</button>
+                    <button onclick="viewUserPurchases('${user._id}')">View Purchases</button>
                 </td>
             </tr>
         `;
     });
+}
+
+async function viewUserPurchases(userId) {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`/api/users/${userId}/purchases`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const result = await response.json();
+        if (response.ok) {
+            displayPurchases(result.purchases);
+        } else {
+            alert('Failed to load purchases: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error loading purchases:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+function displayPurchases(purchases) {
+    const purchasesList = purchases.map(purchase => `
+        <li>
+            Shoe: ${purchase.title}
+            <br>Shoe ID: ${purchase.shoeId}
+            <br>Size: ${purchase.size}
+            <br>Price: $${purchase.price}
+            <br>Date: ${new Date(purchase.purchaseDate).toLocaleDateString()}
+        </li>
+    `).join('');
+
+    const purchasesHTML = `
+        <div id="purchasesOverlay" class="overlay">
+            <div class="overlay-content">
+                <h3>User Purchases</h3>
+                <ul>${purchasesList}</ul>
+                <button onclick="closePurchasesOverlay()">Close</button>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', purchasesHTML);
+}
+
+function closePurchasesOverlay() {
+    const overlay = document.getElementById('purchasesOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
 }
 
 async function deleteUser(id) {

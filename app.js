@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const connectDB = require("./config/db");
 const Shoe = require("./models/shoes"); // Import the Shoe model
+const purchaseRoutes = require("./routes/purchase");
 
 
 // Load environment variables from .env file
@@ -18,7 +19,14 @@ server.use(cors()); // Enable CORS
 server.use(bodyParser.json()); // Middleware to parse JSON bodies
 server.use(bodyParser.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
 server.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the public directory
+server.use("/api/purchase", purchaseRoutes);
+// אחרי זה הוסף את ה-middleware שבודק את ה-raw body
 
+server.use(express.raw({ type: 'application/json' }));
+server.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({ message: "Internal server error", error: err.message });
+});
 // Set the view engine to EJS
 server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views')); // Set the views directory
@@ -99,7 +107,10 @@ server.get('/login/sign-in-form', (req, res) => {
 server.get('/login/register-form', (req, res) => {
     res.render('login/register-form'); // Render the register form view
 });
-
+server.use((req, res, next) => {
+    console.log('Request headers:', req.headers);
+    next();
+});
 server.get('/cart', (req, res) => { // Add authentication to the cart route
     res.render('cart'); // Render the cart.ejs view
 });
