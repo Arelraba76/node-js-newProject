@@ -301,4 +301,6 @@ footer .copyright {
 #loginContainer a:hover::after, #registerContainer a:hover::after {
     visibility: visible;
     transform: scaleX(1);
+
 }
+

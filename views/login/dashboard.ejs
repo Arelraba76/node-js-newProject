@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="/scripts/dashboard.js"></script>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/dashboard.css">
     <link rel="stylesheet" href="/css/store-management.css">
@@ -13,16 +17,17 @@
 <body>
     <div id="page-container">
         <main id="content-wrap">
+
             <h1>Admin Dashboard</h1>
-            
+     
             <section id="store-stats">
-                <h2>Store Statistics</h2>
+                <h2 id="staticTitle">Store Statistics</h2>
                 <!-- Store statistics will go here -->
             </section>
-
             <section id="add-shoe">
-                <h2>Add New Shoe</h2>
                 <form id="add-shoe-form">
+                    <h3>Add New Shoe</h3>
+                    <br>
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" required>
                     <br>
@@ -238,9 +243,9 @@
             </section>
         </main>
     </div>
-    
     <script src="/scripts/shoes-func.js"></script>
     <script src="/scripts/stores-func.js"></script>
     <script src="/scripts/user-management.js"></script>
+
 </body>
 </html>

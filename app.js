@@ -8,7 +8,6 @@ const connectDB = require("./config/db");
 const Shoe = require("./models/shoes"); // Import the Shoe model
 const purchaseRoutes = require("./routes/purchase");
 
-
 // Load environment variables from .env file
 dotenv.config();
 
@@ -32,7 +31,6 @@ server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views')); // Set the views directory
 
 // Routes
-
 const shoesRoutes = require("./routes/shoes");
 const userRoutes = require("./routes/user");
 const cityRoutes = require('./routes/cities'); // Import city routes
@@ -132,4 +130,6 @@ server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`); // Start the server and listen on the specified port
 });
 
+
 module.exports = server; // Export the server
+
