@@ -6,7 +6,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/scripts/login.js"></script>
     <script src="/scripts/product.js"></script>
-    <title>Men's Shoes</title>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/shoes-page.css">
@@ -18,8 +17,8 @@
         </header>
 
         <main>
-            <h1>Men's Shoes</h1>
             <section class="featured-products">
+                <%- include('partials/hero-men') %>
                 <h2>All Men's Shoes</h2>
                 <div class="products">
                     <% 
@@ -66,6 +65,7 @@
             });
         });
     });
+    
     </script>
 </body>
 </html>

@@ -1,6 +1,8 @@
+// middlewares\requireAuth.js
 const jwt = require('jsonwebtoken');
 
 const requireAuth = (req, res, next) => {
+    console.log('Request body in requireAuth:', req.body);
     const authHeader = req.headers['authorization'];
     console.log('Auth Header:', authHeader);
     const token = authHeader && authHeader.split(' ')[1];

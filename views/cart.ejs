@@ -1,19 +1,105 @@
+<!-- views/cart.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/login.js"></script>
+
     <link rel="stylesheet" href="/css/cart.css">
+
     <link rel="stylesheet" href="/css/base.css">
 </head>
 <body>
     <header>
         <%- include('partials/header') %>
     </header>
-    <h1>Shopping Cart</h1>
-    <footer id="mainFooter">
-        <%- include('partials/footer') %>
-    </footer>
+
+    <div id="cart">
+        <h1>Shopping Cart</h1>
+        <ul id="cart-items"></ul>
+        <div id="cart-total"></div>
+        <button id="checkout-btn">Checkout</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartItems();
+
+            document.getElementById('checkout-btn').addEventListener('click', checkout);
+        });
+
+async function loadCartItems() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('No token found');
+            window.location.href = '/login';
+            return;
+        }
+
+        const response = await fetch('/api/users/cart', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        console.log('Response status:', response.status);
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Cart data:', data);
+            updateCartItems(data.cart);
+        } else {
+            const errorData = await response.json();
+            console.error('Failed to load cart:', errorData);
+            alert('Failed to load cart: ' + errorData.message);
+        }
+    } catch (error) {
+        console.error('Error loading cart items:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+
+        function updateCartItems(cartItems) {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+            cartItemsContainer.innerHTML = '';
+
+            if (cartItems.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
+                cartTotalElement.innerHTML = '';
+                return;
+            }
+
+            let total = 0;
+
+            cartItems.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                cartItemsContainer.innerHTML += `
+                    <li>
+                        <img src="${item.image}" alt="${item.title}" style="width:100px;height:100px;">
+                        <h2>${item.title}</h2>
+                        <p>Size: ${item.size}</p>
+                        <p>Quantity: ${item.quantity}</p>
+                        <p>Price: $${item.price.toFixed(2)}</p>
+                        <p>Total: $${itemTotal.toFixed(2)}</p>
+                    </li>
+                `;
+            });
+
+            cartTotalElement.innerHTML = `<h3>Total: $${total.toFixed(2)}</h3>`;
+        }
+
+        async function checkout() {
+            // ... הקוד לצ'קאאוט נשאר כפי שהוא ...
+        }
+    </script>
 </body>
 </html>
