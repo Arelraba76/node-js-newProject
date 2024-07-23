@@ -1,0 +1,21 @@
+<h2>Edit User</h2>
+<form id="edit-user-form">
+    <input type="hidden" id="edit-user-id">
+    <label for="edit-firstName">First Name:</label>
+    <input type="text" id="edit-firstName" name="firstName" required>
+    <br>
+    <label for="edit-lastName">Last Name:</label>
+    <input type="text" id="edit-lastName" name="lastName" required>
+    <br>
+    <label for="edit-email">Email:</label>
+    <input type="email" id="edit-email" name="email" required>
+    <br>
+    <label for="edit-password">New Password (leave blank to keep current):</label>
+    <input type="password" id="edit-password" name="password">
+    <br>
+    <label for="edit-isAdmin">Is Admin:</label>
+    <input type="checkbox" id="edit-isAdmin" name="isAdmin">
+    <br>
+    <button type="submit">Update User</button>
+    <button type="button" onclick="cancelEditUser()">Cancel</button>
+</form>

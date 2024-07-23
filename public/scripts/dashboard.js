@@ -1,3 +1,4 @@
+
 async function loadShoes() {
     try {
         const response = await fetch('/shoes');
