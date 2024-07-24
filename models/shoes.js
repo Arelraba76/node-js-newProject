@@ -1,3 +1,4 @@
+//models\shoes.js
 const mongoose = require('mongoose');
 
 const shoesSchema = new mongoose.Schema({
@@ -12,4 +13,3 @@ const shoesSchema = new mongoose.Schema({
 const Shoes = mongoose.model("Shoes", shoesSchema);
 
 module.exports = Shoes;
-

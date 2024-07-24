@@ -1,20 +1,87 @@
-<header id="mainHeader">
-    <nav>
-        <div class="logo">
-            <img src="../video/swoosh-logo-black.png" alt="Logo">
-        </div>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Store</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script src="/scripts/product.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/shoes-page.css">
+    <link rel="stylesheet" href="/css/footer-pages.css">
+</head>
+<body>
+    <header id="mainHeader">
+        <nav>
+            <div class="logo">
+                <a href="/home"><img src="../video/swoosh-logo-black.png" alt="Logo"></a>
+                <input type="text" id="search-input" placeholder="Search...">
+            </div>
+            
+            <ul class="menu">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/men">Men</a></li>
+                <li><a href="/women">Women</a></li>
+                <li><a href="/kids">Kids</a></li>
+            </ul>
+            <div class="signin-cart">
+                <a href="#" class="sign-in-btn">Sign In</a>
+                <a href="#" class="logoutLink" style="display: none;">Logout</a>
+                <a href="/cart" class="cart-icon">🛒</a>
+            </div>
+            <div class="menu-toggle">
+                <span>☰</span>
+            </div>
+        </nav>
+    </header>
+
+    <aside id="side-menu">
+        <button id="back-button">✖</button>
         <ul>
+            <li><a id="side-search-button" class="menu-button">Search</a></li>
             <li><a href="/home">Home</a></li>
             <li><a href="/men">Men</a></li>
             <li><a href="/women">Women</a></li>
             <li><a href="/kids">Kids</a></li>
-            <li><a href="/sale">Sale</a></li>
+            <li><a href="/cart" class="cart-icon">Cart 🛒</a></li>
+            <li><a href="#" class="sign-in-btn" >Sign In</a></li>
+            <li><a href="#" class="logoutLink" style="display: none;">Logout</a></li>
         </ul>
-        <div class="search-cart">
-            <input type="text" placeholder="Search...">
-            <a href="#" id="sign-in-btn">Sign In</a>
-            <a href="#" id="logoutLink" style="display: none;">Logout</a>
-            <a href="/cart" class="cart-icon">🛒</a>
-        </div>
-    </nav>
-</header>
+    </aside>
+
+    <div id="aside-search-container" style="display: none;">
+        <button id="back-button-aside">←</button>
+        <input type="text" id="aside-search-input" placeholder="Search...">
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Toggle side menu
+            $('.menu-toggle').click(function() {
+                $('#side-menu').toggleClass('open');
+            });
+
+            // Close side menu
+            $('#back-button').click(function() {
+                $('#side-menu').removeClass('open');
+            });
+
+            // Toggle search input in aside menu
+            $('#side-search-button').click(function() {
+                $('#side-menu').removeClass('open');
+                $('#aside-search-container').show();
+                $('#aside-search-input').focus();
+            });
+
+            // Back button in aside search
+            $('#back-button-aside').click(function() {
+                $('#aside-search-container').hide();
+                $('#side-menu').addClass('open');
+            });
+           
+        });
+    </script>
+</body>
+</html>

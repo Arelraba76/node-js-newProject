@@ -26,13 +26,14 @@ function updateShoeTable(shoes) {
                 <td>${shoe.category}</td>
                 <td>${shoe.stock}</td>
                 <td>
-                    <button onclick="editShoe('${shoe._id}')">Edit</button>
-                    <button onclick="deleteShoe('${shoe._id}')">Delete</button>
+                    <button class="edit-btn" onclick="editShoe('${shoe._id}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteShoe('${shoe._id}')">Delete</button>
                 </td>
             </tr>
         `;
     });
 }
+
 
 async function editShoe(id) {
     try {
@@ -50,7 +51,7 @@ async function editShoe(id) {
         document.getElementById('edit-stock').value = shoe.stock;
         
         document.getElementById('edit-shoe-section').style.display = 'block';
-        document.getElementById('add-shoe').style.display = 'none';
+        document.getElementById('add-shoe-form-inline').style.display = 'none';
         document.getElementById('shoe-actions').style.display = 'none';
     } catch (error) {
         console.error('Error:', error);
@@ -60,7 +61,7 @@ async function editShoe(id) {
 
 function cancelEdit() {
     document.getElementById('edit-shoe-section').style.display = 'none';
-    document.getElementById('add-shoe').style.display = 'block';
+    document.getElementById('add-shoe-form-inline').style.display = 'block';
     document.getElementById('shoe-actions').style.display = 'block';
 }
 
@@ -81,7 +82,7 @@ async function deleteShoe(id) {
     }
 }
 
-document.getElementById('add-shoe-form').addEventListener('submit', async function(e) {
+document.getElementById('add-shoe-form-inline').addEventListener('submit', async function(e) {
     e.preventDefault();
     const formData = new FormData(this);
     const formDataObj = Object.fromEntries(formData);
@@ -96,6 +97,7 @@ document.getElementById('add-shoe-form').addEventListener('submit', async functi
         const result = await response.json();
         if (response.ok) {
             alert(result.message);
+            this.reset();
             loadShoes(); // Reload shoes after adding a new one
         } else {
             alert(result.message);

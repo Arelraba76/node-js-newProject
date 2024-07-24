@@ -86,3 +86,86 @@
     width: 100%;
     max-width: 200px;
 }
+
+/* עיצוב כפתור הקנייה */
+.buy-now {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000; /* גבול שחור לכפתור */
+    padding: 15px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 10px; /* מרווח מלמעלה */
+}
+
+/* אפקט הובר לכפתור הקנייה */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 500px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); }
+    to { transform: translateY(0); }
+}
+
+/* Success Message Styling */
+#successMessage {
+    color: #4CAF50;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Error Message Styling */
+#errorMessage {
+    color: #F44336;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* אפקט הובר לכפתור הקנייה */
+.buy-now:hover {
+    background-color: #000; /* שינוי צבע הרקע לשחור */
+    color: #fff; /* שינוי צבע הטקסט ללבן */
+}

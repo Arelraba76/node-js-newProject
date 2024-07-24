@@ -48,13 +48,56 @@ function updateUserTable(users) {
                 <td>${user.email}</td>
                 <td>${user.isAdmin ? 'Yes' : 'No'}</td>
                 <td>
-                    <button onclick="editUser('${user._id}')">Edit</button>
-                    <button onclick="deleteUser('${user._id}')">Delete</button>
+                    <button class="edit-btn" onclick="editUser('${user._id}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteUser('${user._id}')">Delete</button>
+                    <button class="View-btn" onclick="viewUserPurchases('${user._id}')">View Purchases</button>
                 </td>
             </tr>
         `;
     });
 }
+
+async function viewUserPurchases(userId) {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`/api/users/${userId}/purchases`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const result = await response.json();
+        if (response.ok) {
+            displayPurchases(result.purchases);
+        } else {
+            alert('Failed to load purchases: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error loading purchases:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+
+
+function displayPurchases(purchases) {
+    const purchasesList = document.getElementById('purchasesList');
+    purchasesList.innerHTML = purchases.map(purchase => `
+        <li>
+            Shoe: ${purchase.title}
+            <br>Shoe ID: ${purchase.shoeId}
+            <br>Size: ${purchase.size}
+            <br>Price: $${purchase.price}
+            <br>Date: ${new Date(purchase.purchaseDate).toLocaleDateString()}
+        </li>
+    `).join('');
+
+    document.getElementById('purchaseModal').style.display = 'block';
+}
+
+function closePurchasesOverlay() {
+    document.getElementById('purchaseModal').style.display = 'none';
+}
+
 
 async function deleteUser(id) {
     if (confirm('Are you sure you want to delete this user?')) {
