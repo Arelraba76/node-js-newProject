@@ -79,3 +79,85 @@ document.getElementById('add-shoe-form').addEventListener('submit', async functi
 // Load shoes when the page loads
 document.addEventListener('DOMContentLoaded', loadShoes);
 loadShoes();
+
+$(document).ready(function() {
+    // Hide all forms and show only the store statistics
+    $('#content > div').hide();
+    $('#store-stats').show();
+
+    $('#store-stats').click(function(event) {
+        event.preventDefault();
+        $('#content > div').hide();
+        $('#store-stats').show();
+    });
+
+    $('#add-shoe').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'dashboard/add-shoe',
+            method: 'GET',
+            success: function(response) {
+                $('#content').html(response);
+            },
+            error: function(err) {
+                console.error('Error loading the form:', err);
+            }
+        });
+    });
+
+    $('#shoe-actions').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'dashboard/manage-shoes',
+            method: 'GET',
+            success: function(response) {
+                $('#content').html(response);
+            },
+            error: function(err) {
+                console.error('Error loading the form:', err);
+            }
+        });
+    });
+
+    $('#store-management').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'dashboard/store-management',
+            method: 'GET',
+            success: function(response) {
+                $('#content').html(response);
+            },
+            error: function(err) {
+                console.error('Error loading the form:', err);
+            }
+        });
+    });
+
+    $('#add-user').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'dashboard/add-user',
+            method: 'GET',
+            success: function(response) {
+                $('#content').html(response);
+            },
+            error: function(err) {
+                console.error('Error loading the form:', err);
+            }
+        });
+    });
+
+    $('#user-management').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'dashboard/user-management',
+            method: 'GET',
+            success: function(response) {
+                $('#content').html(response);
+            },
+            error: function(err) {
+                console.error('Error loading the form:', err);
+            }
+        });
+    });
+});

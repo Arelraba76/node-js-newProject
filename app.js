@@ -7,6 +7,7 @@ const path = require("path");
 const connectDB = require("./config/db");
 const Shoe = require("./models/shoes"); // Import the Shoe model
 const purchaseRoutes = require("./routes/purchase");
+const dashboardRouter = require('./routes/dashboard');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -34,6 +35,7 @@ server.set('views', path.join(__dirname, 'views')); // Set the views directory
 const shoesRoutes = require("./routes/shoes");
 const userRoutes = require("./routes/user");
 const cityRoutes = require('./routes/cities'); // Import city routes
+server.use('/dashboard', dashboardRouter);
 
 server.use("/api/users", userRoutes); // Use user routes
 server.use("/shoes", shoesRoutes); // Use shoe routes
