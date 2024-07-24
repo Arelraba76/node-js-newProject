@@ -1,3 +1,112 @@
+$(document).ready(function() {
+    // Hide all sections initially
+    $('#content > div').hide();
+    $('#store-stats').show();
+
+    $('#store-stats').click(function(event) {
+        event.preventDefault();
+        $('#content > div').hide();
+        $('#content').html('<h2>Store Statistics</h2><p>Here will be the store statistics.</p>');
+    });
+
+    $('#add-shoe').click(function(event) {
+        event.preventDefault();
+        loadForm('dashboard/add-shoe', '#content', loadShoes);
+    });
+
+    $('#shoe-actions').click(function(event) {
+        event.preventDefault();
+        loadForm('dashboard/manage-shoes', '#content', loadShoes);
+    });
+
+    $('#store-management').click(function(event) {
+        event.preventDefault();
+        loadForm('dashboard/store-management', '#content', loadStores);
+    });
+
+    $('#add-user').click(function(event) {
+        event.preventDefault();
+        loadForm('dashboard/add-user', '#content', loadUsers);
+    });
+
+    $('#user-management').click(function(event) {
+        event.preventDefault();
+        loadForm('dashboard/user-management', '#content', loadUsers);
+    });
+});
+
+function loadForm(url, target, callback) {
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function(response) {
+            $(target).html(response);
+            if (callback) {
+                callback();
+            }
+            initializeFormListeners(); // Initialize form listeners after loading
+        },
+        error: function(err) {
+            console.error('Error loading the form:', err);
+        }
+    });
+}
+
+function initializeFormListeners() {
+    const addShoeForm = document.getElementById('add-shoe-form');
+    if (addShoeForm) {
+        addShoeForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            try {
+                const response = await fetch('/shoes', {
+                    method: 'POST',
+                    body: JSON.stringify(Object.fromEntries(formData)),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                    loadShoes(); // Reload shoes after adding a new one
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+    }
+
+    const editShoeForm = document.getElementById('edit-shoe-form');
+    if (editShoeForm) {
+        editShoeForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const id = document.getElementById('edit-shoe-id').value;
+            try {
+                const response = await fetch(`/shoes/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(Object.fromEntries(formData)),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                    cancelEdit();
+                    loadShoes(); // Reload shoes after updating
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+    }
+}
 
 async function loadShoes() {
     try {
@@ -53,111 +162,9 @@ async function viewShoe(id) {
     // Add code to view the shoe details in a modal or a section on the same page
 }
 
-document.getElementById('add-shoe-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    try {
-        const response = await fetch('/shoes', {
-            method: 'POST',
-            body: JSON.stringify(Object.fromEntries(formData)),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const result = await response.json();
-        if (response.ok) {
-            alert(result.message);
-            loadShoes(); // Reload shoes after adding a new one
-        } else {
-            alert(result.message);
-        }
-    } catch (error) {
-        alert('Error: ' + error.message);
-    }
-});
-
-// Load shoes when the page loads
-document.addEventListener('DOMContentLoaded', loadShoes);
-loadShoes();
-
-$(document).ready(function() {
-    // Hide all forms and show only the store statistics
-    $('#content > div').hide();
-    $('#store-stats').show();
-
-    $('#store-stats').click(function(event) {
-        event.preventDefault();
-        $('#content > div').hide();
-        $('#store-stats').show();
-    });
-
-    $('#add-shoe').click(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: 'dashboard/add-shoe',
-            method: 'GET',
-            success: function(response) {
-                $('#content').html(response);
-            },
-            error: function(err) {
-                console.error('Error loading the form:', err);
-            }
-        });
-    });
-
-    $('#shoe-actions').click(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: 'dashboard/manage-shoes',
-            method: 'GET',
-            success: function(response) {
-                $('#content').html(response);
-            },
-            error: function(err) {
-                console.error('Error loading the form:', err);
-            }
-        });
-    });
-
-    $('#store-management').click(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: 'dashboard/store-management',
-            method: 'GET',
-            success: function(response) {
-                $('#content').html(response);
-            },
-            error: function(err) {
-                console.error('Error loading the form:', err);
-            }
-        });
-    });
-
-    $('#add-user').click(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: 'dashboard/add-user',
-            method: 'GET',
-            success: function(response) {
-                $('#content').html(response);
-            },
-            error: function(err) {
-                console.error('Error loading the form:', err);
-            }
-        });
-    });
-
-    $('#user-management').click(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: 'dashboard/user-management',
-            method: 'GET',
-            success: function(response) {
-                $('#content').html(response);
-            },
-            error: function(err) {
-                console.error('Error loading the form:', err);
-            }
-        });
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    // Load the different sections
+    loadShoes();
+    loadStores();
+    loadUsers();
 });

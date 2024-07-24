@@ -13,43 +13,22 @@
 </head>
 <body>
     <div id="page-container">
-        <main id="content-wrap">
-            <div id="tabs">
-                <ul>
-                    <li><a href="#" id="store-stats">Store Statistics</a></li>
-                    <li><a href="#" id="add-shoe">Add New Shoe</a></li>
-                    <li><a href="#" id="shoe-actions">Manage Shoes</a></li>
-                    <li><a href="#" id="store-management">Manage Stores</a></li>
-                    <li><a href="#" id="add-user">Add New User</a></li>
-                    <li><a href="#" id="user-management">Manage Users</a></li>
-                </ul>
-                <div id="store-stats">
+        <div id="tabs">
+            <ul>
+                <li><a href="#" id="store-stats">Store Statistics</a></li>
+                <li><a href="#" id="add-shoe">Add New Shoe</a></li>
+                <li><a href="#" id="shoe-actions">Manage Shoes</a></li>
+                <li><a href="#" id="store-management">Manage Stores</a></li>
+                <li><a href="#" id="add-user">Add New User</a></li>
+                <li><a href="#" id="user-management">Manage Users</a></li>
+            </ul>
+            <main id="content-wrap">
+                <div id="content">
                     <h2 id="staticTitle">Store Statistics</h2>
                     <!-- Store statistics will go here -->
                 </div>
-                <div id="add-shoe">
-                    <%- include('dashboard/add-shoe') %>
-                </div>
-                <div id="edit-shoe-section" style="display: none;">
-                    <%- include('dashboard/edit-shoe-section') %>
-                </div>
-                <div id="shoe-actions">
-                    <%- include('dashboard/manage-shoes') %>
-                </div>
-                <div id="store-management">
-                    <%- include('dashboard/store-management') %>
-                </div>
-                <div id="add-user">
-                    <%- include('dashboard/add-user') %>
-                </div>
-                <div id="user-management">
-                    <%- include('dashboard/user-management') %>
-                </div>
-                <div id="edit-user-section" style="display: none;">
-                    <%- include('dashboard/edit-user-section') %>
-                </div>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
     <script src="/scripts/shoes-func.js"></script>
     <script src="/scripts/stores-func.js"></script>

@@ -110,6 +110,7 @@ server.get('/map-of-stores', (req, res) => {
     res.render('map-of-stores'); // Render the map-of-stores view
 });
 
+
 // Database connection
 const PORT = process.env.PORT || 8080;
 connectDB(); // Connect to the database

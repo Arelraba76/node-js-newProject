@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-// נתיב לטעינת טופס Add Shoe
 router.get('/add-shoe', (req, res) => {
     res.render('login/dashboard/add-shoe');
 });
 
-// נתיבים נוספים
 router.get('/manage-shoes', (req, res) => {
     res.render('login/dashboard/manage-shoes');
 });
