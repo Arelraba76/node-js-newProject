@@ -28,12 +28,6 @@ $(document).ready(function() {
         $('#store-management').show();
     });
 
-    $('#add-user-btn').click(function(event) {
-        event.preventDefault();
-        hideAllSections();
-        $('#add-user').show();
-    });
-
     $('#user-management-btn').click(function(event) {
         event.preventDefault();
         hideAllSections();
