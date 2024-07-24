@@ -1,112 +1,51 @@
 $(document).ready(function() {
-    // Hide all sections initially
-    $('#content > div').hide();
+    // Hide all sections except store statistics initially
+    hideAllSections();
     $('#store-stats').show();
 
-    $('#store-stats').click(function(event) {
+    // Attach click event handlers for each button
+    $('#store-stats-btn').click(function(event) {
         event.preventDefault();
-        $('#content > div').hide();
-        $('#content').html('<h2>Store Statistics</h2><p>Here will be the store statistics.</p>');
+        hideAllSections();
+        $('#store-stats').show();
     });
 
-    $('#add-shoe').click(function(event) {
+    $('#add-shoe-btn').click(function(event) {
         event.preventDefault();
-        loadForm('dashboard/add-shoe', '#content', loadShoes);
+        hideAllSections();
+        $('#add-shoe').show();
     });
 
-    $('#shoe-actions').click(function(event) {
+    $('#shoe-actions-btn').click(function(event) {
         event.preventDefault();
-        loadForm('dashboard/manage-shoes', '#content', loadShoes);
+        hideAllSections();
+        $('#shoe-actions').show();
     });
 
-    $('#store-management').click(function(event) {
+    $('#store-management-btn').click(function(event) {
         event.preventDefault();
-        loadForm('dashboard/store-management', '#content', loadStores);
+        hideAllSections();
+        $('#store-management').show();
     });
 
-    $('#add-user').click(function(event) {
+    $('#add-user-btn').click(function(event) {
         event.preventDefault();
-        loadForm('dashboard/add-user', '#content', loadUsers);
+        hideAllSections();
+        $('#add-user').show();
     });
 
-    $('#user-management').click(function(event) {
+    $('#user-management-btn').click(function(event) {
         event.preventDefault();
-        loadForm('dashboard/user-management', '#content', loadUsers);
+        hideAllSections();
+        $('#user-management').show();
     });
 });
 
-function loadForm(url, target, callback) {
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function(response) {
-            $(target).html(response);
-            if (callback) {
-                callback();
-            }
-            initializeFormListeners(); // Initialize form listeners after loading
-        },
-        error: function(err) {
-            console.error('Error loading the form:', err);
-        }
-    });
+function hideAllSections() {
+    // Hide all sections
+    $('main section').hide();
 }
 
-function initializeFormListeners() {
-    const addShoeForm = document.getElementById('add-shoe-form');
-    if (addShoeForm) {
-        addShoeForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            try {
-                const response = await fetch('/shoes', {
-                    method: 'POST',
-                    body: JSON.stringify(Object.fromEntries(formData)),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const result = await response.json();
-                if (response.ok) {
-                    alert(result.message);
-                    loadShoes(); // Reload shoes after adding a new one
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
-            }
-        });
-    }
-
-    const editShoeForm = document.getElementById('edit-shoe-form');
-    if (editShoeForm) {
-        editShoeForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const id = document.getElementById('edit-shoe-id').value;
-            try {
-                const response = await fetch(`/shoes/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(Object.fromEntries(formData)),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const result = await response.json();
-                if (response.ok) {
-                    alert(result.message);
-                    cancelEdit();
-                    loadShoes(); // Reload shoes after updating
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
-            }
-        });
-    }
-}
 
 async function loadShoes() {
     try {
@@ -162,9 +101,29 @@ async function viewShoe(id) {
     // Add code to view the shoe details in a modal or a section on the same page
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Load the different sections
-    loadShoes();
-    loadStores();
-    loadUsers();
+document.getElementById('add-shoe-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    try {
+        const response = await fetch('/shoes', {
+            method: 'POST',
+            body: JSON.stringify(Object.fromEntries(formData)),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const result = await response.json();
+        if (response.ok) {
+            alert(result.message);
+            loadShoes(); // Reload shoes after adding a new one
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
 });
+
+// Load shoes when the page loads
+document.addEventListener('DOMContentLoaded', loadShoes);
+loadShoes();
