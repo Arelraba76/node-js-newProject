@@ -19,6 +19,10 @@
         <div id="tabs">
             <ul>
                 <li><a href="#" id="store-stats-btn">Store Statistics</a></li>
+<<<<<<< HEAD
+=======
+                <li><a href="#" id="add-shoe-btn">Add New Shoe</a></li>
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
                 <li><a href="#" id="shoe-actions-btn">Manage Shoes</a></li>
                 <li><a href="#" id="store-management-btn">Manage Stores</a></li>
                 <li><a href="#" id="user-management-btn">Manage Users</a></li>
@@ -31,6 +35,38 @@
                     <h2 id="staticTitle">Store Statistics</h2>
                     <!-- Store statistics will go here -->
                 </section>
+<<<<<<< HEAD
+=======
+                <section id="add-shoe">
+                    <form id="add-shoe-form">
+                        <h3>Add New Shoe</h3>
+                        <br>
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                        <br>
+                        <label for="price">Price:</label>
+                        <input type="number" id="price" name="price" required>
+                        <br>
+                        <label for="image">Image URL:</label>
+                        <input type="text" id="image" name="image" required>
+                        <br>
+                        <label for="category">Category:</label>
+                        <select id="category" name="category" required>
+                            <option value="Men">Men</option>
+                            <option value="Women">Women</option>
+                            <option value="Kids">Kids</option>
+                        </select>
+                        <br>
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required></textarea>
+                        <br>
+                        <label for="stock">Stock:</label>
+                        <input type="number" id="stock" name="stock" required>
+                        <br>
+                        <button type="submit">Add Shoe</button>
+                    </form>
+                </section>
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
                 
                 <section id="edit-shoe-section" style="display: none;">
                     <h2>Edit Shoe</h2>
@@ -84,6 +120,7 @@
                             <!-- Shoe rows will load here -->
                         </tbody>
                     </table>
+<<<<<<< HEAD
                     <form id="add-shoe-form-inline">
                         <h3>Add New Shoe</h3>
                         <br>
@@ -111,6 +148,8 @@
                         <br>
                         <button type="submit">Add Shoe</button>
                     </form>
+=======
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
                 </section>
     
                 <section id="store-management">
@@ -176,10 +215,18 @@
                             <input type="text" id="edit-store-closing" name="closingHours" required>
                             <br>
                             <button type="submit">Update Store</button>
+<<<<<<< HEAD
                             <button type="button" onclick="cancelStoreEdit()">Cancel</button>
                         </form>
                     </div>
                 </section>
+=======
+                            <button type="button" onclick="cancelEditStore()">Cancel</button>
+                        </form>
+                    </div>
+                </section>
+                
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
                 <section id="add-user">
                     
                 </section>

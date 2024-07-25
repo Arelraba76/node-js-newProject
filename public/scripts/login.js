@@ -16,12 +16,20 @@ $(document).ready(function() {
     setAuthHeader(); // Call this function at the beginning
     checkLoginStatus(); // Check the login status on page load
 
+<<<<<<< HEAD
     $('.sign-in-btn').click(function(event) {
+=======
+    $('#sign-in-btn').click(function(event) {
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
         event.preventDefault(); // Prevent default form submission
         loadSignInForm(); // Load the sign-in form
     });
 
+<<<<<<< HEAD
     $('.logoutLink').click(function(event) {
+=======
+    $('#logoutLink').click(function(event) {
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
         event.preventDefault(); // Prevent default link behavior
         logout(); // Call the logout function
     });
@@ -101,13 +109,21 @@ $(document).ready(function() {
     // Function to update UI after login based on admin status
     function updateUIAfterLogin(isAdmin) {
         console.log('Updating UI, isAdmin:', isAdmin); // Log admin status
+<<<<<<< HEAD
         $('.sign-in-btn').hide(); // Hide sign-in button
         $('.logoutLink').show(); // Show logout link
+=======
+        $('#sign-in-btn').hide(); // Hide sign-in button
+        $('#logoutLink').show(); // Show logout link
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
         if (isAdmin === true || isAdmin === 'true') {
             console.log('User is admin, adding dashboard link');
             if ($('#dashboardLink').length === 0) {
                 $('nav ul').append('<li><a href="/dashboard" id="dashboardLink">Dashboard</a></li>');
+<<<<<<< HEAD
                 $('aside ul').append('<li><a href="/dashboard" id="dashboardLink">Dashboard</a></li>');
+=======
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
             }
         } else {
             console.log('User is not admin');
@@ -133,8 +149,13 @@ $(document).ready(function() {
                 localStorage.removeItem('isLoggedIn'); // Remove login status
                 localStorage.removeItem('isAdmin'); // Remove admin status
                 localStorage.removeItem('token'); // Remove token
+<<<<<<< HEAD
                 $('.sign-in-btn').show(); // Show sign-in button
                 $('.logoutLink').hide(); // Hide logout link
+=======
+                $('#sign-in-btn').show(); // Show sign-in button
+                $('#logoutLink').hide(); // Hide logout link
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
                 $('#dashboardLink').remove(); // Remove dashboard link
                 window.location.href = '/home'; // Redirect to home page
             },
@@ -159,6 +180,7 @@ $(document).on('click', '#dashboardLink', function(event) {
 
 // Function to load dashboard via AJAX
 function loadDashboard() {
+<<<<<<< HEAD
     console.log('טוען את הדשבורד');
     
     // טוען את ה-CSS של הדשבורד אם הוא עדיין לא נטען
@@ -183,3 +205,19 @@ function loadDashboard() {
         }
     });
 }
+=======
+    console.log('Loading dashboard'); // Log dashboard loading
+    $.ajax({
+        url: 'login/dashboard', // URL for dashboard
+        method: 'GET',
+        success: function(data) {
+            console.log('Dashboard loaded successfully'); // Log success
+            $('main').html(data); // Load the dashboard data into the main element
+        },
+        error: function(xhr, status, error) {
+            console.error('Dashboard error:', xhr.responseText); // Log error if dashboard load fails
+            alert('Error loading dashboard: ' + xhr.responseText); // Show alert on error
+        }
+    });
+}
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
