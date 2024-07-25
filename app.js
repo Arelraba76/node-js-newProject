@@ -7,7 +7,7 @@ const path = require("path");
 const connectDB = require("./config/db");
 const Shoe = require("./models/shoes"); // Import the Shoe model
 const purchaseRoutes = require("./routes/purchase");
-
+const footerRoutes = require("./routes/footer-pages");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -110,6 +110,9 @@ server.get('/map-of-stores', (req, res) => {
 });
 
 
+
+
+server.use('/', footerRoutes);
 // Database connection
 const PORT = process.env.PORT || 8080;
 connectDB(); // Connect to the database

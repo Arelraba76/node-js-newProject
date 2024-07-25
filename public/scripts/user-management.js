@@ -48,9 +48,21 @@ function updateUserTable(users) {
                 <td>${user.email}</td>
                 <td>${user.isAdmin ? 'Yes' : 'No'}</td>
                 <td>
+<<<<<<< HEAD
                     <button class="edit-btn" onclick="editUser('${user._id}')">Edit</button>
                     <button class="delete-btn" onclick="deleteUser('${user._id}')">Delete</button>
                     <button class="View-btn" onclick="viewUserPurchases('${user._id}')">View Purchases</button>
+=======
+<<<<<<< HEAD
+                    <button class="edit-btn" onclick="editUser('${user._id}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteUser('${user._id}')">Delete</button>
+                    <button class="View-btn" onclick="viewUserPurchases('${user._id}')">View Purchases</button>
+=======
+                    <button onclick="editUser('${user._id}')">Edit</button>
+                    <button onclick="deleteUser('${user._id}')">Delete</button>
+                    <button onclick="viewUserPurchases('${user._id}')">View Purchases</button>
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
                 </td>
             </tr>
         `;
@@ -77,11 +89,24 @@ async function viewUserPurchases(userId) {
     }
 }
 
+<<<<<<< HEAD
 
 
 function displayPurchases(purchases) {
     const purchasesList = document.getElementById('purchasesList');
     purchasesList.innerHTML = purchases.map(purchase => `
+=======
+<<<<<<< HEAD
+
+
+function displayPurchases(purchases) {
+    const purchasesList = document.getElementById('purchasesList');
+    purchasesList.innerHTML = purchases.map(purchase => `
+=======
+function displayPurchases(purchases) {
+    const purchasesList = purchases.map(purchase => `
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
         <li>
             Shoe: ${purchase.title}
             <br>Shoe ID: ${purchase.shoeId}
@@ -91,6 +116,10 @@ function displayPurchases(purchases) {
         </li>
     `).join('');
 
+<<<<<<< HEAD
+    document.getElementById('purchaseModal').style.display = 'block';
+=======
+<<<<<<< HEAD
     document.getElementById('purchaseModal').style.display = 'block';
 }
 
@@ -99,6 +128,30 @@ function closePurchasesOverlay() {
 }
 
 
+=======
+    const purchasesHTML = `
+        <div id="purchasesOverlay" class="overlay">
+            <div class="overlay-content">
+                <h3>User Purchases</h3>
+                <ul>${purchasesList}</ul>
+                <button onclick="closePurchasesOverlay()">Close</button>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', purchasesHTML);
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
+}
+
+function closePurchasesOverlay() {
+    document.getElementById('purchaseModal').style.display = 'none';
+}
+
+<<<<<<< HEAD
+
+=======
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
 async function deleteUser(id) {
     if (confirm('Are you sure you want to delete this user?')) {
         try {

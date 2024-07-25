@@ -26,15 +26,32 @@ function updateShoeTable(shoes) {
                 <td>${shoe.category}</td>
                 <td>${shoe.stock}</td>
                 <td>
+<<<<<<< HEAD
                     <button class="edit-btn" onclick="editShoe('${shoe._id}')">Edit</button>
                     <button class="delete-btn" onclick="deleteShoe('${shoe._id}')">Delete</button>
+=======
+<<<<<<< HEAD
+                    <button class="edit-btn" onclick="editShoe('${shoe._id}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteShoe('${shoe._id}')">Delete</button>
+=======
+                    <button onclick="editShoe('${shoe._id}')">Edit</button>
+                    <button onclick="deleteShoe('${shoe._id}')">Delete</button>
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
                 </td>
             </tr>
         `;
     });
 }
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
 async function editShoe(id) {
     try {
         const response = await fetch(`/shoes/${id}`);
@@ -51,7 +68,15 @@ async function editShoe(id) {
         document.getElementById('edit-stock').value = shoe.stock;
         
         document.getElementById('edit-shoe-section').style.display = 'block';
+<<<<<<< HEAD
         document.getElementById('add-shoe-form-inline').style.display = 'none';
+=======
+<<<<<<< HEAD
+        document.getElementById('add-shoe-form-inline').style.display = 'none';
+=======
+        document.getElementById('add-shoe').style.display = 'none';
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
         document.getElementById('shoe-actions').style.display = 'none';
     } catch (error) {
         console.error('Error:', error);
@@ -61,7 +86,15 @@ async function editShoe(id) {
 
 function cancelEdit() {
     document.getElementById('edit-shoe-section').style.display = 'none';
+<<<<<<< HEAD
     document.getElementById('add-shoe-form-inline').style.display = 'block';
+=======
+<<<<<<< HEAD
+    document.getElementById('add-shoe-form-inline').style.display = 'block';
+=======
+    document.getElementById('add-shoe').style.display = 'block';
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
     document.getElementById('shoe-actions').style.display = 'block';
 }
 
@@ -82,7 +115,15 @@ async function deleteShoe(id) {
     }
 }
 
+<<<<<<< HEAD
 document.getElementById('add-shoe-form-inline').addEventListener('submit', async function(e) {
+=======
+<<<<<<< HEAD
+document.getElementById('add-shoe-form-inline').addEventListener('submit', async function(e) {
+=======
+document.getElementById('add-shoe-form').addEventListener('submit', async function(e) {
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
     e.preventDefault();
     const formData = new FormData(this);
     const formDataObj = Object.fromEntries(formData);
@@ -97,7 +138,14 @@ document.getElementById('add-shoe-form-inline').addEventListener('submit', async
         const result = await response.json();
         if (response.ok) {
             alert(result.message);
+<<<<<<< HEAD
             this.reset();
+=======
+<<<<<<< HEAD
+            this.reset();
+=======
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
+>>>>>>> 7ea09dfec61bb79bd13813af00e6d5cd139f0de0
             loadShoes(); // Reload shoes after adding a new one
         } else {
             alert(result.message);
@@ -175,4 +223,8 @@ document.addEventListener('click', function(event) {
 
 // Load shoes when the page loads
 loadShoes();
+<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', loadShoes);
+=======
+document.addEventListener('DOMContentLoaded', loadShoes);
+>>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
