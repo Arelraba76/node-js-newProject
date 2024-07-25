@@ -31,7 +31,6 @@ nav {
     padding: var(--padding) calc(var(--padding) * 2);
 }
 
-<<<<<<< HEAD
 .logo{
         display: flex;
         align-items: center;
@@ -40,11 +39,6 @@ nav {
 nav .logo img {
     height: 30px;
     margin-right: 20px;
-=======
-/* Logo styling */
-nav .logo img {
-    height: 30px;
->>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
 }
 
 /* Navigation menu styling */
@@ -62,13 +56,8 @@ nav ul li {
 /* Links and button styling */
 nav ul li a,
 .sign-in,
-<<<<<<< HEAD
 .sign-in-btn,
 .logoutLink {
-=======
-#sign-in-btn,
-#logoutLink {
->>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
     color: var(--main-color);
     text-decoration: none;
     font-weight: bold;
@@ -78,13 +67,8 @@ nav ul li a,
 /* Links and buttons hover effect */
 nav ul li a:hover,
 .sign-in:hover,
-<<<<<<< HEAD
 .sign-in-btn:hover,
 .logoutLink:hover {
-=======
-#sign-in-btn:hover,
-#logoutLink:hover {
->>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
     color: var(--gray-color);
     background-color: var(--bg-color);
     padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
@@ -92,21 +76,13 @@ nav ul li a:hover,
 }
 
 /* Search and cart container styling */
-<<<<<<< HEAD
 .signin-cart {
-=======
-.search-cart {
->>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
     display: flex;
     align-items: center;
 }
 
 /* Search input styling */
-<<<<<<< HEAD
 #search-input {
-=======
-.search-cart input {
->>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
     padding: calc(var(--padding) / 2);
     border: 1px solid #e5e5e5;
     border-radius: 20px;
@@ -116,13 +92,8 @@ nav ul li a:hover,
 /* Cart icon and sign-in button styling */
 .cart-icon,
 .sign-in,
-<<<<<<< HEAD
 .sign-in-btn,
 .logoutLink {
-=======
-#sign-in-btn,
-#logoutLink {
->>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
     font-size: 1.2em;
     margin-right: calc(var(--padding) / 2);
     transition: color var(--transition), transform var(--transition);
@@ -131,13 +102,8 @@ nav ul li a:hover,
 /* Cart icon hover effect */
 .cart-icon:hover,
 .sign-in:hover ~ .cart-icon,
-<<<<<<< HEAD
 .sign-in-btn:hover ~ .cart-icon,
 .logoutLink:hover ~ .cart-icon {
-=======
-#sign-in-btn:hover ~ .cart-icon,
-#logoutLink:hover ~ .cart-icon {
->>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23
     transform: translateX(5px);
 }
 
@@ -342,7 +308,6 @@ footer .copyright {
     transform: scaleX(1);
 
 }
-<<<<<<< HEAD
 /* Base styles for the header and menu */
 #mainHeader nav {
     display: flex;
@@ -459,6 +424,3 @@ footer .copyright {
         display: block;
     }
 }
-=======
-
->>>>>>> 8a0e8997697cab5ffdc8f003708ec5bba2dddc23

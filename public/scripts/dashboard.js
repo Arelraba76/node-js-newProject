@@ -1,257 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-    <script src="/scripts/dashboard.js"></script>
-    <script src="/scripts/shoes-func.js"></script>
-    <script src="/scripts/stores-func.js"></script>
-    <script src="/scripts/user-management.js"></script>
-</head>
-<body>
-    <div id="page-container">
-        <div id="tabs">
-            <ul>
-                <li><a href="#" id="store-stats-btn">Store Statistics</a></li>
-                <li><a href="#" id="shoe-actions-btn">Manage Shoes</a></li>
-                <li><a href="#" id="store-management-btn">Manage Stores</a></li>
-                <li><a href="#" id="user-management-btn">Manage Users</a></li>
-            </ul>
-            <main id="content-wrap">
+$(document).ready(function() {
+    // Hide all sections except store statistics initially
+    hideAllSections();
+    $('#store-stats').show();
 
-                <h1>Admin Dashboard</h1>
-         
-                <section id="store-stats">
-                    <h2 id="staticTitle">Store Statistics</h2>
-                    <!-- Store statistics will go here -->
-                </section>
-                
-                <section id="edit-shoe-section" style="display: none;">
-                    <h2>Edit Shoe</h2>
-                    <form id="edit-shoe-form">
-                        <input type="hidden" id="edit-shoe-id">
-                        <label for="edit-title">Title:</label>
-                        <input type="text" id="edit-title" name="title" required>
-                        <br>
-                        <label for="edit-price">Price:</label>
-                        <input type="number" id="edit-price" name="price" required>
-                        <br>
-                        <label for="edit-image">Image URL:</label>
-                        <input type="text" id="edit-image" name="image" required>
-                        <br>
-                        <label for="edit-category">Category:</label>
-                        <select id="edit-category" name="category" required>
-                            <option value="Men">Men</option>
-                            <option value="Women">Women</option>
-                            <option value="Kids">Kids</option>
-                        </select>
-                        <br>
-                        <label for="edit-description">Description:</label>
-                        <textarea id="edit-description" name="description" required></textarea>
-                        <br>
-                        <label for="edit-stock">Stock:</label>
-                        <input type="number" id="edit-stock" name="stock" required>
-                        <br>
-                        <button type="submit">Update Shoe</button>
-                        <button type="button" onclick="cancelEdit()">Cancel</button>
-                    </form>
-                </section>
-                
-    
-                <section id="shoe-actions">
-                    <h2>Manage Shoes</h2>
-                    <div id="search-container">
-                        <input type="text" id="search-input" placeholder="Search for shoes...">
-                        <div id="search-results"></div>
-                    </div>
-                    <table id="shoe-table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Price</th>
-                                <th>Category</th>
-                                <th>Stock</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="shoe-table-body">
-                            <!-- Shoe rows will load here -->
-                        </tbody>
-                    </table>
-                    <form id="add-shoe-form-inline">
-                        <h3>Add New Shoe</h3>
-                        <br>
-                        <label for="title-inline">Title:</label>
-                        <input type="text" id="title-inline" name="title" required>
-                        <br>
-                        <label for="price-inline">Price:</label>
-                        <input type="number" id="price-inline" name="price" required>
-                        <br>
-                        <label for="image-inline">Image URL:</label>
-                        <input type="text" id="image-inline" name="image" required>
-                        <br>
-                        <label for="category-inline">Category:</label>
-                        <select id="category-inline" name="category" required>
-                            <option value="Men">Men</option>
-                            <option value="Women">Women</option>
-                            <option value="Kids">Kids</option>
-                        </select>
-                        <br>
-                        <label for="description-inline">Description:</label>
-                        <textarea id="description-inline" name="description" required></textarea>
-                        <br>
-                        <label for="stock-inline">Stock:</label>
-                        <input type="number" id="stock-inline" name="stock" required>
-                        <br>
-                        <button type="submit">Add Shoe</button>
-                    </form>
-                </section>
-    
-                <section id="store-management">
-                    <h2>Manage Stores</h2>
-                    <div id="add-store">
-                        <h3>Add New Store</h3>
-                        <form id="add-store-form">
-                            <label for="store-name">Name:</label>
-                            <input type="text" id="store-name" name="name" required>
-                            <br>
-                            <label for="store-lat">Latitude:</label>
-                            <input type="number" id="store-lat" name="lat" step="any" required>
-                            <br>
-                            <label for="store-lng">Longitude:</label>
-                            <input type="number" id="store-lng" name="lng" step="any" required>
-                            <br>
-                            <label for="store-opening">Opening Hours:</label>
-                            <input type="text" id="store-opening" name="openingHours" required>
-                            <br>
-                            <label for="store-closing">Closing Hours:</label>
-                            <input type="text" id="store-closing" name="closingHours" required>
-                            <br>
-                            <button type="submit">Add Store</button>
-                        </form>
-                    </div>
-                    
-                    <div id="store-search-container">
-                        <input type="text" id="store-search-input" placeholder="Search for stores...">
-                        <div id="store-search-results"></div>
-                    </div>
-    
-                    <table id="store-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Latitude</th>
-                                <th>Longitude</th>
-                                <th>Opening Hours</th>
-                                <th>Closing Hours</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="store-table-body"></tbody>
-                    </table>
-                    
-                    <div id="edit-store" style="display: none;">
-                        <h3>Edit Store</h3>
-                        <form id="edit-store-form">
-                            <input type="hidden" id="edit-store-id">
-                            <label for="edit-store-name">Name:</label>
-                            <input type="text" id="edit-store-name" name="name" required>
-                            <br>
-                            <label for="edit-store-lat">Latitude:</label>
-                            <input type="number" id="edit-store-lat" name="lat" step="any" required>
-                            <br>
-                            <label for="edit-store-lng">Longitude:</label>
-                            <input type="number" id="edit-store-lng" name="lng" step="any" required>
-                            <br>
-                            <label for="edit-store-opening">Opening Hours:</label>
-                            <input type="text" id="edit-store-opening" name="openingHours" required>
-                            <br>
-                            <label for="edit-store-closing">Closing Hours:</label>
-                            <input type="text" id="edit-store-closing" name="closingHours" required>
-                            <br>
-                            <button type="submit">Update Store</button>
-                            <button type="button" onclick="cancelStoreEdit()">Cancel</button>
-                        </form>
-                    </div>
-                </section>
-                <section id="add-user">
-                    
-                </section>
-                
-                <section id="user-management">
-                    <h2>Add New User</h2>
-                    <form id="add-user-form">
-                        <label for="firstName">First Name:</label>
-                        <input type="text" id="firstName" name="firstName" required>
-                        <br>
-                        <label for="lastName">Last Name:</label>
-                        <input type="text" id="lastName" name="lastName" required>
-                        <br>
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                        <br>
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                        <br>
-                        <label for="isAdmin">Is Admin:</label>
-                        <input type="checkbox" id="isAdmin" name="isAdmin">
-                        <br>
-                        <button type="submit">Add User</button>
-                    </form>
-                    <h2>Manage Users</h2>
-                    <div id="user-search-container">
-                    <input type="text" id="user-search-input" placeholder="Search for users...">
-                    <div id="user-search-results"></div>
-                </div>
-                    <table id="user-table">
-                        <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Admin</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="user-table-body">
-                            <!-- User rows will be loaded here -->
-                        </tbody>
-                    </table>
-                </section>
-                <section id="edit-user-section" style="display: none;">
-                    <h2>Edit User</h2>
-                    <form id="edit-user-form">
-                        <input type="hidden" id="edit-user-id">
-                        <label for="edit-firstName">First Name:</label>
-                        <input type="text" id="edit-firstName" name="firstName" required>
-                        <br>
-                        <label for="edit-lastName">Last Name:</label>
-                        <input type="text" id="edit-lastName" name="lastName" required>
-                        <br>
-                        <label for="edit-email">Email:</label>
-                        <input type="email" id="edit-email" name="email" required>
-                        <br>
-                        <label for="edit-password">New Password (leave blank to keep current):</label>
-                        <input type="password" id="edit-password" name="password">
-                        <br>
-                        <label for="edit-isAdmin">Is Admin:</label>
-                        <input type="checkbox" id="edit-isAdmin" name="isAdmin">
-                        <br>
-                        <button type="submit">Update User</button>
-                        <button type="button" onclick="cancelEditUser()">Cancel</button>
-                    </form>
-                </section>
-            </main>
-        </div>
-        <script src="/scripts/shoes-func.js"></script>
-        <script src="/scripts/stores-func.js"></script>
-        <script src="/scripts/user-management.js"></script>
-    
-    </body>
-    </html>
+    // Attach click event handlers for each button
+    $('#store-stats-btn').click(function(event) {
+        event.preventDefault();
+        hideAllSections();
+        $('#store-stats').show();
+    });
+
+    $('#add-shoe-btn').click(function(event) {
+        event.preventDefault();
+        hideAllSections();
+        $('#add-shoe').show();
+    });
+
+    $('#shoe-actions-btn').click(function(event) {
+        event.preventDefault();
+        hideAllSections();
+        $('#shoe-actions').show();
+    });
+
+    $('#store-management-btn').click(function(event) {
+        event.preventDefault();
+        hideAllSections();
+        $('#store-management').show();
+    });
+
+    $('#user-management-btn').click(function(event) {
+        event.preventDefault();
+        hideAllSections();
+        $('#user-management').show();
+    });
+});
+
+function hideAllSections() {
+    // Hide all sections
+    $('main section').hide();
+}
