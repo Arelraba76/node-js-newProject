@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Store</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script src="/scripts/product.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/shoes-page.css">
+    <link rel="stylesheet" href="/css/footer-pages.css">
+</head>
+<body>
+    <div id="page-container">
+        <header>
+            <%- include('../partials/header') %>
+        </header>
+
+        <main>
+            <div id="diva">
+
+                <div class="page-header">
+                    <h1>Careers at ShooShoes</h1>
+                </div>
+            <section>
+                <h2>Why Work With Us?</h2>
+                <p>At ShooShoes, we offer a dynamic and inclusive work environment. Our team is our greatest asset, and we are committed to providing opportunities for growth and development. Join us to be part of an innovative company that values creativity, teamwork, and a passion for excellence.</p>
+            </section>
+            <section>
+                <h2>Current Openings</h2>
+                <ul>
+                    <li><strong>Position:</strong> Marketing Manager</li>
+                    <li><strong>Location:</strong> New York, NY</li>
+                    <li><a href="job-detail-marketing-manager.html">View Details</a></li>
+                </ul>
+                <ul>
+                    <li><strong>Position:</strong> Product Designer</li>
+                    <li><strong>Location:</strong> San Francisco, CA</li>
+                    <li><a href="job-detail-product-designer.html">View Details</a></li>
+                </ul>
+            </section>
+            <section>
+                <h2>Join Our Team</h2>
+                <p>If you are interested in joining our team, please submit your resume and cover letter to <a href="mailto:careers@shooshoes.com">careers@shooshoes.com</a>. We look forward to hearing from you!</p>
+            </section>
+        </main>
+        <%- include('../partials/model') %>
+        <div class="page-footer">
+            <p>For more information, <a href="/contact">contact us</a>.</p>
+            </div>
+       </div>
+        <footer id="mainFooter">
+            <%- include('../partials/footer') %>
+        </footer>
+    </div>
+</body>
+</html>

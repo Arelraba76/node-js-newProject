@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Store</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script src="/scripts/product.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/shoes-page.css">
+    <link rel="stylesheet" href="/css/footer-pages.css">
+</head>
+<body>
+    <div id="page-container">
+        <header>
+            <%- include('../partials/header') %>
+        </header>
+        
+       
+        <main>
+            <div id="diva">
+                <div class="page-header">
+                <h1>Return Policy</h1>
+                </div>
+            <section>
+                <h2>Return Time Frame</h2>
+                <p>We want you to be completely satisfied with your purchase. If for any reason you are not happy with your order, you can return it within 30 days of receipt for a full refund.</p>
+            </section>
+            <section>
+                <h2>Return Instructions</h2>
+                <p>To return an item, please follow these steps:</p>
+                <ol>
+                    <li>Contact our customer service to obtain a return authorization.</li>
+                    <li>Pack the item securely in its original packaging.</li>
+                    <li>Include the return authorization form and a copy of the invoice.</li>
+                    <li>Ship the package to: [Return Address]</li>
+                </ol>
+            </section>
+            <section>
+                <h2>Refunds and Exchanges</h2>
+                <p>Refunds will be processed within 7 business days of receiving the returned item. Exchanges will be shipped within 3 business days after we receive the returned item.</p>
+            </section>
+        </main>
+        <%- include('../partials/model') %>
+           </div>
+        <footer id="mainFooter">
+            <%- include('../partials/footer') %>
+        </footer>
+    </div>
+</body>
+</html>

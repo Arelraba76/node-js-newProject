@@ -1,36 +1,19 @@
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f7f9fc;
-    margin: 0;
-    padding: 0;
-    color: #4a4a4a;
-}
-
-/* Page container to ensure footer stays at the bottom */
-#page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-#content-wrap {
-    flex: 1;
-    padding: 30px;
+/* General container styling */
+#dashboard-container {
     max-width: 1200px;
     margin: 40px auto;
-    border: none;
+    padding: 30px;
+    background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    transition: all 0.3s ease;
 }
 
-#tabs {
+/* Tabs navigation styling */
+#dashboard-container #tabs {
     margin-top: 20px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
-#tabs ul {
+#dashboard-container #tabs ul {
     display: flex;
     justify-content: space-around;
     background-color: #f9f9f9;
@@ -40,17 +23,12 @@ body {
     list-style-type: none;
 }
 
-#tabs ul li {
+#dashboard-container #tabs ul li {
     flex: 1;
     text-align: center;
-    margin-right: 10px;
 }
 
-#tabs ul li:last-child {
-    margin-right: 0;
-}
-
-#tabs ul li a {
+#dashboard-container #tabs ul li a {
     display: block;
     padding: 10px 20px;
     border-radius: 5px;
@@ -58,473 +36,332 @@ body {
     color: #333;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    box-sizing: border-box;
 }
 
-#tabs ul li a:hover,
-#tabs ul li.ui-tabs-active a {
+#dashboard-container #tabs ul li a:hover,
+#dashboard-container #tabs ul li a.active {
     background-color: #4a90e2;
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-h1, h2 {
-    color: #333;
+/* Content sections */
+#dashboard-container #content-wrap {
+    margin-top: 20px;
 }
 
-h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    padding-top: 20px;
+#dashboard-container section {
+    display: none;
 }
 
-#adminTitle, #staticTitle {
-    text-align: center;
-}
-
-/* Admin dashboard container */
-#admin-dashboard {
-    max-width: 800px;
-    margin: 80px auto;
-    padding: 30px;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    transition: all 0.3s ease;
-}
-
-/* Container hover effect */
-#admin-dashboard:hover {
-    transform: scale(1.02);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* Header styling */
-#admin-dashboard h1, #admin-dashboard h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-    font-size: 24px;
+#dashboard-container section.active {
+    display: block;
 }
 
 /* Form styling */
-#add-shoe-form {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 30px;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    transition: all 0.3s ease;
-}
-
-/* Input fields styling */
-#add-shoe-form input[type="text"], 
-#add-shoe-form input[type="number"], 
-#add-shoe-form textarea {
-    width: calc(100% - 30px);
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 2px solid #e0e0e0;
+form {
+    background-color: #f9f9f9;
+    padding: 20px;
     border-radius: 8px;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-/* Input fields focus and hover effect */
-#add-shoe-form input[type="text"]:focus, 
-#add-shoe-form input[type="number"]:focus, 
-#add-shoe-form textarea:focus,
-#add-shoe-form input[type="text"]:hover, 
-#add-shoe-form input[type="number"]:hover, 
-#add-shoe-form textarea:hover {
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-    outline: none;
-    transform: translateY(-2px);
-}
-
-/* General button styling */
-button {
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-/* Add shoe form button */
-#add-shoe-form button {
-    width: 200px;
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    margin: 20px auto;
-    display: block;
-    text-align: center;
-}
-
-/* Add shoe form button hover effect */
-#add-shoe-form button:hover {
-    background-color: #0056b3;
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
-    transform: translateY(-2px);
-}
-
-/* Add shoe form button active effect */
-#add-shoe-form button:active {
-    transform: scale(0.98);
-    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-}
-
-/* Table styling */
-#shoe-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-/* Table header and cell styling */
-#shoe-table th, #shoe-table td {
-    padding: 15px;
-    border: 1px solid #eee;
-    text-align: left;
-    font-size: 1em;
-}
-
-/* Table header styling */
-#shoe-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    color: #555;
-}
-
-#search-container {
     margin-bottom: 20px;
 }
 
-#search-results {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ddd;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
+form h3 {
+    margin-top: 0;
 }
 
-#search-results div {
-    padding: 10px;
-    cursor: pointer;
-}
-
-#search-results div:hover {
-    background-color: #f0f0f0;
-}
-
-/* Action button styling within table */
-#shoe-table td button {
-    margin-right: 10px;
-    background-color: #4a90e2;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
-}
-
-/* Action button hover effect within table */
-#shoe-table td button:hover {
-    background-color: #3a7bc8;
-}
-
-/* Styling for sections within the dashboard */
-#store-stats, #add-shoe, #shoe-actions, #store-management, #add-user, #user-management {
-    margin-bottom: 40px;
-}
-
-/* Shoe-Related Styling */
-#add-shoe {
-    margin-top: 20px;
-}
-
-#add-shoe-form,
-#edit-shoe-form {
-    margin-top: 20px;
-}
-
-#edit-shoe-section {
-    display: none;
-}
-
-#shoe-actions {
-    margin-top: 20px;
-}
-
-td button {
-    margin-right: 10px;
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
-}
-
-td button:hover {
-    background-color: #0056b3;
-}
-
-#edit-shoe-form button[type="button"] {
-    background-color: #dc3545;
-    margin-left: 10px;
-}
-
-#edit-shoe-form button[type="button"]:hover {
-    background-color: #c82333;
-}
-
-/* Store Management Styles */
-#store-management {
-    margin-top: 2rem;
-}
-
-#store-management h2 {
-    color: #333;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-#add-store, #edit-store {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-
-#store-management form {
-    display: flex;
-    flex-direction: column;
-}
-
-#store-management label {
-    margin-top: 0.5rem;
-}
-
-#store-management input {
-    margin-bottom: 0.5rem;
-    padding: 0.3rem;
-}
-
-#store-management button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #4CAF50;
-    color: white;
-}
-
-#store-management button:hover {
-    background-color: #45a049;
-}
-
-#store-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-#store-table th, #store-table td {
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    text-align: left;
-}
-
-#store-table th {
-    background-color: #f2f2f2;
+form label {
+    display: block;
     font-weight: bold;
-}
-
-#store-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-#store-table button {
-    margin-right: 0.5rem;
-    padding: 0.3rem 0.5rem;
-    background-color: #008CBA;
-    color: white;
-}
-
-#store-table button:hover {
-    background-color: #007B9A;
-}
-
-#store-table button:last-child {
-    background-color: #f44336;
-}
-
-#store-table button:last-child:hover {
-    background-color: #d32f2f;
-}
-
-#store-search-container {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-#store-search-results {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-}
-
-#store-search-results div {
-    padding: 10px;
-    cursor: pointer;
-}
-
-#store-search-results div:hover {
-    background-color: #f0f0f0;
-    transform: translateX(10px);
-    transition: transform 0.3s ease;
-}
-
-/* User Management Styles */
-#user-management {
-    margin-top: 20px;
-}
-
-#user-management table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-#user-management th, 
-#user-management td {
-    padding: 10px;
-    border: 1px solid #dee2e6;
-    text-align: left;
-}
-
-#user-management th {
-    background-color: #343a40;
-    color: #ffffff;
-}
-
-#user-management td {
-    background-color: #ffffff;
-    color: #343a40;
-}
-
-#user-management tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-#user-management button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #00ff37;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-#user-management button:hover {
-    background-color: #0056b3;
-}
-
-/* Add User Form */
-#add-user {
-    margin-top: 20px;
-    max-width: 400px;
-}
-
-#add-user-form {
-    display: flex;
-    flex-direction: column;
-}
-
-#add-user-form label {
-    margin: 5px 0;
-    font-weight: bold;
-}
-
-#add-user-form input, 
-#add-user-form button {
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-}
-
-#add-user-form input[type="checkbox"] {
-    width: auto;
-    margin-left: 10px;
-}
-
-#add-user-form button {
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
     margin-top: 10px;
 }
 
-#add-user-form button:hover {
-    background-color: #218838;
+form input[type="text"],
+form input[type="number"],
+form input[type="email"],
+form input[type="password"],
+form select,
+form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
 }
 
-/* Add hover effect to items in search results to make them stand out and float right */
-#search-results div:hover, #store-search-results div:hover, #user-search-results div:hover {
-    background-color: #f0f0f0;
+form input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+form button[type="submit"],
+form button[type="button"] {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
-    transform: scale(1.05) translateX(10px);
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    margin-top: 10px;
 }
 
-select {
+form button[type="submit"]:hover,
+form button[type="button"]:hover {
+    background-color: #357abf;
+}
+
+form button[type="button"] {
+    background-color: #ccc;
+}
+
+form button[type="button"]:hover {
+    background-color: #aaa;
+}
+
+/* Search container styling */
+#search-container, #store-search-container, #user-search-container {
+    margin-bottom: 20px;
+}
+
+#search-input,
+#store-search-input,
+#user-search-input {
     width: 100%;
-    padding: 8px 12px;
-    margin: 8px 0;
+    padding: 10px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    background-color: #f8f8f8;
-    font-size: 16px;
-    color: #333;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
 }
 
-/* Adding custom dropdown arrow for select element */
-select {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4L2 0zm0 5L0 3h4l-2 2z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px top 50%;
-    background-size: 12px;
+#search-results, #store-search-results, #user-search-results {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
-/* Styling options in select */
-option {
-    padding: 10px;
-    background: #fff;
-    color: #333;
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table thead {
+    background-color: #4a90e2;
+    color: white;
+}
+
+table thead th {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f1f1f1;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+table tbody td {
+    padding: 12px 15px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+table tbody td a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+table tbody td a:hover {
+    color: #357abf;
+}
+
+/* Button styling in tables */
+table tbody td .action-button {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+table tbody td .action-button.edit {
+    background-color: #4a90e2;
+}
+
+table tbody td .action-button.delete {
+    background-color: #e74c3c;
+}
+
+table tbody td .action-button.view {
+    background-color: #27ae60;
+}
+
+table tbody td .action-button.edit:hover {
+    background-color: #357abf;
+}
+
+table tbody td .action-button.delete:hover {
+    background-color: #c0392b;
+}
+
+table tbody td .action-button.view:hover {
+    background-color: #229954;
+}
+
+/* Styling for action buttons in the dashboard */
+button.action-button {
+    background-color: #4a90e2; /* Base color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+}
+
+/* Hover and active state styling */
+button.action-button:hover {
+    background-color: #357abf;
+    transform: translateY(-2px); /* Subtle lift on hover */
+}
+
+button.action-button:active {
+    background-color: #2e6c9e;
+    transform: translateY(0); /* Reset lift on click */
+}
+
+/* Specific button color variations */
+button.action-button.edit {
+    background-color: #4a90e2;
+}
+
+button.action-button.delete {
+    background-color: #e74c3c;
+}
+
+button.action-button.view {
+    background-color: #2ecc71;
+}
+
+button.action-button.edit:hover {
+    background-color: #357abf;
+}
+
+button.action-button.delete:hover {
+    background-color: #c0392b;
+}
+
+button.action-button.view:hover {
+    background-color: #27ae60;
+}
+
+/* עיצוב כפתורים בסיסי */
+table button {
+    background-color: #007BFF; /* כחול בהיר */
+    color: white; /* טקסט לבן */
+    border: none;
+    padding: 10px 15px; /* ריווח פנימי */
+    border-radius: 5px; /* קצוות מעוגלים */
+    cursor: pointer;
+    font-size: 14px; /* גודל גופן */
+    margin-right: 5px; /* מרווח בין כפתורים */
+    transition: background-color 0.3s; /* מעבר חלק בצבע רקע */
+}
+
+/* צבע רקע שונה בעת ריחוף */
+table button:hover {
+    background-color: #0056b3; /* כחול כהה */
+}
+
+/* כפתור עריכה */
+table button.edit-btn {
+    background-color: #28a745; /* ירוק בהיר */
+}
+
+table button.edit-btn:hover {
+    background-color: #218838; /* ירוק כהה */
+}
+
+/* כפתור מחיקה */
+table button.delete-btn {
+    background-color: #dc3545; /* אדום בהיר */
+}
+
+table button.delete-btn:hover {
+    background-color: #c82333; /* אדום כהה */
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 5px;
+    position: relative;
+}
+
+/* Close button */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

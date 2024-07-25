@@ -48,9 +48,9 @@ function updateUserTable(users) {
                 <td>${user.email}</td>
                 <td>${user.isAdmin ? 'Yes' : 'No'}</td>
                 <td>
-                    <button onclick="editUser('${user._id}')">Edit</button>
-                    <button onclick="deleteUser('${user._id}')">Delete</button>
-                    <button onclick="viewUserPurchases('${user._id}')">View Purchases</button>
+                    <button class="edit-btn" onclick="editUser('${user._id}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteUser('${user._id}')">Delete</button>
+                    <button class="View-btn" onclick="viewUserPurchases('${user._id}')">View Purchases</button>
                 </td>
             </tr>
         `;
@@ -77,8 +77,11 @@ async function viewUserPurchases(userId) {
     }
 }
 
+
+
 function displayPurchases(purchases) {
-    const purchasesList = purchases.map(purchase => `
+    const purchasesList = document.getElementById('purchasesList');
+    purchasesList.innerHTML = purchases.map(purchase => `
         <li>
             Shoe: ${purchase.title}
             <br>Shoe ID: ${purchase.shoeId}
@@ -88,25 +91,13 @@ function displayPurchases(purchases) {
         </li>
     `).join('');
 
-    const purchasesHTML = `
-        <div id="purchasesOverlay" class="overlay">
-            <div class="overlay-content">
-                <h3>User Purchases</h3>
-                <ul>${purchasesList}</ul>
-                <button onclick="closePurchasesOverlay()">Close</button>
-            </div>
-        </div>
-    `;
-
-    document.body.insertAdjacentHTML('beforeend', purchasesHTML);
+    document.getElementById('purchaseModal').style.display = 'block';
 }
 
 function closePurchasesOverlay() {
-    const overlay = document.getElementById('purchasesOverlay');
-    if (overlay) {
-        overlay.remove();
-    }
+    document.getElementById('purchaseModal').style.display = 'none';
 }
+
 
 async function deleteUser(id) {
     if (confirm('Are you sure you want to delete this user?')) {
