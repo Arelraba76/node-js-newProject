@@ -16,12 +16,12 @@ $(document).ready(function() {
     setAuthHeader(); // Call this function at the beginning
     checkLoginStatus(); // Check the login status on page load
 
-    $('.sign-in-btn').click(function(event) {
+    $('#sign-in-btn').click(function(event) {
         event.preventDefault(); // Prevent default form submission
         loadSignInForm(); // Load the sign-in form
     });
 
-    $('.logoutLink').click(function(event) {
+    $('#logoutLink').click(function(event) {
         event.preventDefault(); // Prevent default link behavior
         logout(); // Call the logout function
     });
@@ -101,13 +101,12 @@ $(document).ready(function() {
     // Function to update UI after login based on admin status
     function updateUIAfterLogin(isAdmin) {
         console.log('Updating UI, isAdmin:', isAdmin); // Log admin status
-        $('.sign-in-btn').hide(); // Hide sign-in button
-        $('.logoutLink').show(); // Show logout link
+        $('#sign-in-btn').hide(); // Hide sign-in button
+        $('#logoutLink').show(); // Show logout link
         if (isAdmin === true || isAdmin === 'true') {
             console.log('User is admin, adding dashboard link');
             if ($('#dashboardLink').length === 0) {
                 $('nav ul').append('<li><a href="/dashboard" id="dashboardLink">Dashboard</a></li>');
-                $('aside ul').append('<li><a href="/dashboard" id="dashboardLink">Dashboard</a></li>');
             }
         } else {
             console.log('User is not admin');
@@ -133,8 +132,8 @@ $(document).ready(function() {
                 localStorage.removeItem('isLoggedIn'); // Remove login status
                 localStorage.removeItem('isAdmin'); // Remove admin status
                 localStorage.removeItem('token'); // Remove token
-                $('.sign-in-btn').show(); // Show sign-in button
-                $('.logoutLink').hide(); // Hide logout link
+                $('#sign-in-btn').show(); // Show sign-in button
+                $('#logoutLink').hide(); // Hide logout link
                 $('#dashboardLink').remove(); // Remove dashboard link
                 window.location.href = '/home'; // Redirect to home page
             },

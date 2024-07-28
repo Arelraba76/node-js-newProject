@@ -365,3 +365,93 @@ table button.delete-btn:hover {
     text-decoration: none;
     cursor: pointer;
 }
+
+
+
+
+#top-shoes-chart svg {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    height: auto;
+    margin-bottom: 70px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 12px;
+}
+
+.bar {
+    fill: steelblue;
+    transition: fill 0.3s;
+}
+
+.bar:hover {
+    fill: darkblue;
+}
+
+.x-axis path {
+    display: none;
+}
+
+.x-axis text {
+    transform: rotate(-45deg);
+    text-anchor: end;
+}
+
+.y-axis text {
+    font-size: 14px;
+}
+
+.chart-title {
+    text-anchor: middle;
+    font-size: 24px;
+    font-weight: bold;
+    fill: #333;
+    margin-top: 20px;
+}
+
+.chart-subtitle {
+    text-anchor: middle;
+    font-size: 14px;
+    fill: #666;
+}
+
+
+#gender-sales-chart svg {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    height: auto;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 12px;
+}
+
+.bar {
+    fill: steelblue;
+    transition: fill 0.3s;
+}
+
+.bar:hover {
+    fill: darkblue;
+}

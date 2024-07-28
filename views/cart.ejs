@@ -1,17 +1,16 @@
 <!-- views/cart.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-
+    <title>Your Cart</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/scripts/login.js"></script>
-
     <link rel="stylesheet" href="/css/cart.css">
-
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
     <header>
@@ -19,87 +18,132 @@
     </header>
 
     <div id="cart">
-        <h1>Shopping Cart</h1>
-        <ul id="cart-items"></ul>
-        <div id="cart-total"></div>
-        <button id="checkout-btn">Checkout</button>
+        <h1>Your Shopping Cart</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="cart-table-body">
+                <!-- Cart items will be inserted here -->
+            </tbody>
+        </table>
     </div>
-
+    <footer>
+        <%- include('partials/footer') %>
+    </footer>
+        
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCartItems();
-
-            document.getElementById('checkout-btn').addEventListener('click', checkout);
-        });
-
-async function loadCartItems() {
+    async function loadCartItems() {
     try {
+        console.log('Fetching cart items...');
         const token = localStorage.getItem('token');
         if (!token) {
-            console.error('No token found');
-            window.location.href = '/login';
+            console.error('No token found in localStorage');
             return;
         }
-
+        console.log('Token:', token); // הוסף לוג זה לבדיקה
         const response = await fetch('/api/users/cart', {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
         });
-
+        
         console.log('Response status:', response.status);
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Cart data:', data);
-            updateCartItems(data.cart);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Cart data:', data);
+        
+        if (data.cart && Array.isArray(data.cart)) {
+            displayCartItems(data.cart);
         } else {
-            const errorData = await response.json();
-            console.error('Failed to load cart:', errorData);
-            alert('Failed to load cart: ' + errorData.message);
+            console.error('Invalid cart data structure:', data);
         }
     } catch (error) {
-        console.error('Error loading cart items:', error);
-        alert('Error: ' + error.message);
+        console.error('Error loading cart:', error);
     }
 }
+function displayCartItems(cartItems) {
+    console.log('Displaying cart items:', cartItems);
+    const cartTableBody = document.getElementById('cart-table-body');
+    cartTableBody.innerHTML = ''; // Clear existing items
+    if (cartItems.length === 0) {
+        cartTableBody.innerHTML = '<tr><td colspan="5">Your cart is empty</td></tr>';
+        return;
+    }
+    cartItems.forEach(item => {
+        const row = document.createElement('tr');
+        
+        const productCell = document.createElement('td');
+        productCell.textContent = item.title;
+        
+        const priceCell = document.createElement('td');
+        priceCell.textContent = `$${item.price.toFixed(2)}`;
+        
+        const sizeCell = document.createElement('td');
+        sizeCell.textContent = item.size;
+        
+        const quantityCell = document.createElement('td');
+        quantityCell.textContent = item.quantity;
+        
+        const actionCell = document.createElement('td');
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = () => removeFromCart(item.shoeId, item.size);
+        actionCell.appendChild(removeButton);
+        
+        row.appendChild(productCell);
+        row.appendChild(priceCell);
+        row.appendChild(sizeCell);
+        row.appendChild(quantityCell);
+        row.appendChild(actionCell);
+        
+        cartTableBody.appendChild(row);
+    });
+}
+        async function removeFromCart(shoeId, size) {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error('No token found in localStorage');
+                    return;
+                }
+                const response = await fetch('/api/cart/remove', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ shoeId, size })
+                });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-        function updateCartItems(cartItems) {
-            const cartItemsContainer = document.getElementById('cart-items');
-            const cartTotalElement = document.getElementById('cart-total');
-            cartItemsContainer.innerHTML = '';
-
-            if (cartItems.length === 0) {
-                cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
-                cartTotalElement.innerHTML = '';
-                return;
+                const data = await response.json();
+                if (data.cart) {
+                    displayCartItems(data.cart);
+                } else {
+                    console.error('Error removing item from cart:', data);
+                }
+            } catch (error) {
+                console.error('Error removing item from cart:', error);
             }
-
-            let total = 0;
-
-            cartItems.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-
-                cartItemsContainer.innerHTML += `
-                    <li>
-                        <img src="${item.image}" alt="${item.title}" style="width:100px;height:100px;">
-                        <h2>${item.title}</h2>
-                        <p>Size: ${item.size}</p>
-                        <p>Quantity: ${item.quantity}</p>
-                        <p>Price: $${item.price.toFixed(2)}</p>
-                        <p>Total: $${itemTotal.toFixed(2)}</p>
-                    </li>
-                `;
-            });
-
-            cartTotalElement.innerHTML = `<h3>Total: $${total.toFixed(2)}</h3>`;
         }
 
-        async function checkout() {
-            // ... הקוד לצ'קאאוט נשאר כפי שהוא ...
-        }
+        window.onload = loadCartItems;
     </script>
+
 </body>
 </html>

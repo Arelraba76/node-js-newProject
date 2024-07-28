@@ -8,7 +8,6 @@ const connectDB = require("./config/db");
 const Shoe = require("./models/shoes"); // Import the Shoe model
 const purchaseRoutes = require("./routes/purchase");
 const footerRoutes = require("./routes/footer-pages");
-
 // Load environment variables from .env file
 dotenv.config();
 
@@ -107,6 +106,57 @@ server.get('/cart', (req, res) => { // Add authentication to the cart route
 
 server.get('/map-of-stores', (req, res) => {
     res.render('map-of-stores'); // Render the map-of-stores view
+});
+
+server.get('/api/shoes/top-sales', async (req, res) => {
+    try {
+        const topShoes = await Shoe.find().sort('-totalSales').limit(5);
+        res.json(topShoes);
+    } catch (error) {
+        console.error("Error fetching top sales:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+server.get('/api/shoes/gender-sales', async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        console.log(`Fetching gender sales data from ${startDate} to ${endDate}`);
+        
+        const genderSales = await Shoe.aggregate([
+            {
+                $match: {
+                    createdAt: {  // שימוש ב-createdAt במקום purchaseDate
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate)
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: "$category",  // קיבוץ לפי קטגוריה
+                    totalSales: { $sum: "$totalSales" }
+                }
+            },
+            {
+                $project: {
+                    gender: "$_id",
+                    totalSales: 1,
+                    _id: 0
+                }
+            }
+        ]);
+        
+        console.log("Gender sales data:", genderSales);
+        
+        if (genderSales.length === 0) {
+            console.log("No gender sales data found for the given date range");
+        }
+        
+        res.json(genderSales);
+    } catch (error) {
+        console.error("Error fetching gender sales:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 

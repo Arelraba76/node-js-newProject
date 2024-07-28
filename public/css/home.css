@@ -246,13 +246,26 @@
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
     text-align: left;
     line-height: 1.2;
-    font-family: 'Bangers', cursive; /* שימוש בפונט החדש */
+    font-family: 'Roboto', sans-serif; /* שימוש בפונט יותר אלגנטי */
 }
 
 /* רספונסיביות */
+
+/* סגנונות למסכים גדולים יותר מבינוניים */
+@media (min-width: 1400px) {
+    .hero-kids {
+        height: 900px; /* גובה מותאם למסכים גדולים */
+    }
+
+    .hero-kids .title-overlay {
+        font-size: 4.5em; /* גודל פונט גדול יותר למסכים גדולים */
+    }
+}
+
 @media (max-width: 1200px) {
     .hero-kids {
         height: 600px; /* גובה מותאם למסכים בינוניים */
+        width: 100%;
     }
 
     .hero-kids .title-overlay {

@@ -1,5 +1,6 @@
 let allUsers = [];
 
+
 document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
 });
@@ -166,9 +167,9 @@ async function editUser(id) {
             const user = await response.json();
             // שים לב שאנחנו משתמשים ב-id שהועבר לפונקציה, לא ב-user._id
             document.getElementById('edit-user-id').value = id;
-            document.getElementById('edit-firstName').value = user.firstName;
-            document.getElementById('edit-lastName').value = user.lastName;
-            document.getElementById('edit-email').value = user.email;
+            document.getElementById('edit-firstName').value = '';
+            document.getElementById('edit-lastName').value = '';
+            document.getElementById('edit-email').value = '';
             document.getElementById('edit-password').value = ''; // Clear password field
             document.getElementById('edit-isAdmin').checked = user.isAdmin;
 

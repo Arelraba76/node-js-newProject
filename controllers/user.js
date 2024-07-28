@@ -4,6 +4,7 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const User = require("../models/user.js");
 const Shoes = require("../models/shoes.js");
+const Cart = require('../models/cart');
 
 // Render login page
 async function getLogin(req, res) {
@@ -144,14 +145,11 @@ async function updateUserById(req, res) {
     }
 }
 
-// controllers/user.js
 async function purchaseShoe(req, res) {
     console.log('Purchase attempt:', req.body);
     const { shoeId, title, price, description, size, quantity = 1 } = req.body;
 
-    // בדיקה אם יש משתמש מחובר
     if (!req.user) {
-        // אם אין משתמש מחובר, פשוט מחזירים הודעת הצלחה מדומה
         console.log('Simulated purchase for non-logged in user');
         return res.status(200).json({ message: "Purchase simulation successful" });
     }
@@ -168,38 +166,65 @@ async function purchaseShoe(req, res) {
             return res.status(404).json({message: "User not found"});
         }
 
-        const shoe = await Shoes.findById(shoeId);
-        if (!shoe) {
+        const updatedShoe = await Shoes.findOneAndUpdate(
+            { _id: shoeId },
+            {
+                $inc: { 
+                    stock: -quantity,
+                    totalSales: quantity
+                },
+                $push: {
+                    purchaseHistory: {
+                        purchaseDate: new Date(),
+                        quantity: quantity,
+                        size: parseInt(size)
+                    }
+                }
+            },
+            { new: true }
+        );
+
+        if (!updatedShoe) {
             return res.status(404).json({message: "Shoe not found"});
         }
 
-        if (shoe.stock < quantity) {
+        if (updatedShoe.stock < 0) {
+            // אם המלאי הפך לשלילי, נבטל את העדכון
+            await Shoes.findOneAndUpdate(
+                { _id: shoeId },
+                {
+                    $inc: { 
+                        stock: quantity,
+                        totalSales: -quantity
+                    },
+                    $pop: { purchaseHistory: 1 }
+                }
+            );
             return res.status(400).json({message: "Not enough stock available"});
         }
 
-        // עדכון המלאי
-        shoe.stock -= quantity;
-        await shoe.save();
+        console.log('Updated Shoe:', JSON.stringify(updatedShoe));
 
-        // הוספת הרכישה למשתמש
+        // הוספת הרכישה למשתמש (נשאר ללא שינוי)
         user.shoesPurchases.push({
             shoeId: shoeId,
-            title: title,
-            price: parseFloat(price),
-            description: description,
+            title: updatedShoe.title,
+            price: updatedShoe.price,
+            description: updatedShoe.description,
             size: parseInt(size),
             quantity: quantity
         });
 
         await user.save();
 
-        console.log('Purchase successful:', { userId, shoeId, newStock: shoe.stock });
-        res.status(200).json({message: "Purchase successful", newStock: shoe.stock});
+        console.log('Purchase successful:', { userId, shoeId, newStock: updatedShoe.stock, newTotalSales: updatedShoe.totalSales });
+        res.status(200).json({message: "Purchase successful", newStock: updatedShoe.stock, newTotalSales: updatedShoe.totalSales});
     } catch (error) {
         console.error('Error making purchase:', error);
         res.status(500).json({message: "Failed to make purchase", error: error.message});
     }
 }
+
   async function getUserPurchases(req, res) {
     const { id } = req.params;
     try {
@@ -227,21 +252,23 @@ async function addToCart(req, res) {
     const userId = req.user._id;
 
     try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({message: "User not found"});
+        let cart = await Cart.findOne({ userId });
+        
+        if (!cart) {
+            // If cart doesn't exist, create a new one
+            cart = new Cart({ userId, items: [] });
         }
 
-        const existingItemIndex = user.cart.findIndex(item => 
+        const existingItemIndex = cart.items.findIndex(item => 
             item.shoeId.toString() === shoeId && item.size === parseInt(size)
         );
 
         if (existingItemIndex > -1) {
             // If item already exists in cart, update quantity
-            user.cart[existingItemIndex].quantity += parseInt(quantity);
+            cart.items[existingItemIndex].quantity += parseInt(quantity);
         } else {
             // If item doesn't exist, add new item to cart
-            user.cart.push({
+            cart.items.push({
                 shoeId,
                 title,
                 price: parseFloat(price),
@@ -251,8 +278,8 @@ async function addToCart(req, res) {
             });
         }
 
-        await user.save();
-        res.status(200).json({message: "Item added to cart", cart: user.cart});
+        await cart.save();
+        res.status(200).json({message: "Item added to cart", cart: cart.items});
     } catch (error) {
         res.status(500).json({message: "Failed to add item to cart", error: error.message});
     }
@@ -261,12 +288,18 @@ async function addToCart(req, res) {
 
 async function getCart(req, res) {
     try {
-        const userId = req.user._id; // Get the user ID from the authenticated user object
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
+        console.log('getCart function called');
+        console.log('User from token:', req.user);
+        const userId = req.user._id;
+        console.log('User ID:', userId);
+        const cart = await Cart.findOne({ userId });
+        console.log('Cart found:', cart);
+        if (!cart) {
+            console.log('No cart found for user');
+            return res.status(200).json({ cart: [] });
         }
-        res.json({ cart: user.cart });
+        console.log('Cart items:', cart.items);
+        res.json({ cart: cart.items });
     } catch (error) {
         console.error('Error fetching cart:', error);
         res.status(500).json({ message: "Failed to get cart items", error: error.message });

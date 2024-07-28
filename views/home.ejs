@@ -20,12 +20,18 @@
         <main id="content-wrap">
             <%- include('partials/hero') %>
             <div class="hero-images">
-                <a href="link1.html"><img src="video/n1.jpeg" alt="Image 1"></a>
+                <a href="link1.html"><img src="video/black-girl.png" alt="Image 1"></a>
                 <a href="/men"><img src="video/n2.jpg" alt="Image 2"></a>
                 <a href="/kids"><img src="video/n4.jpg" alt="Image 4"></a>
                 <a href="/women"><img src="video/n5.jpg" alt="Image 5"></a>
             </div>
             <%- include('partials/feature-product') %>
+            <div class="footer-video">
+                <video id="myVideo" autoplay muted loop>
+                    <source src="../video/footer video.mp4" type="video/mp4">
+                    Your browser does not support HTML5 video.
+                </video>
+            </div>
         </main>
         <%- include('partials/model') %>
         <footer id="mainFooter">

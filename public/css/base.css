@@ -21,43 +21,92 @@ body {
 header {
     background-color: var(--light-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 10;
 }
 
 /* Navigation bar styling */
 nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: var(--padding) calc(var(--padding) * 2);
+    position: relative;
 }
 
-.logo{
-        display: flex;
-        align-items: center;
+/* Menu toggle styling */
+.menu-toggle {
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--main-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 20px;
+    width: 25px;
+    transition: color var(--transition);
 }
+
+.menu-toggle div {
+    height: 3px;
+    background-color: var(--main-color);
+    border-radius: 1px;
+    transition: background-color var(--transition);
+}
+
+
+/* Sliding menu content styling */
+.menu-content {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100%;
+    background-color: var(--light-color);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right var(--transition);
+    padding: var(--padding);
+    box-sizing: border-box;
+    z-index: 5;
+}
+
+.menu-content.active {
+    right: 0;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--main-color);
+}
+
 /* Logo styling */
 nav .logo img {
     height: 30px;
-    margin-right: 20px;
+    margin-bottom: var(--padding);
 }
 
 /* Navigation menu styling */
 nav ul {
-    display: flex;
+    display: block;
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-/* Navigation items styling */
 nav ul li {
-    margin: 0 calc(var(--padding) / 2);
+    margin: var(--padding) 0;
 }
+
 /* Links and button styling */
 nav ul li a,
 .sign-in,
-.sign-in-btn,
-.logoutLink {
+#sign-in-btn,
+#logoutLink {
     color: var(--main-color);
     text-decoration: none;
     font-weight: bold;
@@ -67,8 +116,8 @@ nav ul li a,
 /* Links and buttons hover effect */
 nav ul li a:hover,
 .sign-in:hover,
-.sign-in-btn:hover,
-.logoutLink:hover {
+#sign-in-btn:hover,
+#logoutLink:hover {
     color: var(--gray-color);
     background-color: var(--bg-color);
     padding: calc(var(--padding) / 4) calc(var(--padding) / 2);
@@ -76,34 +125,37 @@ nav ul li a:hover,
 }
 
 /* Search and cart container styling */
-.signin-cart {
+.search-cart {
+    margin-top: var(--padding);
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 /* Search input styling */
-#search-input {
+.search-cart input {
+    width: 100%;
     padding: calc(var(--padding) / 2);
     border: 1px solid #e5e5e5;
     border-radius: 20px;
-    margin-right: calc(var(--padding) / 2);
+    margin-bottom: calc(var(--padding) / 2);
 }
 
 /* Cart icon and sign-in button styling */
 .cart-icon,
 .sign-in,
-.sign-in-btn,
-.logoutLink {
+#sign-in-btn,
+#logoutLink {
     font-size: 1.2em;
-    margin-right: calc(var(--padding) / 2);
+    margin-bottom: calc(var(--padding) / 2);
     transition: color var(--transition), transform var(--transition);
 }
 
 /* Cart icon hover effect */
 .cart-icon:hover,
 .sign-in:hover ~ .cart-icon,
-.sign-in-btn:hover ~ .cart-icon,
-.logoutLink:hover ~ .cart-icon {
+#sign-in-btn:hover ~ .cart-icon,
+#logoutLink:hover ~ .cart-icon {
     transform: translateX(5px);
 }
 
@@ -184,7 +236,8 @@ footer .copyright {
 }
 
 /* Login and Register container styling */
-#loginContainer, #registerContainer {
+#loginContainer,
+#registerContainer {
     max-width: 400px;
     margin: 80px auto;
     padding: 30px;
@@ -196,13 +249,15 @@ footer .copyright {
 }
 
 /* Login and Register container hover effect */
-#loginContainer:hover, #registerContainer:hover {
+#loginContainer:hover,
+#registerContainer:hover {
     transform: scale(1.02);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 /* Login and Register heading styling */
-#loginContainer h2, #registerContainer h2 {
+#loginContainer h2,
+#registerContainer h2 {
     text-align: center;
     margin-bottom: 25px;
     color: #333;
@@ -210,12 +265,14 @@ footer .copyright {
 }
 
 /* Login and Register form styling */
-#loginForm, #registerForm {
+#loginForm,
+#registerForm {
     padding: 0 15px;
 }
 
 /* Input fields styling */
-#loginForm input, #registerForm input {
+#loginForm input,
+#registerForm input {
     width: calc(100% - 30px);
     padding: 15px;
     margin-bottom: 20px;
@@ -226,7 +283,10 @@ footer .copyright {
 }
 
 /* Input fields focus and hover effect */
-#loginForm input:focus, #loginForm input:hover, #registerForm input:focus, #registerForm input:hover {
+#loginForm input:focus,
+#loginForm input:hover,
+#registerForm input:focus,
+#registerForm input:hover {
     border-color: #4a90e2;
     box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
     outline: none;
@@ -234,7 +294,8 @@ footer .copyright {
 }
 
 /* Button styling */
-#loginForm button, #registerForm button {
+#loginForm button,
+#registerForm button {
     width: calc(100% - 30px);
     padding: 15px;
     background-color: #4a90e2;
@@ -248,20 +309,23 @@ footer .copyright {
 }
 
 /* Button hover effect */
-#loginForm button:hover, #registerForm button:hover {
+#loginForm button:hover,
+#registerForm button:hover {
     background-color: #3a7bc8;
     box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
     transform: translateY(-2px);
 }
 
 /* Button active effect */
-#loginForm button:active, #registerForm button:active {
+#loginForm button:active,
+#registerForm button:active {
     transform: scale(0.98);
     box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
 }
 
 /* Paragraph styling */
-#loginContainer p, #registerContainer p {
+#loginContainer p,
+#registerContainer p {
     margin-top: 20px;
     text-align: center;
     color: #666;
@@ -270,12 +334,14 @@ footer .copyright {
 }
 
 /* Paragraph hover effect */
-#loginContainer p:hover, #registerContainer p:hover {
+#loginContainer p:hover,
+#registerContainer p:hover {
     transform: translateY(-2px);
 }
 
 /* Link styling */
-#loginContainer a, #registerContainer a {
+#loginContainer a,
+#registerContainer a {
     color: #4a90e2;
     text-decoration: none;
     font-weight: 600;
@@ -284,12 +350,14 @@ footer .copyright {
 }
 
 /* Link hover effect */
-#loginContainer a:hover, #registerContainer a:hover {
+#loginContainer a:hover,
+#registerContainer a:hover {
     color: #3a7bc8;
 }
 
 /* Link underline effect */
-#loginContainer a::after, #registerContainer a::after {
+#loginContainer a::after,
+#registerContainer a::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -303,124 +371,46 @@ footer .copyright {
 }
 
 /* Link underline hover effect */
-#loginContainer a:hover::after, #registerContainer a:hover::after {
+#loginContainer a:hover::after,
+#registerContainer a:hover::after {
     visibility: visible;
     transform: scaleX(1);
-
-}
-/* Base styles for the header and menu */
-#mainHeader nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1em;
 }
 
-.signin-cart a {
-    margin-left: 1em;
-    text-decoration: none;
-    color: #000;
+.footer-video {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 20%; /* Adjusted aspect ratio */
 }
 
-.menu-toggle {
-    display: none;
-    cursor: pointer;
-}
-
-/* Styles for aside menu */
-#side-menu {
-    display: none;
-    position: fixed;
+.footer-video video {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #fff;
-    z-index: 1000;
-    padding: 2em;
-    overflow-y: auto;
+    object-fit: cover;
 }
 
-#side-menu.open {
-    display: block;
+/* Close button */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
-
-#side-menu button {
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    margin-bottom: 1em;
-}
-
-#side-menu ul {
-    list-style: none;
-    padding: 0;
-}
-
-#side-menu ul li {
-    margin: 1em 0;
-}
-
-#side-menu ul li a {
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
     text-decoration: none;
-    color: #000;
-    display: block;
-    padding: 0.5em 0;
-}
-
-#side-menu ul li a:hover {
-    background: #f0f0f0;
-}
-
-/* Styles for aside search container */
-#aside-search-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    z-index: 1001;
-    padding: 2em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-#aside-search-container #aside-search-input {
-    width: 80%;
-    padding: 0.5em;
-    box-sizing: border-box;
-}
-
-#aside-search-container button {
-    background: none;
-    border: none;
-    font-size: 1.5em;
     cursor: pointer;
-    margin-bottom: 1em;
 }
-#side-menu li a{
-    font-weight: normal;
-    font-size: 1em;
+
+/* Menu toggle hover effect */
+.menu-toggle:hover {
+    color: var(--gray-color);
 }
-/* Responsive styles */
-@media (max-width: 768px) {
-    #search-input {
-        display: none;
-    }
-    .menu {
-        display: none;
-    }
-
-    .signin-cart {
-        display: none;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
+.menu-toggle:hover div {
+    background-color: var(--gray-color);
 }

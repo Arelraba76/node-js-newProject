@@ -22,6 +22,12 @@ router.post('/purchase', requireAuth, usercontroller.purchaseShoe);
 router.post("/cart/add", requireAuth, usercontroller.addToCart);
 router.get("/cart", requireAuth, usercontroller.getCart);
 router.post("/checkout", requireAuth, usercontroller.checkout);
+// routes/cart.js
+router.post('/remove', requireAuth, async (req, res) => {
+    const { shoeId, size } = req.body;
+    // Logic to remove item from cart
+});
+
 
 
 

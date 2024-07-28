@@ -19,4 +19,6 @@ router.put('/:id', updateShoe);
 router.delete('/:id', deleteShoeById);
 router.get('/', getAllshoes);
 router.post('/', createNewShoe);
+// routes/shoes.js
+
 module.exports = router;
