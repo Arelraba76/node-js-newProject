@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Store</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script src="/scripts/product.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/shoes-page.css">
+    <link rel="stylesheet" href="/css/footer-pages.css">
+</head>
+<body>
+    <div id="page-container">
+        <header>
+            <%- include('../partials/header') %>
+        </header>
+
+        
+        <main>
+            <div id="diva">
+                <div class="page-header">
+                <h1>Our Commitment to Sustainability</h1>
+            </div>
+            <section>
+                <h2>Environmental Impact</h2>
+                <p>At ShooShoes, we are dedicated to reducing our environmental footprint through sustainable practices. Our efforts include using eco-friendly materials, minimizing waste, and implementing energy-efficient processes.</p>
+            </section>
+            <section>
+                <h2>Social Responsibility</h2>
+                <p>We believe in giving back to the community. Our social initiatives focus on supporting local communities, ensuring fair labor practices, and promoting diversity and inclusion within our workforce.</p>
+            </section>
+            <section>
+                <h2>Ethical Sourcing</h2>
+                <p>We are committed to ethical sourcing and ensuring that our suppliers adhere to high standards of social and environmental responsibility. We work closely with our suppliers to ensure transparency and accountability throughout our supply chain.</p>
+            </section>
+            <section>
+                <h2>Future Goals</h2>
+                <p>We continuously strive to improve our sustainability practices. Our future goals include achieving carbon neutrality, increasing the use of recycled materials in our products, and reducing our overall environmental impact.</p>
+            </section>
+            <div class="page-footer">
+                <p>Learn more about our sustainability efforts or <a href="/contact">contact us</a> for additional information.</p>
+                </div>
+            </div>
+        </main>
+       
+        <%- include('../partials/model') %>
+        <footer id="mainFooter">
+            <%- include('../partials/footer') %>
+        </footer>
+    </div>
+</body>
+</html>

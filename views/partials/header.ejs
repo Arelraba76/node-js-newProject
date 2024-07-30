@@ -1,20 +1,278 @@
+<!-- Header -->
 <header id="mainHeader">
     <nav>
-        <div class="logo">
-            <img src="../video/swoosh-logo-black.png" alt="Logo">
-        </div>  
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/men">Men</a></li>
-            <li><a href="/women">Women</a></li>
-            <li><a href="/kids">Kids</a></li>
-            <li><a href="/sale">Sale</a></li>
-        </ul>
-        <div class="search-cart">
-            <input type="text" placeholder="Search...">
-            <a href="#" id="sign-in-btn">Sign In</a>
-            <a href="#" id="logoutLink" style="display: none;">Logout</a>
-            <a href="/cart" class="cart-icon">🛒</a>
+        <div class="menu-toggle">
+            <span class="menu-icon">⋮</span>
+        </div>
+        <div class="menu-content" id="menuContent">
+            <div class="close-btn">×</div> <!-- Added close button -->
+            <div class="logo">
+                <img src="../video/swoosh-logo-black.png" alt="Logo">
+            </div>  
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/men">Men</a></li>
+                <li><a href="/women">Women</a></li>
+                <li><a href="/kids">Kids</a></li>
+            </ul>
+            <div class="search-cart">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search shoes...">
+                    <div id="search-suggestions" class="search-suggestions"></div>
+                </div>
+                <a href="#" id="sign-in-btn">Sign In</a>
+                <a href="#" id="logoutLink" style="display: none;">Logout</a>
+                <a href="/cart" class="cart-icon">🛒</a>
+            </div>
+            <form action="/filter" method="GET">
+                <select id="category-filter" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Men">Men</option>
+                    <option value="Women">Women</option>
+                    <option value="Kids">Kids</option>
+                </select>
+                <input id="price-filter" type="number" name="minPrice" placeholder="Minimum Price">
+                <input id="price-filter"type="number" name="maxPrice" placeholder="Maximum Price">
+                <button id="search-btn" type="submit">Search</button>
+            </form>
         </div>
     </nav>
 </header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    initializeHeader();
+    initializeShoeDetails();
+});
+
+function initializeHeader() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const menuContent = document.querySelector('.menu-content');
+    const closeButton = document.querySelector('.close-btn');
+    const searchInput = document.getElementById('search-input');
+    const searchSuggestions = document.getElementById('search-suggestions'); 
+
+
+    menuToggle.addEventListener('click', () => {
+        menuContent.classList.toggle('active');
+    });
+
+    closeButton.addEventListener('click', () => {
+        menuContent.classList.remove('active');
+    });
+
+    searchInput.addEventListener('input', debounce(handleSearch, 300));
+
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+            searchSuggestions.innerHTML = '';
+        }
+    });
+    
+}
+
+async function handleSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchSuggestions = document.getElementById('search-suggestions');
+    const query = searchInput.value.trim();
+    if (query.length < 2) {
+        searchSuggestions.innerHTML = '';
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/shoes/search?q=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        displaySuggestions(data);
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+    }
+}
+
+function displaySuggestions(shoes) {
+    const searchSuggestions = document.getElementById('search-suggestions');
+    searchSuggestions.innerHTML = '';
+    shoes.forEach(shoe => {
+        const div = document.createElement('div');
+        div.textContent = shoe.title;
+        div.addEventListener('click', () => {
+            loadShoeDetails(shoe._id);
+        });
+        searchSuggestions.appendChild(div);
+    });
+}
+
+function loadShoeDetails(shoeId) {
+    $.ajax({
+        url: `/shoes/${shoeId}/ajax`,
+        method: 'GET',
+        success: function(response) {
+            $('main').html(response);
+            document.getElementById('search-suggestions').innerHTML = '';
+            document.getElementById('search-input').value = '';
+            initializeShoeDetails();
+        },
+        error: function(err) {
+            console.error('Error loading the product details:', err);
+        }
+    });
+}
+
+function initializeShoeDetails() {
+    const shoeDetails = document.getElementById('shoeDetails');
+    if (!shoeDetails) return;
+
+    const buyNowButton = document.querySelector('.buy-now');
+    const addToCartButton = document.querySelector('.add-to-cart');
+    const quantityDecrease = document.querySelector('.quantity-button.decrease');
+    const quantityIncrease = document.querySelector('.quantity-button.increase');
+
+    if (buyNowButton) buyNowButton.addEventListener('click', handleBuyNow);
+    if (addToCartButton) addToCartButton.addEventListener('click', handleAddToCart);
+    if (quantityDecrease) quantityDecrease.addEventListener('click', handleQuantityDecrease);
+    if (quantityIncrease) quantityIncrease.addEventListener('click', handleQuantityIncrease);
+}
+
+function handleBuyNow() {
+    const shoeData = getShoeData();
+    if (!shoeData.size) {
+        showErrorModal('Please select a size');
+        return;
+    }
+    if (shoeData.quantity < 1) {
+        showErrorModal('Please select a valid quantity');
+        return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+        showErrorModal('Please log in to make a purchase');
+        return;
+    }
+
+    fetch('/api/purchase', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(shoeData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === "Purchase successful") {
+            showSuccessModal('Purchase successful!');
+        } else {
+            throw new Error(data.message || 'Error making purchase. Please try again.');
+        }
+    })
+    .catch(error => {
+        showErrorModal('Error: ' + error.message);
+    });
+}
+
+function handleAddToCart() {
+    const shoeData = getShoeData();
+    if (!shoeData.size) {
+        showErrorModal('Please select a size');
+        return;
+    }
+    if (shoeData.quantity < 1) {
+        showErrorModal('Please select a valid quantity');
+        return;
+    }
+    const token = localStorage.getItem('token');
+    if (!token) {
+        showErrorModal('Please log in to add items to the cart');
+        return;
+    }
+
+    fetch('/api/users/cart/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(shoeData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === "Item added to cart") {
+            showSuccessModal('Item added to cart');
+            updateAvailableQuantity(data.availableQuantity);
+        } else {
+            showErrorModal('Failed to add item to cart');
+        }
+    })
+    .catch(error => {
+        showErrorModal('Error: ' + error.message);
+    });
+}
+
+function updateAvailableQuantity(newQuantity) {
+    const quantityElement = document.querySelector('.available-quantity');
+    if (quantityElement) {
+        quantityElement.textContent = `Available: ${newQuantity}`;
+    }
+}
+function handleQuantityDecrease() {
+    const quantityInput = document.querySelector('#quantity');
+    let quantity = parseInt(quantityInput.value);
+    if (quantity > 1) {
+        quantityInput.value = quantity - 1;
+    }
+}
+
+function handleQuantityIncrease() {
+    const quantityInput = document.querySelector('#quantity');
+    let quantity = parseInt(quantityInput.value);
+    if (quantity < 10) {
+        quantityInput.value = quantity + 1;
+    }
+}
+
+function getShoeData() {
+    const shoeDetails = document.getElementById('shoeDetails');
+    return {
+        shoeId: shoeDetails.dataset.shoeId,
+        title: document.querySelector('h1').innerText,
+        price: parseFloat(document.querySelector('.price').innerText.replace('$', '')),
+        description: document.querySelector('.description').innerText,
+        size: document.querySelector('#shoe-size').value,
+        quantity: parseInt(document.querySelector('#quantity').value)
+    };
+}
+
+function showSuccessModal(message) {
+    const modal = document.getElementById('successModal');
+    document.getElementById('successMessage').innerText = message;
+    modal.style.display = 'block';
+}
+
+function showErrorModal(message) {
+    const modal = document.getElementById('errorModal');
+    document.getElementById('errorMessage').innerText = message;
+    modal.style.display = 'block';
+}
+
+function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Initialize modal close buttons
+document.querySelectorAll('.close-button').forEach(button => {
+    button.addEventListener('click', function() {
+        this.closest('.modal').style.display = 'none';
+    });
+});
+
+// Close modals when clicking outside
+window.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+});
+</script>

@@ -28,6 +28,7 @@ exports.getAllCities = async (req, res) => {
         console.log('Current time:', currentTime);  // לוג חדש
 
         const cityData = cities.map(city => {
+
             if (!city || !city.openingHours || !city.closingHours) {
                 console.error('Invalid city data:', city);
                 return null;
@@ -36,11 +37,14 @@ exports.getAllCities = async (req, res) => {
             const [openingHour, openingPeriod] = (city.openingHours || '').split(' ');
             const [closingHour, closingPeriod] = (city.closingHours || '').split(' ');
 
+            // Ensure all parts are present
+
             if (!openingHour || !openingPeriod || !closingHour || !closingPeriod) {
                 console.error('Invalid opening/closing hours for city:', city.name);
                 return {
                     ...city._doc,
                     isOpen: false
+
                 };
             }
 
@@ -58,9 +62,11 @@ exports.getAllCities = async (req, res) => {
                 ...city._doc,
                 isOpen
             };
+
         }).filter(city => city !== null);
 
         console.log('Processed city data:', cityData);  // לוג חדש
+
 
         res.status(200).json(cityData);
     } catch (error) {
@@ -68,6 +74,7 @@ exports.getAllCities = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch cities', details: error.message });
     }
 };
+
 
 // Updating city details
 exports.updateCity = async (req, res) => {

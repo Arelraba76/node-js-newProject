@@ -1,0 +1,185 @@
+/* General Styles */
+#diva {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+.page-header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.page-header h1 {
+    display: center;
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+#diva nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+#diva nav ul li {
+    display: inline;
+    margin: 0 0.5rem;
+}
+
+#diva nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#diva main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+    background: #fff;
+}
+
+#diva section h2 {
+    color: #333;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+.page-footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    position: relative;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+/* Form Styles */
+#diva form {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+}
+
+#diva form label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+#diva form input,
+form textarea,
+form button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#diva form button {
+    background: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#diva form button:hover {
+    background: #555;
+}
+
+/* Lists */
+#diva ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#diva ul li {
+    padding: 0.5rem 0;
+}
+
+#diva ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+#diva ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Specific Sections */
+#order-status-result {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #e9e9e9;
+    border: 1px solid #ccc;
+}
+
+/* Center text in page header */
+.page-header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+/* Center text in sections */
+#diva section {
+    text-align: center;
+}
+
+/* Center text in form labels and inputs */
+#diva form label,
+#diva form input,
+#diva form textarea,
+#diva form button {
+    text-align: center;
+}
+
+/* Center text in lists */
+#diva ul {
+    text-align: center;
+}
+
+#diva ul li {
+    display: inline-block;
+    margin: 0 0.5rem;
+}
+
+#diva ul li a {
+    text-align: center;
+}
+
+#stockInfo {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e9e9e9;
+    border-radius: 5px;
+}
+#refreshButton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+#refreshButton:hover {
+    background-color: #45a049;
+}
+.error {
+    color: red;
+    font-weight: bold;
+}

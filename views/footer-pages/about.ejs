@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Store</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script src="/scripts/product.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/shoes-page.css">
+    <link rel="stylesheet" href="/css/footer-pages.css">
+</head>
+<body>
+    
+        <main>
+            <div id="page-container">
+                <header>
+                    <%- include('../partials/header') %>
+                </header>
+        
+                <div id="diva">
+        
+                    <div class="page-header">
+                    <h1>About ShooShoes</h1>
+                        </div>
+            <section>
+                <h2>Our Story</h2>
+                <p>ShooShoes was founded in 2005 with the mission to provide stylish, comfortable, and affordable footwear for everyone. We are dedicated to innovation, sustainability, and quality, ensuring that every pair of shoes we create meets the highest standards.</p>
+            </section>
+            <section>
+                <h2>Our Team</h2>
+                <p>Meet the team behind ShooShoes. We are a group of passionate individuals committed to bringing the best products to our customers.</p>
+                <ul>
+                    <li><strong>CEO:</strong> Jane Doe</li>
+                    <li><strong>COO:</strong> John Smith</li>
+                    <li><strong>Head of Design:</strong> Alex Johnson</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Our Values</h2>
+                <p>At ShooShoes, we believe in:
+                    <ul>
+                        <li>Innovation: Continuously improving our designs and processes.</li>
+                        <li>Sustainability: Minimizing our environmental impact.</li>
+                        <li>Customer Satisfaction: Providing exceptional service and products.</li>
+                    </ul>
+                </p>
+            </section>
+        </main>
+        <div class="page-footer">
+            <p>Want to know more? <a href="/contact">Contact us</a>.</p>
+            </div>
+        </div>
+        <%- include('../partials/model') %>
+        
+        <footer id="mainFooter">
+            <%- include('../partials/footer') %>
+        </footer>
+    </div>
+</body>
+</html>

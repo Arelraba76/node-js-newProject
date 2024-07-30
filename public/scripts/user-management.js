@@ -1,5 +1,6 @@
 let allUsers = [];
 
+
 document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
 });
@@ -48,13 +49,56 @@ function updateUserTable(users) {
                 <td>${user.email}</td>
                 <td>${user.isAdmin ? 'Yes' : 'No'}</td>
                 <td>
-                    <button onclick="editUser('${user._id}')">Edit</button>
-                    <button onclick="deleteUser('${user._id}')">Delete</button>
+                    <button class="edit-btn" onclick="editUser('${user._id}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteUser('${user._id}')">Delete</button>
+                    <button class="View-btn" onclick="viewUserPurchases('${user._id}')">View Purchases</button>
                 </td>
             </tr>
         `;
     });
 }
+
+async function viewUserPurchases(userId) {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`/api/users/${userId}/purchases`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const result = await response.json();
+        if (response.ok) {
+            displayPurchases(result.purchases);
+        } else {
+            alert('Failed to load purchases: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error loading purchases:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+
+
+function displayPurchases(purchases) {
+    const purchasesList = document.getElementById('purchasesList');
+    purchasesList.innerHTML = purchases.map(purchase => `
+        <li>
+            Shoe: ${purchase.title}
+            <br>Shoe ID: ${purchase.shoeId}
+            <br>Size: ${purchase.size}
+            <br>Price: $${purchase.price}
+            <br>Date: ${new Date(purchase.purchaseDate).toLocaleDateString()}
+        </li>
+    `).join('');
+
+    document.getElementById('purchaseModal').style.display = 'block';
+}
+
+function closePurchasesOverlay() {
+    document.getElementById('purchaseModal').style.display = 'none';
+}
+
 
 async function deleteUser(id) {
     if (confirm('Are you sure you want to delete this user?')) {
@@ -123,9 +167,9 @@ async function editUser(id) {
             const user = await response.json();
             // שים לב שאנחנו משתמשים ב-id שהועבר לפונקציה, לא ב-user._id
             document.getElementById('edit-user-id').value = id;
-            document.getElementById('edit-firstName').value = user.firstName;
-            document.getElementById('edit-lastName').value = user.lastName;
-            document.getElementById('edit-email').value = user.email;
+            document.getElementById('edit-firstName').value = '';
+            document.getElementById('edit-lastName').value = '';
+            document.getElementById('edit-email').value = '';
             document.getElementById('edit-password').value = ''; // Clear password field
             document.getElementById('edit-isAdmin').checked = user.isAdmin;
 
@@ -161,22 +205,8 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
     try {
         const token = localStorage.getItem('token');
         
-        // First, delete the existing user
-        const deleteResponse = await fetch(`/api/users/${id}`, { 
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!deleteResponse.ok) {
-            const deleteResult = await deleteResponse.json();
-            throw new Error('Failed to update user: ' + deleteResult.message);
-        }
-
-        // Then, create a new user with the updated data
-        const createResponse = await fetch('/api/users/register', {
-            method: 'POST',
+        const updateResponse = await fetch(`/api/users/${id}`, { 
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -184,31 +214,17 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
             body: JSON.stringify(userData),
         });
         
-        const createResult = await createResponse.json();
-        if (createResponse.ok) {
+        const updateResult = await updateResponse.json();
+        if (updateResponse.ok) {
             alert('User updated successfully');
             cancelEditUser();
             loadUsers();
         } else {
-            throw new Error(createResult.message);
+            throw new Error(updateResult.message);
         }
     } catch (error) {
         console.error('Error updating user:', error);
         alert('Error: ' + error.message);
-        
-        // If an error occurred, try to recreate the original user
-        try {
-            await fetch('/api/users/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({...userData, _id: id}),
-            });
-        } catch (recreateError) {
-            console.error('Failed to recreate original user:', recreateError);
-        }
     }
 });
 

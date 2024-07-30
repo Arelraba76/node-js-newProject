@@ -1,7 +1,7 @@
 // Function to set authorization header using token from localStorage
 function setAuthHeader() {
     const token = localStorage.getItem('token');
-    console.log('Setting auth header with token:', token);  // Debugging: log token
+    // console.log('Setting auth header with token:', token);  // Debugging: log token
     if (token) {
         $.ajaxSetup({
             beforeSend: function(xhr) {
@@ -158,17 +158,27 @@ $(document).on('click', '#dashboardLink', function(event) {
 
 // Function to load dashboard via AJAX
 function loadDashboard() {
-    console.log('Loading dashboard'); // Log dashboard loading
+    console.log('טוען את הדשבורד');
+    
+    // טוען את ה-CSS של הדשבורד אם הוא עדיין לא נטען
+    if (!$('link[href="/css/dashboard.css"]').length) {
+        $('<link>')
+            .appendTo('head')
+            .attr({type : 'text/css', rel : 'stylesheet'})
+            .attr('href', '/css/dashboard.css');
+    }
+    
     $.ajax({
-        url: 'login/dashboard', // URL for dashboard
+        url: 'login/dashboard',
         method: 'GET',
         success: function(data) {
-            console.log('Dashboard loaded successfully'); // Log success
-            $('main').html(data); // Load the dashboard data into the main element
+            console.log('הדשבורד נטען בהצלחה');
+            // עוטף את התוכן ב-div עם ה-ID המתאים
+            $('main').html('<div id="dashboard-container">' + data + '</div>');
         },
         error: function(xhr, status, error) {
-            console.error('Dashboard error:', xhr.responseText); // Log error if dashboard load fails
-            alert('Error loading dashboard: ' + xhr.responseText); // Show alert on error
+            console.error('שגיאה בטעינת הדשבורד:', xhr.responseText);
+            alert('שגיאה בטעינת הדשבורד: ' + xhr.responseText);
         }
     });
 }

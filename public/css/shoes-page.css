@@ -86,3 +86,124 @@
     width: 100%;
     max-width: 200px;
 }
+
+/* Quantity selector styling */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quantity-input {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-input input {
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.quantity-button {
+    width: 40px;
+    height: 40px;
+    background-color: #0e0e0e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.quantity-button:hover {
+    background-color: #2d6caa;
+}
+
+/* Buy now button styling */
+.buy-now {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000; /* Black border for the button */
+    padding: 15px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 10px; /* Margin from top */
+}
+
+/* Buy now button hover effect */
+.buy-now:hover {
+    background-color: #000; /* Change background color to black */
+    color: #fff; /* Change text color to white */
+}
+
+/* Modal styles */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 500px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); }
+    to { transform: translateY(0); }
+}
+
+/* Success Message Styling */
+#successMessage {
+    color: #4CAF50;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Error Message Styling */
+#errorMessage {
+    color: #F44336;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+

@@ -29,8 +29,8 @@ function updateStoreTable(stores) {
                 <td>${store.openingHours}</td>
                 <td>${store.closingHours}</td>
                 <td>
-                    <button onclick="editStore('${store._id}')">Edit</button>
-                    <button onclick="deleteStore('${store._id}')">Delete</button>
+                    <button class="edit-btn" onclick="editStore('${store._id}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteStore('${store._id}')">Delete</button>
                 </td>
             </tr>
         `;
@@ -170,5 +170,6 @@ document.addEventListener('click', function(event) {
     }
 });
 
-loadStores();
+
 document.addEventListener('DOMContentLoaded', loadStores);
+loadStores();

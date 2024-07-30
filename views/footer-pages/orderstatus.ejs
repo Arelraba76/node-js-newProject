@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Store</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script src="/scripts/product.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/shoes-page.css">
+    <link rel="stylesheet" href="/css/footer-pages.css">
+
+    <!-- Inline script for order status functionality -->
+    <script>
+        $(document).ready(function() {
+            $('#order-status-form').submit(function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Get values from the form
+                var orderNumber = $('#order-number').val();
+                var email = $('#email').val();
+
+                // Simulate order status with random choice
+                var statuses = ['Shipping', 'Processing', 'Canceled'];
+                var randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+
+                // Display the result
+                $('#order-status-result').html(`<strong>Order number : ${orderNumber}</br>Status : ${randomStatus}</strong>`);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="page-container">
+        
+        <header>
+            <%- include('../partials/header') %>
+        </header>
+
+        
+                <main>
+                    <div id="diva">
+           
+                        <div class="page-header">
+                            <h1>Check Your Order Status</h1>
+                        </div>
+                    <form id="order-status-form">
+                        <label for="order-number">Order Number:</label>
+                        <input type="text" id="order-number" name="order-number" required>
+                        
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required>
+                        
+                        <button type="submit">Check Status</button>
+                    </form>
+                    <div id="order-status-result"></div>
+                    <div class="page-footer">
+                        <p>For more assistance, please <a href="/contact">contact us</a>.</p>
+                    </div>
+                </main>
+                <%- include('../partials/model') %>
+                
+        </div>
+        <footer id="mainFooter">
+            <%- include('../partials/footer') %>
+        </footer>
+    </div>
+</body>
+</html>

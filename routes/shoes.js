@@ -7,16 +7,22 @@ const {
     filterShoesByCategory,
     getShoeById,
     updateShoe,
-    getShoeByIdAjax
-    
+    getShoeByIdAjax,
+    filterShoes,
+
+    searchShoes
+
 } = require('../controllers/shoes');
 
-router.get('/', getAllshoes);
-router.post('/', createNewShoe);
-router.delete('/:id', deleteShoeById);
-router.get('/filter', filterShoesByCategory);
+// Routes מסודרים מהספציפי ביותר לכללי ביותר
+router.get('/search', searchShoes);
+//router.get('/filter', filterShoes);
+router.get('/:id/ajax', getShoeByIdAjax);
 router.get('/:id', getShoeById);
 router.put('/:id', updateShoe);
-router.get('/:id/ajax', getShoeByIdAjax);
+router.delete('/:id', deleteShoeById);
+router.get('/', getAllshoes);
+router.post('/', createNewShoe);
+
 
 module.exports = router;
