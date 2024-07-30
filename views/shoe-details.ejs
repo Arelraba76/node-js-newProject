@@ -20,11 +20,21 @@
                 </select>
             </div>
             
+            <div class="quantity-selector">
+                <label for="quantity">Quantity:</label>
+                <div class="quantity-input">
+                    <button class="quantity-button decrease">-</button>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
+                    <button class="quantity-button increase">+</button>
+                </div>
+            </div>
+            
             <button class="add-to-cart">Add to Cart</button>
             <button class="buy-now">Buy Now</button>
         </div>
     </div>
 </div>
+
 
 <!-- Success Modal -->
 <div id="successModal" class="modal">
@@ -49,9 +59,15 @@
         const price = parseFloat(document.querySelector('.price').innerText.replace('$', ''));
         const description = document.querySelector('.description').innerText;
         const size = document.querySelector('#shoe-size').value;
+        const quantity = parseInt(document.querySelector('#quantity').value);
 
         if (!size) {
             showErrorModal('Please select a size');
+            return;
+        }
+
+        if (quantity < 1) {
+            showErrorModal('Please select a valid quantity');
             return;
         }
 
@@ -66,7 +82,8 @@
             title,
             price,
             description,
-            size
+            size,
+            quantity
         };
 
         fetch('/api/purchase', {
@@ -90,43 +107,21 @@
         });
     });
 
-    function showSuccessModal(message) {
-        const modal = document.getElementById('successModal');
-        document.getElementById('successMessage').innerText = message;
-        modal.style.display = 'block';
-    }
-
-    function showErrorModal(message) {
-        const modal = document.getElementById('errorModal');
-        document.getElementById('errorMessage').innerText = message;
-        modal.style.display = 'block';
-    }
-
-    document.querySelectorAll('.close-button').forEach(button => {
-        button.addEventListener('click', function() {
-            button.parentElement.parentElement.style.display = 'none';
-        });
-    });
-
-    window.addEventListener('click', function(event) {
-        const successModal = document.getElementById('successModal');
-        const errorModal = document.getElementById('errorModal');
-        if (event.target === successModal || event.target === errorModal) {
-            successModal.style.display = 'none';
-            errorModal.style.display = 'none';
-        }
-    });
-
     document.querySelector('.add-to-cart').addEventListener('click', function() {
         const shoeId = document.getElementById('shoeDetails').dataset.shoeId;
         const title = document.querySelector('h1').innerText;
         const price = parseFloat(document.querySelector('.price').innerText.replace('$', ''));
         const description = document.querySelector('.description').innerText;
         const size = document.querySelector('#shoe-size').value;
-        const quantity = 1; // You can add a quantity selector if needed
+        const quantity = parseInt(document.querySelector('#quantity').value);
 
         if (!size) {
             showErrorModal('Please select a size');
+            return;
+        }
+
+        if (quantity < 1) {
+            showErrorModal('Please select a valid quantity');
             return;
         }
 
@@ -163,4 +158,48 @@
             showErrorModal('Error: ' + error.message);
         });
     });
+
+    function showSuccessModal(message) {
+        const modal = document.getElementById('successModal');
+        document.getElementById('successMessage').innerText = message;
+        modal.style.display = 'block';
+    }
+
+    function showErrorModal(message) {
+        const modal = document.getElementById('errorModal');
+        document.getElementById('errorMessage').innerText = message;
+        modal.style.display = 'block';
+    }
+
+    document.querySelectorAll('.close-button').forEach(button => {
+        button.addEventListener('click', function() {
+            button.parentElement.parentElement.style.display = 'none';
+        });
+    });
+
+    window.addEventListener('click', function(event) {
+        const successModal = document.getElementById('successModal');
+        const errorModal = document.getElementById('errorModal');
+        if (event.target === successModal || event.target === errorModal) {
+            successModal.style.display = 'none';
+            errorModal.style.display = 'none';
+        }
+    });
+
+    document.querySelector('.quantity-button.decrease').addEventListener('click', function() {
+    const quantityInput = document.querySelector('#quantity');
+    let quantity = parseInt(quantityInput.value);
+    if (quantity > 1) {
+        quantityInput.value = quantity - 1;
+    }
+});
+
+document.querySelector('.quantity-button.increase').addEventListener('click', function() {
+    const quantityInput = document.querySelector('#quantity');
+    let quantity = parseInt(quantityInput.value);
+    if (quantity < 10) {
+        quantityInput.value = quantity + 1;
+    }
+});
+
 </script>

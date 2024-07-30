@@ -329,7 +329,7 @@ table button.delete-btn:hover {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
+    z-index: 10000; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -454,4 +454,44 @@ table button.delete-btn:hover {
 
 .bar:hover {
     fill: darkblue;
+}
+
+/* Style for the search container */
+#search-container {
+    margin: 20px 0;
+    position: relative;
+}
+
+#shoes-search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Style for the search results */
+#shoes-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+/* Style for individual search result items */
+#shoes-search-results div {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+/* Hover effect for search result items */
+#shoes-search-results div:hover {
+    background-color: #f0f0f0;
 }

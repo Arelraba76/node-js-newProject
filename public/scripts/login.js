@@ -1,7 +1,7 @@
 // Function to set authorization header using token from localStorage
 function setAuthHeader() {
     const token = localStorage.getItem('token');
-    console.log('Setting auth header with token:', token);  // Debugging: log token
+    // console.log('Setting auth header with token:', token);  // Debugging: log token
     if (token) {
         $.ajaxSetup({
             beforeSend: function(xhr) {

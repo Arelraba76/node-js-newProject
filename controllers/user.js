@@ -18,12 +18,12 @@ async function getRegister(req, res) {
 
 // Get all users from the database
 async function getAllUsers(req, res) {
-    console.log('getAllUsers called');
-    console.log('User from token:', req.user);
+    // console.log('getAllUsers called');
+    // console.log('User from token:', req.user);
     try {
 
         const users = await User.find({}, '-password');
-        console.log('Users fetched:', users);
+        // console.log('Users fetched:', users);
         res.status(200).json({message: "Users fetched successfully", users});
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -82,7 +82,7 @@ async function logoutUser(req, res) {
 
 // Login user and generate a JWT token
 async function loginUser(req, res) {
-    console.log("Login attempt received with data:", req.body);
+    // console.log("Login attempt received with data:", req.body);
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -136,21 +136,38 @@ async function getUserById(req, res) {
 // Update a user by ID
 async function updateUserById(req, res) {
     const { id } = req.params;
+    const { firstName, lastName, email, password, isAdmin } = req.body;
+
     try {
-        const user = await User.findByIdAndUpdate(id, req.body, { new: true });
-        if (!user) return res.status(404).json({ message: "user not found" });
-        res.status(200).json({ message: "user updated successfully", user });
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        // Update fields
+        user.firstName = firstName || user.firstName;
+        user.lastName = lastName || user.lastName;
+        user.email = email || user.email;
+        user.isAdmin = isAdmin !== undefined ? isAdmin : user.isAdmin;
+
+        // Only update password if a new one is provided
+        if (password) {
+            user.password = await bcrypt.hash(password, 10);
+        }
+
+        await user.save();
+
+        // Send back the updated user without the password
+        const updatedUser = user.toObject();
+        delete updatedUser.password;
+
+        res.status(200).json({ message: "User updated successfully", user: updatedUser });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 }
-
 async function purchaseShoe(req, res) {
-    console.log('Purchase attempt:', req.body);
     const { shoeId, title, price, description, size, quantity = 1 } = req.body;
 
     if (!req.user) {
-        console.log('Simulated purchase for non-logged in user');
         return res.status(200).json({ message: "Purchase simulation successful" });
     }
 
@@ -166,59 +183,43 @@ async function purchaseShoe(req, res) {
             return res.status(404).json({message: "User not found"});
         }
 
-        const updatedShoe = await Shoes.findOneAndUpdate(
-            { _id: shoeId },
-            {
-                $inc: { 
-                    stock: -quantity,
-                    totalSales: quantity
-                },
-                $push: {
-                    purchaseHistory: {
-                        purchaseDate: new Date(),
-                        quantity: quantity,
-                        size: parseInt(size)
-                    }
-                }
-            },
-            { new: true }
-        );
-
-        if (!updatedShoe) {
+        const shoe = await Shoes.findById(shoeId);
+        if (!shoe) {
             return res.status(404).json({message: "Shoe not found"});
         }
 
-        if (updatedShoe.stock < 0) {
-            // אם המלאי הפך לשלילי, נבטל את העדכון
-            await Shoes.findOneAndUpdate(
-                { _id: shoeId },
-                {
-                    $inc: { 
-                        stock: quantity,
-                        totalSales: -quantity
-                    },
-                    $pop: { purchaseHistory: 1 }
-                }
-            );
+        if (shoe.stock < quantity) {
             return res.status(400).json({message: "Not enough stock available"});
         }
 
-        console.log('Updated Shoe:', JSON.stringify(updatedShoe));
+        // Reduce stock and increase total sales
+        shoe.stock -= quantity;
+        shoe.totalSales += quantity;
+        shoe.purchaseHistory.push({
+            purchaseDate: new Date(),
+            quantity: quantity,
+            size: parseInt(size)
+        });
 
-        // הוספת הרכישה למשתמש (נשאר ללא שינוי)
+        await shoe.save();
+
+        // Add purchase to user's history
         user.shoesPurchases.push({
             shoeId: shoeId,
-            title: updatedShoe.title,
-            price: updatedShoe.price,
-            description: updatedShoe.description,
+            title: shoe.title,
+            price: shoe.price,
+            description: shoe.description,
             size: parseInt(size),
             quantity: quantity
         });
 
         await user.save();
 
-        console.log('Purchase successful:', { userId, shoeId, newStock: updatedShoe.stock, newTotalSales: updatedShoe.totalSales });
-        res.status(200).json({message: "Purchase successful", newStock: updatedShoe.stock, newTotalSales: updatedShoe.totalSales});
+        res.status(200).json({
+            message: "Purchase successful", 
+            newStock: shoe.stock, 
+            newTotalSales: shoe.totalSales
+        });
     } catch (error) {
         console.error('Error making purchase:', error);
         res.status(500).json({message: "Failed to make purchase", error: error.message});
@@ -253,7 +254,16 @@ async function addToCart(req, res) {
 
     try {
         let cart = await Cart.findOne({ userId });
-        
+        const shoe = await Shoes.findById(shoeId);
+
+        if (!shoe) {
+            return res.status(404).json({ message: "Shoe not found" });
+        }
+
+        if (shoe.stock < quantity) {
+            return res.status(400).json({ message: "Not enough stock" });
+        }
+
         if (!cart) {
             // If cart doesn't exist, create a new one
             cart = new Cart({ userId, items: [] });
@@ -278,56 +288,129 @@ async function addToCart(req, res) {
             });
         }
 
+        // Update stock
+        shoe.stock -= quantity;
+        await shoe.save();
+
         await cart.save();
-        res.status(200).json({message: "Item added to cart", cart: cart.items});
+
+        res.status(200).json({ message: "Item added to cart", cart: cart.items });
     } catch (error) {
-        res.status(500).json({message: "Failed to add item to cart", error: error.message});
+        res.status(500).json({ message: "Failed to add item to cart", error: error.message });
     }
 }
 
 
 async function getCart(req, res) {
     try {
-        console.log('getCart function called');
-        console.log('User from token:', req.user);
+        // console.log('getCart function called');
+        // console.log('User from token:', req.user);
         const userId = req.user._id;
-        console.log('User ID:', userId);
+        // console.log('User ID:', userId);
         const cart = await Cart.findOne({ userId });
-        console.log('Cart found:', cart);
+        //console.log('Cart found:', cart);
         if (!cart) {
             console.log('No cart found for user');
             return res.status(200).json({ cart: [] });
         }
-        console.log('Cart items:', cart.items);
+        //console.log('Cart items:', cart.items);
         res.json({ cart: cart.items });
     } catch (error) {
-        console.error('Error fetching cart:', error);
+        //console.error('Error fetching cart:', error);
         res.status(500).json({ message: "Failed to get cart items", error: error.message });
     }
 }
 // Checkout
+async function removeFromCart(req, res) {
+    const { itemId } = req.body;
+    const userId = req.user._id;
+
+    try {
+        const cart = await Cart.findOne({ userId });
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found" });
+        }
+
+        const item = cart.items.find(item => item._id.toString() === itemId);
+        if (!item) {
+            return res.status(404).json({ message: "Item not found in cart" });
+        }
+
+        const shoe = await Shoes.findById(item.shoeId);
+        if (!shoe) {
+            return res.status(404).json({ message: "Shoe not found" });
+        }
+
+        shoe.stock += item.quantity;
+        await shoe.save();
+
+        cart.items = cart.items.filter(item => item._id.toString() !== itemId);
+
+        await cart.save();
+        res.status(200).json({ message: "Item removed from cart", cart: cart.items });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to remove item from cart", error: error.message });
+    }
+}
+
 async function checkout(req, res) {
     const userId = req.user._id;
 
     try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({message: "User not found"});
+        const cart = await Cart.findOne({ userId });
+        if (!cart || cart.items.length === 0) {
+            return res.status(400).json({ message: "Cart is empty" });
         }
 
-        // Move items from cart to purchases
-        user.shoesPurchases.push(...user.cart);
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
-        // Clear the cart
-        user.cart = [];
+        for (const item of cart.items) {
+            const shoe = await Shoes.findById(item.shoeId);
+            if (!shoe) {
+                return res.status(404).json({ message: `Shoe with id ${item.shoeId} not found` });
+            }
+
+            if (shoe.stock < item.quantity) {
+                return res.status(400).json({ message: `Not enough stock for ${shoe.title}` });
+            }
+
+            shoe.stock -= item.quantity;
+            shoe.totalSales += item.quantity;
+            shoe.purchaseHistory.push({
+                purchaseDate: new Date(),
+                quantity: item.quantity,
+                size: item.size
+            });
+
+            await shoe.save();
+
+            user.shoesPurchases.push({
+                shoeId: item.shoeId,
+                title: item.title,
+                price: item.price,
+                description: item.description,
+                size: item.size,
+                quantity: item.quantity
+            });
+        }
 
         await user.save();
 
-        res.status(200).json({message: "Checkout successful", purchases: user.shoesPurchases});
+        // Clear the cart
+        cart.items = [];
+        await cart.save();
+
+        res.status(200).json({ message: "Checkout successful" });
     } catch (error) {
-        res.status(500).json({message: "Checkout failed", error: error.message});
+        res.status(500).json({ message: "Checkout failed", error: error.message });
     }
 }
+
+
+
 module.exports = {
     getAllUsers,
     createNewUser,
@@ -343,5 +426,6 @@ module.exports = {
     getUserPurchases,
     addToCart,
     getCart,
-    checkout
+    checkout,
+    removeFromCart
 }

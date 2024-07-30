@@ -94,6 +94,50 @@ async function updateShoe(req, res) {
     }
 }
 
+async function filterShoes(req, res) {
+    try {
+        const { category, minPrice, maxPrice } = req.query;
+        let query = { category: category, stock: { $gt: 0 } };
+        
+        if (minPrice || maxPrice) {
+            query.price = {};
+            if (minPrice) query.price.$gte = parseFloat(minPrice);
+            if (maxPrice) query.price.$lte = parseFloat(maxPrice);
+        }
+
+        const filteredShoes = await Shoes.find(query).sort({ price: 1 });
+        
+        // Render the appropriate category page with filtered shoes
+        res.render(`${category.toLowerCase()}-shoes`, { 
+            shoes: filteredShoes, 
+            filters: { category, minPrice, maxPrice }
+        });
+    } catch (error) {
+        console.error(`Error filtering shoes:`, error.message);
+        res.status(400).render('error', { message: error.message });
+    }
+}
+
+async function searchShoes(req, res) {
+    try {
+        const query = req.query.q;
+        const regex = new RegExp(query, 'i');
+        const shoes = await Shoes.find({
+            $or: [
+                { title: regex },
+                { description: regex },
+                { category: regex }
+            ]
+        }).limit(5);
+        
+        res.json(shoes);
+    } catch (error) {
+        console.error('Error searching shoes:', error);
+        res.status(500).json({ message: 'Error searching shoes' });
+    }
+}
+
+
 module.exports = {
     getAllshoes,
     createNewShoe,
@@ -102,5 +146,7 @@ module.exports = {
     getShoeById,
     updateShoe,
     getShoeByIdAjax,
+    filterShoes,
+    searchShoes
 
 }

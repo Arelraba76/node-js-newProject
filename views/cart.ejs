@@ -13,26 +13,32 @@
     <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
-    <header>
-        <%- include('partials/header') %>
-    </header>
-
-    <div id="cart">
-        <h1>Your Shopping Cart</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Size</th>
-                    <th>Quantity</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="cart-table-body">
-                <!-- Cart items will be inserted here -->
-            </tbody>
-        </table>
+    
+    <div id="page-container">
+        <header>
+            <%- include('partials/header') %>
+        </header>
+        <div id="cart">
+            <h1>Your Shopping Cart</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Size</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-table-body">
+                    <!-- Cart items will be inserted here -->
+                </tbody>
+            </table>
+            <div id="cart-summary">
+                <p>Total: $<span id="cart-total">0.00</span></p>
+                <button id="checkout-button" onclick="checkout()">Checkout</button>
+            </div>
+        </div>
     </div>
     <footer>
         <%- include('partials/footer') %>
@@ -40,110 +46,149 @@
         
     <script>
     async function loadCartItems() {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No token found in localStorage');
+                return;
+            }
+            console.log('Token:', token);
+            const response = await fetch('/api/users/cart', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.cart && Array.isArray(data.cart)) {
+                displayCartItems(data.cart);
+            } else {
+                console.error('Invalid cart data structure:', data);
+            }
+        } catch (error) {
+            console.error('Error loading cart:', error);
+        }
+    }
+
+    function displayCartItems(cartItems) {
+        console.log('Displaying cart items:', cartItems);
+        const cartTableBody = document.getElementById('cart-table-body');
+        cartTableBody.innerHTML = ''; // Clear existing items
+        let total = 0;
+
+        if (cartItems.length === 0) {
+            cartTableBody.innerHTML = '<tr><td colspan="5">Your cart is empty</td></tr>';
+            document.getElementById('cart-total').textContent = '0.00';
+            document.getElementById('checkout-button').disabled = true;
+            return;
+        }
+
+        cartItems.forEach(item => {
+            const row = document.createElement('tr');
+            
+            const productCell = document.createElement('td');
+            productCell.textContent = item.title;
+            
+            const priceCell = document.createElement('td');
+            priceCell.textContent = `$${item.price.toFixed(2)}`;
+            
+            const sizeCell = document.createElement('td');
+            sizeCell.textContent = item.size;
+            
+            const quantityCell = document.createElement('td');
+            quantityCell.textContent = item.quantity;
+            
+            const actionCell = document.createElement('td');
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = () => removeFromCart(item._id);
+            actionCell.appendChild(removeButton);
+            
+            row.appendChild(productCell);
+            row.appendChild(priceCell);
+            row.appendChild(sizeCell);
+            row.appendChild(quantityCell);
+            row.appendChild(actionCell);
+            
+            cartTableBody.appendChild(row);
+
+            total += item.price * item.quantity;
+        });
+
+        document.getElementById('cart-total').textContent = total.toFixed(2);
+        document.getElementById('checkout-button').disabled = false;
+    }
+
+    async function removeFromCart(itemId) {
     try {
-        console.log('Fetching cart items...');
         const token = localStorage.getItem('token');
         if (!token) {
             console.error('No token found in localStorage');
             return;
         }
-        console.log('Token:', token); // הוסף לוג זה לבדיקה
-        const response = await fetch('/api/users/cart', {
+        const response = await fetch('/api/users/cart/remove', {
+            method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ itemId })
         });
-        
-        console.log('Response status:', response.status);
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        console.log('Cart data:', data);
-        
-        if (data.cart && Array.isArray(data.cart)) {
+        if (data.cart) {
             displayCartItems(data.cart);
+            // עדכון הכמות הזמינה בעמוד המוצר אם הוא פתוח
+            if (document.querySelector('.available-quantity')) {
+                updateAvailableQuantity(data.availableQuantity);
+            }
         } else {
-            console.error('Invalid cart data structure:', data);
+            console.error('Error removing item from cart:', data);
         }
     } catch (error) {
-        console.error('Error loading cart:', error);
+        console.error('Error removing item from cart:', error);
     }
 }
-function displayCartItems(cartItems) {
-    console.log('Displaying cart items:', cartItems);
-    const cartTableBody = document.getElementById('cart-table-body');
-    cartTableBody.innerHTML = ''; // Clear existing items
-    if (cartItems.length === 0) {
-        cartTableBody.innerHTML = '<tr><td colspan="5">Your cart is empty</td></tr>';
-        return;
-    }
-    cartItems.forEach(item => {
-        const row = document.createElement('tr');
-        
-        const productCell = document.createElement('td');
-        productCell.textContent = item.title;
-        
-        const priceCell = document.createElement('td');
-        priceCell.textContent = `$${item.price.toFixed(2)}`;
-        
-        const sizeCell = document.createElement('td');
-        sizeCell.textContent = item.size;
-        
-        const quantityCell = document.createElement('td');
-        quantityCell.textContent = item.quantity;
-        
-        const actionCell = document.createElement('td');
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        removeButton.onclick = () => removeFromCart(item.shoeId, item.size);
-        actionCell.appendChild(removeButton);
-        
-        row.appendChild(productCell);
-        row.appendChild(priceCell);
-        row.appendChild(sizeCell);
-        row.appendChild(quantityCell);
-        row.appendChild(actionCell);
-        
-        cartTableBody.appendChild(row);
-    });
-}
-        async function removeFromCart(shoeId, size) {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    console.error('No token found in localStorage');
-                    return;
-                }
-                const response = await fetch('/api/cart/remove', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ shoeId, size })
-                });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                if (data.cart) {
-                    displayCartItems(data.cart);
-                } else {
-                    console.error('Error removing item from cart:', data);
-                }
-            } catch (error) {
-                console.error('Error removing item from cart:', error);
+    async function checkout() {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No token found in localStorage');
+                return;
             }
+            const response = await fetch('/api/users/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.message === "Checkout successful") {
+                alert("Checkout successful!");
+                loadCartItems(); // Refresh the cart
+            } else {
+                console.error('Error during checkout:', data);
+            }
+        } catch (error) {
+            console.error('Error during checkout:', error);
         }
+    }
 
-        window.onload = loadCartItems;
+    window.onload = loadCartItems;
     </script>
-
 </body>
 </html>
