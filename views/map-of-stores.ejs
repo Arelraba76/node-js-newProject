@@ -10,6 +10,7 @@
     <script src="/scripts/product.js"></script>
     <script src="/scripts/login.js"></script>
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/shoes-page.css">
     <title>Our Stores</title>
 </head>
 <body>
@@ -29,10 +30,12 @@
             </div>
             <div id="map"></div>
         </main>
+        <%- include('partials/model') %>
     </div>
     <footer id="mainFooter">
         <%- include('partials/footer') %>
     </footer>
+    
 </div>
 <script>
     let map;

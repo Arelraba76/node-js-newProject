@@ -40,11 +40,19 @@
 </header>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     initializeHeader();
     initializeShoeDetails();
+    initializeBackButton();
 });
-
+function initializeBackButton() {
+    const backButton = document.getElementById('backButton');
+    if (backButton) {
+        backButton.addEventListener('click', () => {
+            window.history.back();
+        });
+    }
+}
 function initializeHeader() {
     const menuToggle = document.querySelector('.menu-toggle');
     const menuContent = document.querySelector('.menu-content');
@@ -107,10 +115,12 @@ function loadShoeDetails(shoeId) {
         url: `/shoes/${shoeId}/ajax`,
         method: 'GET',
         success: function(response) {
-            $('main').html(response);
+            const mainContent = document.querySelector('main');
+            mainContent.innerHTML = response;
             document.getElementById('search-suggestions').innerHTML = '';
             document.getElementById('search-input').value = '';
             initializeShoeDetails();
+            initializeBackButton();
         },
         error: function(err) {
             console.error('Error loading the product details:', err);
@@ -122,16 +132,17 @@ function initializeShoeDetails() {
     const shoeDetails = document.getElementById('shoeDetails');
     if (!shoeDetails) return;
 
-    const buyNowButton = document.querySelector('.buy-now');
-    const addToCartButton = document.querySelector('.add-to-cart');
-    const quantityDecrease = document.querySelector('.quantity-button.decrease');
-    const quantityIncrease = document.querySelector('.quantity-button.increase');
+    const buyNowButton = shoeDetails.querySelector('.buy-now');
+    const addToCartButton = shoeDetails.querySelector('.add-to-cart');
+    const quantityDecrease = shoeDetails.querySelector('.quantity-button.decrease');
+    const quantityIncrease = shoeDetails.querySelector('.quantity-button.increase');
 
     if (buyNowButton) buyNowButton.addEventListener('click', handleBuyNow);
     if (addToCartButton) addToCartButton.addEventListener('click', handleAddToCart);
     if (quantityDecrease) quantityDecrease.addEventListener('click', handleQuantityDecrease);
     if (quantityIncrease) quantityIncrease.addEventListener('click', handleQuantityIncrease);
 }
+
 
 function handleBuyNow() {
     const shoeData = getShoeData();
