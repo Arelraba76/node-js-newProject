@@ -1,5 +1,6 @@
 let allUsers = [];
 
+
 document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
 });
@@ -166,9 +167,9 @@ async function editUser(id) {
             const user = await response.json();
             // שים לב שאנחנו משתמשים ב-id שהועבר לפונקציה, לא ב-user._id
             document.getElementById('edit-user-id').value = id;
-            document.getElementById('edit-firstName').value = user.firstName;
-            document.getElementById('edit-lastName').value = user.lastName;
-            document.getElementById('edit-email').value = user.email;
+            document.getElementById('edit-firstName').value = '';
+            document.getElementById('edit-lastName').value = '';
+            document.getElementById('edit-email').value = '';
             document.getElementById('edit-password').value = ''; // Clear password field
             document.getElementById('edit-isAdmin').checked = user.isAdmin;
 
@@ -204,22 +205,8 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
     try {
         const token = localStorage.getItem('token');
         
-        // First, delete the existing user
-        const deleteResponse = await fetch(`/api/users/${id}`, { 
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!deleteResponse.ok) {
-            const deleteResult = await deleteResponse.json();
-            throw new Error('Failed to update user: ' + deleteResult.message);
-        }
-
-        // Then, create a new user with the updated data
-        const createResponse = await fetch('/api/users/register', {
-            method: 'POST',
+        const updateResponse = await fetch(`/api/users/${id}`, { 
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -227,31 +214,17 @@ document.getElementById('edit-user-form').addEventListener('submit', async funct
             body: JSON.stringify(userData),
         });
         
-        const createResult = await createResponse.json();
-        if (createResponse.ok) {
+        const updateResult = await updateResponse.json();
+        if (updateResponse.ok) {
             alert('User updated successfully');
             cancelEditUser();
             loadUsers();
         } else {
-            throw new Error(createResult.message);
+            throw new Error(updateResult.message);
         }
     } catch (error) {
         console.error('Error updating user:', error);
         alert('Error: ' + error.message);
-        
-        // If an error occurred, try to recreate the original user
-        try {
-            await fetch('/api/users/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({...userData, _id: id}),
-            });
-        } catch (recreateError) {
-            console.error('Failed to recreate original user:', recreateError);
-        }
     }
 });
 

@@ -1,5 +1,6 @@
 let allShoes = [];
 
+// Load shoes from the server
 async function loadShoes() {
     try {
         const response = await fetch('/shoes');
@@ -15,6 +16,7 @@ async function loadShoes() {
     }
 }
 
+// Update the shoe table with given shoes
 function updateShoeTable(shoes) {
     const shoeTableBody = document.getElementById('shoe-table-body');
     shoeTableBody.innerHTML = '';
@@ -34,7 +36,7 @@ function updateShoeTable(shoes) {
     });
 }
 
-
+// Edit a shoe
 async function editShoe(id) {
     try {
         const response = await fetch(`/shoes/${id}`);
@@ -59,12 +61,14 @@ async function editShoe(id) {
     }
 }
 
+// Cancel editing a shoe
 function cancelEdit() {
     document.getElementById('edit-shoe-section').style.display = 'none';
     document.getElementById('add-shoe-form-inline').style.display = 'block';
     document.getElementById('shoe-actions').style.display = 'block';
 }
 
+// Delete a shoe
 async function deleteShoe(id) {
     if (confirm('Are you sure you want to delete this shoe?')) {
         try {
@@ -82,6 +86,7 @@ async function deleteShoe(id) {
     }
 }
 
+// Add a new shoe
 document.getElementById('add-shoe-form-inline').addEventListener('submit', async function(e) {
     e.preventDefault();
     const formData = new FormData(this);
@@ -107,6 +112,7 @@ document.getElementById('add-shoe-form-inline').addEventListener('submit', async
     }
 });
 
+// Update an existing shoe
 document.getElementById('edit-shoe-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     const formData = new FormData(this);
@@ -134,45 +140,45 @@ document.getElementById('edit-shoe-form').addEventListener('submit', async funct
     }
 });
 
-// Search functionality
-const searchInput = document.getElementById('search-input');
-const searchResults = document.getElementById('search-results');
+// Shoe search functionality
+const shoeSearchInput = document.getElementById('shoes-search-input');
+const shoeSearchResults = document.getElementById('shoes-search-results');
 
-searchInput.addEventListener('input', function() {
+shoeSearchInput.addEventListener('input', function() {
     const searchTerm = this.value.toLowerCase();
     if (searchTerm.length > 0) {
         const matchingShoes = allShoes.filter(shoe => 
             shoe.title.toLowerCase().includes(searchTerm)
         );
-        displaySearchResults(matchingShoes);
+        displayShoeSearchResults(matchingShoes);
     } else {
-        searchResults.style.display = 'none';
+        shoeSearchResults.style.display = 'none';
         updateShoeTable(allShoes); // Show all shoes when search is empty
     }
 });
 
-function displaySearchResults(shoes) {
-    searchResults.innerHTML = '';
+function displayShoeSearchResults(shoes) {
+    shoeSearchResults.innerHTML = '';
     shoes.forEach(shoe => {
         const div = document.createElement('div');
         div.textContent = shoe.title;
         div.onclick = function() {
-            searchInput.value = shoe.title;
-            searchResults.style.display = 'none';
-            updateShoeTable([shoe]);
+            shoeSearchInput.value = shoe.title;
+            shoeSearchResults.style.display = 'none';
+            updateShoeTable([shoe]); // Show only the selected shoe
         };
-        searchResults.appendChild(div);
+        shoeSearchResults.appendChild(div);
     });
-    searchResults.style.display = 'block';
+    shoeSearchResults.style.display = 'block';
 }
 
 // Close search results when clicking outside
 document.addEventListener('click', function(event) {
-    if (event.target !== searchInput && event.target !== searchResults) {
-        searchResults.style.display = 'none';
+    if (event.target !== shoeSearchInput && event.target !== shoeSearchResults) {
+        shoeSearchResults.style.display = 'none';
     }
 });
 
 // Load shoes when the page loads
-loadShoes();
 document.addEventListener('DOMContentLoaded', loadShoes);
+loadShoes();

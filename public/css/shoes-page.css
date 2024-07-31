@@ -87,20 +87,62 @@
     max-width: 200px;
 }
 
-/* עיצוב כפתור הקנייה */
+/* Quantity selector styling */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quantity-input {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-input input {
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.quantity-button {
+    width: 40px;
+    height: 40px;
+    background-color: #0e0e0e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.quantity-button:hover {
+    background-color: #2d6caa;
+}
+
+/* Buy now button styling */
 .buy-now {
     background-color: #fff;
     color: #000;
-    border: 2px solid #000; /* גבול שחור לכפתור */
+    border: 2px solid #000; /* Black border for the button */
     padding: 15px 30px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 30px;
     transition: background-color 0.3s, color 0.3s;
-    margin-top: 10px; /* מרווח מלמעלה */
+    margin-top: 10px; /* Margin from top */
 }
 
-/* אפקט הובר לכפתור הקנייה */
+/* Buy now button hover effect */
+.buy-now:hover {
+    background-color: #000; /* Change background color to black */
+    color: #fff; /* Change text color to white */
+}
+
+/* Modal styles */
 .modal {
     display: none; 
     position: fixed; 
@@ -164,8 +206,4 @@
     margin-top: 20px;
 }
 
-/* אפקט הובר לכפתור הקנייה */
-.buy-now:hover {
-    background-color: #000; /* שינוי צבע הרקע לשחור */
-    color: #fff; /* שינוי צבע הטקסט ללבן */
-}
+

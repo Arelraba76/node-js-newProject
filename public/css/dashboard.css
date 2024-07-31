@@ -329,7 +329,7 @@ table button.delete-btn:hover {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
+    z-index: 10000; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -364,4 +364,134 @@ table button.delete-btn:hover {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+
+
+#top-shoes-chart svg {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    height: auto;
+    margin-bottom: 70px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 12px;
+}
+
+.bar {
+    fill: steelblue;
+    transition: fill 0.3s;
+}
+
+.bar:hover {
+    fill: darkblue;
+}
+
+.x-axis path {
+    display: none;
+}
+
+.x-axis text {
+    transform: rotate(-45deg);
+    text-anchor: end;
+}
+
+.y-axis text {
+    font-size: 14px;
+}
+
+.chart-title {
+    text-anchor: middle;
+    font-size: 24px;
+    font-weight: bold;
+    fill: #333;
+    margin-top: 20px;
+}
+
+.chart-subtitle {
+    text-anchor: middle;
+    font-size: 14px;
+    fill: #666;
+}
+
+
+#gender-sales-chart svg {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    height: auto;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 12px;
+}
+
+.bar {
+    fill: steelblue;
+    transition: fill 0.3s;
+}
+
+.bar:hover {
+    fill: darkblue;
+}
+
+/* Style for the search container */
+#search-container {
+    margin: 20px 0;
+    position: relative;
+}
+
+#shoes-search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Style for the search results */
+#shoes-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+/* Style for individual search result items */
+#shoes-search-results div {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+/* Hover effect for search result items */
+#shoes-search-results div:hover {
+    background-color: #f0f0f0;
 }

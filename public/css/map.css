@@ -1,4 +1,3 @@
-/* Base styling for the body */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
@@ -24,8 +23,29 @@ body {
 header {
     background-color: var(--light-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 100; /* Increased z-index */
 }
 
+.menu-content {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100%;
+    background-color: var(--light-color);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right var(--transition);
+    padding: var(--padding);
+    box-sizing: border-box;
+    z-index: 101; /* Increased z-index */
+}
+
+/* Decrease z-index for the map container */
+#map {
+    position: relative;
+    z-index: 1; /* Decreased z-index */
+}
 /* Navigation bar styling */
 nav {
     display: flex;
@@ -62,7 +82,6 @@ nav ul li a,
     transition: color var(--transition), background-color var(--transition), padding var(--transition);
 }
 
-/* Links and buttons hover effect */
 nav ul li a:hover,
 .sign-in:hover,
 #sign-in-btn:hover {
@@ -78,7 +97,6 @@ nav ul li a:hover,
     align-items: center;
 }
 
-/* Search input styling */
 .search-cart input {
     padding: calc(var(--padding) / 2);
     border: 1px solid #e5e5e5;
@@ -95,7 +113,6 @@ nav ul li a:hover,
     transition: color var(--transition), transform var(--transition);
 }
 
-/* Cart icon hover effect */
 .cart-icon:hover,
 .sign-in:hover ~ .cart-icon,
 #sign-in-btn:hover ~ .cart-icon {
@@ -109,30 +126,25 @@ footer {
     padding: calc(var(--padding) * 2);
 }
 
-/* Footer content styling */
 .footer-content {
     display: flex;
     justify-content: space-around;
 }
 
-/* Footer section heading styling */
 .footer-section h4 {
     margin-bottom: calc(var(--padding) / 2);
 }
 
-/* Footer section list styling */
 .footer-section ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-/* Footer section list item styling */
 .footer-section ul li {
     margin-bottom: calc(var(--padding) / 2);
 }
 
-/* Footer section list item link styling */
 .footer-section ul li a {
     color: var(--light-color);
     text-decoration: none;
@@ -152,17 +164,14 @@ footer .copyright {
     min-height: 100vh;
 }
 
-/* Content wrap to push footer to bottom */
 #content-wrap {
     flex: 1;
 }
 
-/* Main footer styling */
 #mainFooter {
     flex-shrink: 0;
 }
 
-/* Body styling for the container layout */
 body {
     display: flex;
     font-family: Arial, sans-serif;
@@ -170,14 +179,12 @@ body {
     padding: 0;
 }
 
-/* Main container styling */
 #container {
     display: flex;
     width: 100%;
     height: calc(100vh - 160px); /* Adjusted to accommodate header and footer */
 }
 
-/* Search container styling */
 #search-container {
     width: 30%;
     padding: 20px;
@@ -185,13 +192,11 @@ body {
     overflow-y: auto;
 }
 
-/* Search container heading styling */
 #search-container h1 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-/* Search input styling */
 #search {
     width: 100%;
     padding: 10px;
@@ -200,7 +205,6 @@ body {
     border-radius: 4px;
 }
 
-/* Suggestions list styling */
 .suggestions {
     list-style-type: none;
     padding: 0;
@@ -211,63 +215,52 @@ body {
     overflow-y: auto;
 }
 
-/* Suggestions list item styling */
 .suggestions li {
     padding: 10px;
     cursor: pointer;
 }
 
-/* Suggestions list item hover effect */
 .suggestions li:hover {
     background-color: #ddd;
 }
 
-/* Map container styling */
 #map {
     height: 100%;
     width: 70%;
 }
 
-/* Store information styling */
 .store {
     border-bottom: 1px solid #ccc;
     padding: 10px 0;
 }
 
-/* Store heading styling */
 .store h2 {
     margin: 0;
     font-size: 18px;
 }
 
-/* Store paragraph styling */
 .store p {
     margin: 5px 0;
 }
 
-/* Store status styling */
 .status {
     font-weight: bold;
 }
 
-/* Store status open styling */
 .status.open {
     color: green;
 }
 
-/* Store status closed styling */
 .status.closed {
     color: red;
 }
 
-/* Store hover effect */
 .store {
     border-bottom: 1px solid #ccc;
     padding: 10px 0;
     cursor: pointer; /* Add this line */
 }
 
-/* Store hover effect */
 .store:hover {
     background-color: #f0f0f0; /* Add this block */
 }

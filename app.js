@@ -8,7 +8,6 @@ const connectDB = require("./config/db");
 const Shoe = require("./models/shoes"); // Import the Shoe model
 const purchaseRoutes = require("./routes/purchase");
 const footerRoutes = require("./routes/footer-pages");
-
 // Load environment variables from .env file
 dotenv.config();
 
@@ -43,7 +42,9 @@ server.use('/api/cities', cityRoutes); // Use city routes
 server.get('/login/dashboard', (req, res) => {
     res.render('login/dashboard'); // Render the dashboard view
 });
-
+server.get('/shoes/login/dashboard', (req, res) => {
+    res.render('login/dashboard'); // Render the dashboard view
+});
 server.get('/', async (req, res) => {
     try {
         const shoes = await Shoe.find(); // Fetch all shoes from the database
@@ -98,7 +99,7 @@ server.get('/login/register-form', (req, res) => {
     res.render('login/register-form'); // Render the register form view
 });
 server.use((req, res, next) => {
-    console.log('Request headers:', req.headers);
+    // console.log('Request headers:', req.headers);
     next();
 });
 server.get('/cart', (req, res) => { // Add authentication to the cart route
@@ -108,9 +109,64 @@ server.get('/cart', (req, res) => { // Add authentication to the cart route
 server.get('/map-of-stores', (req, res) => {
     res.render('map-of-stores'); // Render the map-of-stores view
 });
+server.get('/shoes/map-of-stores', (req, res) => {
+    res.redirect('/map-of-stores');
+});
 
+server.get('/filter', require('./controllers/shoes').filterShoes);
 
+server.get('/api/shoes/top-sales', async (req, res) => {
+    try {
+        const topShoes = await Shoe.find().sort('-totalSales').limit(5);
+        res.json(topShoes);
+    } catch (error) {
+        console.error("Error fetching top sales:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+server.get('/api/shoes/gender-sales', async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        // console.log(`Fetching gender sales data from ${startDate} to ${endDate}`);
+        
+        const genderSales = await Shoe.aggregate([
+            {
+                $match: {
+                    createdAt: {  // שימוש ב-createdAt במקום purchaseDate
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate)
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: "$category",  // קיבוץ לפי קטגוריה
+                    totalSales: { $sum: "$totalSales" }
+                }
+            },
+            {
+                $project: {
+                    gender: "$_id",
+                    totalSales: 1,
+                    _id: 0
+                }
+            }
+        ]);
+        
+        // console.log("Gender sales data:", genderSales);
+        
+        if (genderSales.length === 0) {
+            // console.log("No gender sales data found for the given date range");
+        }
+        
+        res.json(genderSales);
+    } catch (error) {
+        console.error("Error fetching gender sales:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
+server.use('/api/shoes', shoesRoutes);
 
 server.use('/', footerRoutes);
 // Database connection
@@ -118,7 +174,7 @@ const PORT = process.env.PORT || 8080;
 connectDB(); // Connect to the database
 
 server.use((req, res, next) => {
-    console.log(`${req.method} request for ${req.url}`); // Log each request
+    // console.log(`${req.method} request for ${req.url}`); // Log each request
     next();
 });
 

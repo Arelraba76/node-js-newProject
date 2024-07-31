@@ -1,3 +1,4 @@
+<!--views\login\dashboard.ejs-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,9 @@
     <script src="/scripts/shoes-func.js"></script>
     <script src="/scripts/stores-func.js"></script>
     <script src="/scripts/user-management.js"></script>
+    <script src="/scripts/Statistics.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
 </head>
 <body>
     <div id="page-container">
@@ -29,7 +33,8 @@
          
                 <section id="store-stats">
                     <h2 id="staticTitle">Store Statistics</h2>
-                    <!-- Store statistics will go here -->
+                    <div id="top-shoes-chart"></div>
+                    <div id="gender-sales-chart"></div> <!-- אלמנט חדש לגרף המכירות לפי מגדר -->
                 </section>
                 
                 <section id="edit-shoe-section" style="display: none;">
@@ -67,8 +72,8 @@
                 <section id="shoe-actions">
                     <h2>Manage Shoes</h2>
                     <div id="search-container">
-                        <input type="text" id="search-input" placeholder="Search for shoes...">
-                        <div id="search-results"></div>
+                        <input type="text" id="shoes-search-input" placeholder="Search for shoes...">
+                        <div id="shoes-search-results"></div>
                     </div>
                     <table id="shoe-table">
                         <thead>
@@ -249,9 +254,5 @@
                 </section>
             </main>
         </div>
-        <script src="/scripts/shoes-func.js"></script>
-        <script src="/scripts/stores-func.js"></script>
-        <script src="/scripts/user-management.js"></script>
-    
     </body>
     </html>
