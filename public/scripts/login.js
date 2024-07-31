@@ -1,11 +1,11 @@
 // Function to set authorization header using token from localStorage
 function setAuthHeader() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); // Get token from localStorage
     // console.log('Setting auth header with token:', token);  // Debugging: log token
     if (token) {
         $.ajaxSetup({
             beforeSend: function(xhr) {
-                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token); // Set the Authorization header
                 console.log('Authorization header set:', 'Bearer ' + token); // Debugging: log header
             }
         });
@@ -79,9 +79,9 @@ $(document).ready(function() {
                 success: function(response) {
                     console.log('Login response:', response); // Log the response
                     if (response.success) {
-                        localStorage.setItem('isLoggedIn', 'true');
-                        localStorage.setItem('isAdmin', response.isAdmin);
-                        localStorage.setItem('token', response.token);
+                        localStorage.setItem('isLoggedIn', 'true'); // Set login status in localStorage
+                        localStorage.setItem('isAdmin', response.isAdmin); // Set admin status in localStorage
+                        localStorage.setItem('token', response.token); // Set token in localStorage
                         setAuthHeader(); // Set the auth header after login
                         updateUIAfterLogin(response.isAdmin); // Update UI based on admin status
                         console.log('Login successful, redirecting to home');
@@ -106,7 +106,7 @@ $(document).ready(function() {
         if (isAdmin === true || isAdmin === 'true') {
             console.log('User is admin, adding dashboard link');
             if ($('#dashboardLink').length === 0) {
-                $('nav ul').append('<li><a href="/dashboard" id="dashboardLink">Dashboard</a></li>');
+                $('nav ul').append('<li><a href="/dashboard" id="dashboardLink">Dashboard</a></li>'); // Add dashboard link if admin
             }
         } else {
             console.log('User is not admin');
@@ -115,8 +115,8 @@ $(document).ready(function() {
 
     // Function to check login status from localStorage
     function checkLoginStatus() {
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Check if logged in
+        const isAdmin = localStorage.getItem('isAdmin') === 'true'; // Check if admin
         console.log('Checking login status. isLoggedIn:', isLoggedIn, 'isAdmin:', isAdmin); // Log login status
         if (isLoggedIn) {
             updateUIAfterLogin(isAdmin); // Update UI if logged in
@@ -158,9 +158,9 @@ $(document).on('click', '#dashboardLink', function(event) {
 
 // Function to load dashboard via AJAX
 function loadDashboard() {
-    console.log('טוען את הדשבורד');
+    console.log('Loading dashboard');
     
-    // טוען את ה-CSS של הדשבורד אם הוא עדיין לא נטען
+    // Load the dashboard CSS if not already loaded
     if (!$('link[href="/css/dashboard.css"]').length) {
         $('<link>')
             .appendTo('head')
@@ -169,16 +169,16 @@ function loadDashboard() {
     }
     
     $.ajax({
-        url: 'login/dashboard',
+        url: 'login/dashboard', // URL to load the dashboard
         method: 'GET',
         success: function(data) {
-            console.log('הדשבורד נטען בהצלחה');
-            // עוטף את התוכן ב-div עם ה-ID המתאים
+            console.log('Dashboard loaded successfully');
+            // Wrap the content in a div with the appropriate ID
             $('main').html('<div id="dashboard-container">' + data + '</div>');
         },
         error: function(xhr, status, error) {
-            console.error('שגיאה בטעינת הדשבורד:', xhr.responseText);
-            alert('שגיאה בטעינת הדשבורד: ' + xhr.responseText);
+            console.error('Error loading dashboard:', xhr.responseText);
+            alert('Error loading dashboard: ' + xhr.responseText);
         }
     });
 }
