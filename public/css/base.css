@@ -68,6 +68,7 @@ nav {
     padding: var(--padding);
     box-sizing: border-box;
     z-index: 5;
+    overflow-y: auto;
 }
 
 .menu-content.active {
