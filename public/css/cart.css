@@ -6,12 +6,6 @@ body {
     padding: 0;
 }
 
-#page-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
 main {
     background-color: #ffffff;
     padding: 20px;
