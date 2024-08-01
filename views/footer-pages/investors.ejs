@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/shoes-page.css">
     <link rel="stylesheet" href="/css/footer-pages.css">
+    <link rel="stylesheet" href="/css/investores.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script>
 </head>
 <body>
     <div id="page-container">
@@ -43,7 +47,11 @@
                 <h2>Investor Contacts</h2>
                 <p>For investor inquiries, please contact our investor relations team at <a href="mailto:investors@shooshoes.com">investors@shooshoes.com</a>.</p>
             </section>
-            
+            <section id="real-time-stock">
+                <h2>Real-Time Stock Information</h2>
+                <p>Current Nike (NKE) Stock Price: <span id="stock-price">Loading...</span></p>
+                <canvas id="stock-chart" width="600" height="400"></canvas>
+            </section>
             <div class="page-footer">
                 <p>For more details, please <a href="/contact">contact us</a>.</p>
                 </div>
@@ -54,5 +62,79 @@
             <%- include('../partials/footer') %>
         </footer>
     </div>
+
+    <script>
+const API_KEY = 'ULMIFQ9XWU2U0M9P';
+const SYMBOL = 'NKE';
+
+async function fetchStockData() {
+    try {
+        const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${SYMBOL}&outputsize=full&apikey=${API_KEY}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        if (data['Time Series (Daily)']) {
+            const timeSeriesData = data['Time Series (Daily)'];
+            const currentYear = new Date().getFullYear();
+            const startDate = `${currentYear}-01-01`;
+            
+            const filteredData = Object.entries(timeSeriesData)
+                .filter(([date]) => date >= startDate)
+                .reverse();
+
+            const latestDataPoint = filteredData[filteredData.length - 1];
+            const latestPrice = parseFloat(latestDataPoint[1]['4. close']).toFixed(2);
+            
+            document.getElementById('stock-price').textContent = `$${latestPrice}`;
+            
+            const labels = filteredData.map(entry => entry[0]);
+            const prices = filteredData.map(entry => parseFloat(entry[1]['4. close']));
+            
+            drawChart(labels, prices);
+        } else if (data['Note']) {
+            throw new Error(data['Note']);
+        } else {
+            throw new Error('Unexpected data structure');
+        }
+    } catch (error) {
+        console.error('Error fetching stock data:', error);
+        document.getElementById('stock-price').textContent = `Error: ${error.message}`;
+    }
+}
+
+function drawChart(labels, prices) {
+    const ctx = document.getElementById('stock-chart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Nike Stock Price',
+                data: prices,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'month'
+                    }
+                },
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+}
+
+fetchStockData();
+    </script>
 </body>
 </html>
