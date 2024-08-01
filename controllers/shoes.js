@@ -38,18 +38,42 @@ async function getShoeByIdAjax(req, res) {
         res.status(500).send(error.message);
     }
 }
+const axios = require('axios');
 
+
+// Facebook Page Access Token
+const FACEBOOK_PAGE_ACCESS_TOKEN = 'EAALaZBhxRvOUBO3ZBF2cD9rm4S31RgCjD8GUokqXi21knEaYNmXaCegjDAH6HCNEYxyCxZCwEcM7XMucUCJZBs31w7K0ZCABnacUoZBZBPWiSGkZAo8yYiMvcZBw8CmwWBog0XNIFlrxadIDxw44Jzgx5ZCZBJ5ZAquWbmL7jygQZCgRdYZA4D3uZAnYTQXfh3MgyNSVLMmxzxRfWECgQKncw2yewEgmYiMjMAZD';
 async function createNewShoe(req, res) {
-    const newShoe = {...req.body};
+    const newShoe = { ...req.body };
     const shoeEntity = new Shoes(newShoe);
+
     try {
         const newDocument = await shoeEntity.save();
-        res.status(201).json({message: "new shoe created successfully", newShoe: newDocument});
+        
+        // Post to Facebook
+        const message = `New Shoe Added: ${newDocument.title}\nPrice: $${newDocument.price}\nCategory: ${newDocument.category}`;
+        await postToFacebookPage(message, newDocument.image);
+
+        res.status(201).json({ message: "New shoe created successfully", newShoe: newDocument });
     } catch (error) {
-        res.status(400).json({message: error.message});
+        res.status(400).json({ message: error.message });
     }
 }
+async function postToFacebookPage(message, imageUrl) {
+    try {
+        const url = `https://graph.facebook.com/v11.0/me/photos`;
+        const params = {
+            access_token: FACEBOOK_PAGE_ACCESS_TOKEN,
+            url: imageUrl,
+            caption: message
+        };
 
+        const response = await axios.post(url, null, { params });
+        console.log('Successfully posted to Facebook:', response.data);
+    } catch (error) {
+        console.error('Error posting to Facebook:', error.message);
+    }
+}
 // Delete a shoe by its ID
 async function deleteShoeById(req, res) {
     const {id} = req.params;
@@ -147,6 +171,6 @@ module.exports = {
     updateShoe,
     getShoeByIdAjax,
     filterShoes,
-    searchShoes
-
+    searchShoes,
+    postToFacebookPage
 }
