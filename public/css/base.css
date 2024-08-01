@@ -496,3 +496,7 @@ form {
     color: var(--main-color);
 }
 
+.small-icon {
+    width: 20px;
+    height: 20px;
+}
