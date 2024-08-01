@@ -5,6 +5,7 @@
     position: relative;
     height: 100vh;
     overflow: hidden;
+    
 }
 
 
@@ -18,6 +19,7 @@
 }
 
 #myVideo {
+
     position: absolute;
     top: 50%;
     left: 50%;
@@ -76,7 +78,7 @@
 
 /* Featured products section styling */
 .featured-products {
-    padding: 40px;
+   
 }
 
 /* Featured products heading styling */
