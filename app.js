@@ -10,7 +10,7 @@ const purchaseRoutes = require("./routes/purchase");
 const footerRoutes = require("./routes/footer-pages");
 // Load environment variables from .env file
 dotenv.config();
-
+require('dotenv').config();
 // Middlewares
 server.use(express.json()); // Middleware to parse JSON bodies
 server.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
@@ -34,7 +34,23 @@ server.set('views', path.join(__dirname, 'views')); // Set the views directory
 const shoesRoutes = require("./routes/shoes");
 const userRoutes = require("./routes/user");
 const cityRoutes = require('./routes/cities'); // Import city routes
-
+// נקודות קצה חדשות לטיפול במידע המניות
+server.get('/api/stock-api-key', (req, res) => {
+    res.json({ apiKey: process.env.API_KEY });
+  });
+  
+  server.get('/api/stock-data', async (req, res) => {
+    try {
+      const symbol = req.query.symbol;
+      const apiKey = process.env.API_KEY;
+      const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=full&apikey=${apiKey}`);
+      const data = await response.json();
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching stock data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 server.use("/api/users", userRoutes); // Use user routes
 server.use("/shoes", shoesRoutes); // Use shoe routes
 server.use('/api/cities', cityRoutes); // Use city routes

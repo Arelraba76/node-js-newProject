@@ -64,77 +64,86 @@
     </div>
 
     <script>
-const API_KEY = 'ULMIFQ9XWU2U0M9P';
-const SYMBOL = 'NKE';
-
-async function fetchStockData() {
-    try {
-        const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${SYMBOL}&outputsize=full&apikey=${API_KEY}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        let API_KEY;
+        const SYMBOL = 'NKE';
+    
+        async function getApiKey() {
+          const response = await fetch('/api/stock-api-key');
+          const data = await response.json();
+          API_KEY = data.apiKey;
         }
-        const data = await response.json();
-        
-        if (data['Time Series (Daily)']) {
-            const timeSeriesData = data['Time Series (Daily)'];
-            const currentYear = new Date().getFullYear();
-            const startDate = `${currentYear}-01-01`;
-            
-            const filteredData = Object.entries(timeSeriesData)
-                .filter(([date]) => date >= startDate)
-                .reverse();
-
-            const latestDataPoint = filteredData[filteredData.length - 1];
-            const latestPrice = parseFloat(latestDataPoint[1]['4. close']).toFixed(2);
-            
-            document.getElementById('stock-price').textContent = `$${latestPrice}`;
-            
-            const labels = filteredData.map(entry => entry[0]);
-            const prices = filteredData.map(entry => parseFloat(entry[1]['4. close']));
-            
-            drawChart(labels, prices);
-        } else if (data['Note']) {
-            throw new Error(data['Note']);
-        } else {
-            throw new Error('Unexpected data structure');
-        }
-    } catch (error) {
-        console.error('Error fetching stock data:', error);
-        document.getElementById('stock-price').textContent = `Error: ${error.message}`;
-    }
-}
-
-function drawChart(labels, prices) {
-    const ctx = document.getElementById('stock-chart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Nike Stock Price',
-                data: prices,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    type: 'time',
-                    time: {
-                        unit: 'month'
-                    }
-                },
-                y: {
-                    beginAtZero: false
+    
+        async function fetchStockData() {
+            if (!API_KEY) {
+                await getApiKey();
+            }
+            try {
+                const response = await fetch(`/api/stock-data?symbol=${SYMBOL}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                const data = await response.json();
+                
+                if (data['Time Series (Daily)']) {
+                    const timeSeriesData = data['Time Series (Daily)'];
+                    const currentYear = new Date().getFullYear();
+                    const startDate = `${currentYear}-01-01`;
+                    
+                    const filteredData = Object.entries(timeSeriesData)
+                        .filter(([date]) => date >= startDate)
+                        .reverse();
+    
+                    const latestDataPoint = filteredData[filteredData.length - 1];
+                    const latestPrice = parseFloat(latestDataPoint[1]['4. close']).toFixed(2);
+                    
+                    document.getElementById('stock-price').textContent = `$${latestPrice}`;
+                    
+                    const labels = filteredData.map(entry => entry[0]);
+                    const prices = filteredData.map(entry => parseFloat(entry[1]['4. close']));
+                    
+                    drawChart(labels, prices);
+                } else if (data['Note']) {
+                    throw new Error(data['Note']);
+                } else {
+                    throw new Error('Unexpected data structure');
+                }
+            } catch (error) {
+                console.error('Error fetching stock data:', error);
+                document.getElementById('stock-price').textContent = `Error: ${error.message}`;
             }
         }
-    });
-}
-
-fetchStockData();
-    </script>
+    
+        function drawChart(labels, prices) {
+            const ctx = document.getElementById('stock-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Nike Stock Price',
+                        data: prices,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'month'
+                            }
+                        },
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+    
+        fetchStockData();
+        </script>
 </body>
 </html>
