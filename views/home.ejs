@@ -20,12 +20,14 @@
         <main id="content-wrap">
             <%- include('partials/hero') %>
             <div class="hero-images">
-                <a href="link1.html"><img src="video/black-girl.png" alt="Image 1"></a>
+                <a href="/women"><img src="video/black-girl.png" alt="Image 1"></a>
                 <a href="/men"><img src="video/n2.jpg" alt="Image 2"></a>
                 <a href="/kids"><img src="video/n4.jpg" alt="Image 4"></a>
                 <a href="/women"><img src="video/n5.jpg" alt="Image 5"></a>
             </div>
-            <%- include('partials/feature-product') %>
+            <div id="shoes-section">
+                <%- include('partials/feature-product') %>
+            </div>
             <div class="footer-video">
                 <video id="myVideo" autoplay muted loop>
                     <source src="../video/footer video.mp4" type="video/mp4">
@@ -38,5 +40,16 @@
             <%- include('partials/footer') %>
         </footer>
     </div>
+    <script>
+        $(document).ready(function() {
+    $('#shopNowButton').click(function(event) {
+        event.preventDefault(); // כדי למנוע את פעולת ברירת המחדל של הקישור
+        $('html, body').animate({
+            scrollTop: $('#shoes-section').offset().top
+        }, 1000); // הזמן ב-1000 מייצג את משך האנימציה במילישניות
+    });
+});
+
+    </script>
 </body>
 </html>
